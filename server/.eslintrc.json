@@ -5,8 +5,8 @@
         "es6": true
     },
     "extends": [
-        "airbnb-base"
-        // "eslint:recommended",
+        "airbnb-base",
+        "plugin:prettier/recommended"
         // "plugin:@typescript-eslint/recommended",
     ],
     // "parser": "@typescript-eslint/parser",
@@ -17,6 +17,12 @@
         // "@typescript-eslint"
     ],
     "rules": {
-        "no-console": "off"
+        "no-console": "off",
+        "prettier/prettier": [
+            "error",
+            {
+                "singleQuote": true
+            }
+        ]
     }
 }
