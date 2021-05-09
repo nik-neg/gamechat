@@ -33,6 +33,6 @@ export class User {
   // @Column()
   // isAdmin: boolean;
 
-  // @OneToMany((type) => Message, (message) => message.id)
-  // messages: [number];
+  @OneToMany((type) => Message, (message) => message.user)
+  messages: [Message];
 }

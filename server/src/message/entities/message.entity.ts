@@ -16,18 +16,18 @@ export class Message {
   @Column()
   content: string;
 
-  @Column()
-  isQuestion: boolean;
+  // @Column()
+  // isQuestion: boolean;
 
-  @Column()
-  likes: number;
+  // @Column()
+  // likes: number;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  // @CreateDateColumn()
+  // createdAt: Date;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
+  // @UpdateDateColumn()
+  // updatedAt: Date;
 
-  @ManyToOne((type) => User, (user) => user.id)
+  @ManyToOne((type) => User, (user) => user.messages)
   user: User;
 }
