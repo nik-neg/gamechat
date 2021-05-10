@@ -9,17 +9,20 @@ export class Game {
   @Column()
   title: string;
 
-  @Column()
-  genreList: string;
+  @Column('text', { array: true })
+  genreList: string[];
 
   @Column()
   dominantGenre: string;
 
   @Column()
-  coverImagePath: string;
+  releaseDate: string;
 
   @Column()
-  consoles: string;
+  coverImagePath: string;
+
+  @Column('text', { array: true })
+  consoles: string[];
 
   @Column()
   ageRating: number;
