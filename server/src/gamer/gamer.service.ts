@@ -13,9 +13,16 @@ export class GamerService {
   ) {}
 
   async create(createGamerDto: CreateGamerDto) {
-    const gamer = new Gamer();
+    let gamer = new Gamer();
     gamer.firstName = createGamerDto.firstName;
     gamer.lastName = createGamerDto.lastName;
+    gamer.email = createGamerDto.email;
+    gamer.password = createGamerDto.password;
+    gamer.avatar = createGamerDto.avatar;
+    console.log(createGamerDto.notifications);
+    gamer.notifications = createGamerDto.notifications;
+    gamer.favouriteGameChats = createGamerDto.favouriteGameChats;
+    gamer.isAdmin = createGamerDto.isAdmin;
     try {
       const response = await this.gamerRepository.save(gamer);
       return response;

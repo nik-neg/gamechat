@@ -1,16 +1,16 @@
 import { Message } from 'src/message/entities/message.entity';
 
 export class CreateGamerDto {
-  // id: number;
+  readonly id: number;
   readonly firstName: string;
   readonly lastName: string;
-  // email: string;
-  // password: string;
-  // avatar: string;
+  readonly email: string;
+  readonly password: string;
+  avatar: string;
   // billingInformation: {};
-  // notifications: [Message];
-  // favouriteGameChats: [number];
-  // isAdmin: boolean;
+  notifications: [Message];
+  favouriteGameChats: { id: number }[];
+  isAdmin: boolean;
 
   // messages: [number];
 }

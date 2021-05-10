@@ -13,26 +13,36 @@ export class Gamer {
   @Column()
   lastName: string;
 
-  // @Column()
-  // email: string;
+  @Column()
+  email: string;
 
-  // @Column()
-  // password: string;
+  @Column()
+  password: string;
 
-  // @Column()
-  // avatar: string;
+  @Column()
+  avatar: string;
 
   // @Column()
   // billingInformation: {};
 
-  // @Column()
-  // notifications: [Message];
+  @Column({
+    type: 'jsonb',
+    array: false,
+    default: () => "'[]'",
+    nullable: false,
+  })
+  notifications: Array<Message> = [];
 
-  // @Column()
-  // favouriteGameChats: [number];
+  @Column({
+    type: 'jsonb',
+    array: false,
+    default: () => "'[]'",
+    nullable: false,
+  })
+  favouriteGameChats: Array<{ id: number }> = [];
 
-  // @Column()
-  // isAdmin: boolean;
+  @Column()
+  isAdmin: boolean;
 
   @OneToMany((type) => Message, (message) => message.gamer)
   messages: [Message];
