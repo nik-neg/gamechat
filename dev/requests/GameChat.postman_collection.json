@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\": \"Francois\",\r\n    \"lastName\": \"Adam\"\r\n}",
+					"raw": "{\r\n    \"firstName\": \"Francois\",\r\n    \"lastName\": \"Adam\",\r\n    \"email\": \"email@email.com\",\r\n    \"password\": \"Password123\",\r\n    \"avatar\": \"avatar string\",\r\n    \"notifications\": [{\"id\": 1, \"content\": \"Another Message 1!\"}, {\"id\": 2, \"content\": \"Another Message 2!\"}],\r\n    \"favouriteGameChats\": [{\"id\":1},{\"id\":2},{\"id\":3}],\r\n    \"isAdmin\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -67,7 +67,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"notificationAllowed\": false,\r\n    \"isPrivate\": false,\r\n    \"messagesCount\": 3\r\n}",
+					"raw": "{\r\n    \"notificationAllowed\": false,\r\n    \"isPrivate\": false,\r\n    \"messagesCount\": 0\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -95,7 +95,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"New Game!\",\r\n    \"genreList\": \"RPG, Exploration\",\r\n    \"dominantGenre\": \"RPG\",\r\n    \"releaseDate\": \"December 17, 2020 03:24:00\",\r\n    \"coverImagePath\": \"Image URL\",\r\n    \"consoles\": \"Playstation, Xbox, PC\",\r\n    \"ageRating\": 18,\r\n    \"description\": \"An epic new game\"\r\n}",
+					"raw": "{\r\n    \"title\": \"New Game!\",\r\n    \"genreList\": [\"RPG\", \"Exploration\"],\r\n    \"dominantGenre\": \"RPG\",\r\n    \"releaseDate\": \"December 17, 2020 03:24:00\",\r\n    \"coverImagePath\": \"Image URL\",\r\n    \"consoles\": [\"Playstation\", \"Xbox\", \"PC\"],\r\n    \"ageRating\": 18,\r\n    \"description\": \"An epic new game\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
