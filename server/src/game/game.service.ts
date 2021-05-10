@@ -17,7 +17,7 @@ export class GameService {
     let game = new Game();
     game = Object.assign(game, { ...createGameDto });
     game.gameChatRoom = gameChatRoomId;
-    console.log(game);
+    // console.log(game);
     try {
       const response = await this.gameRepository.save(game);
       console.log(response);

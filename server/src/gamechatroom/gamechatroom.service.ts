@@ -12,15 +12,15 @@ export class GamechatroomService {
     private readonly gameChatRoomRepository: Repository<Gamechatroom>,
   ) {}
   async create(createGamechatroomDto: CreateGamechatroomDto, gamerId) {
-    const gameChatRoom = new Gamechatroom();
-    gameChatRoom.notificationAllowed =
-      createGamechatroomDto.notificationAllowed;
-    gameChatRoom.isPrivate = createGamechatroomDto.isPrivate;
-    gameChatRoom.messagesCount = createGamechatroomDto.messagesCount;
+    let gameChatRoom = new Gamechatroom();
+    gameChatRoom = Object.assign(gameChatRoom, {...createGamechatroomDto})
+    // gameChatRoom.notificationAllowed = createGamechatroomDto.notificationAllowed;
+    // gameChatRoom.isPrivate = createGamechatroomDto.isPrivate;
+    // gameChatRoom.messagesCount = createGamechatroomDto.messagesCount;
     gameChatRoom.gamer = gamerId;
     try {
       const response = await this.gameChatRoomRepository.save(gameChatRoom);
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (err) {
       console.log(err);
@@ -32,11 +32,16 @@ export class GamechatroomService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} gamechatroom`;
+    return this.gameChatRoomRepository.findOne(
+      { where:
+          { id: +id }
+      }
+  );
   }
 
   update(id: number, updateGamechatroomDto: UpdateGamechatroomDto) {
-    return `This action updates a #${id} gamechatroom`;
+    const response = this.gameChatRoomRepository.save(updateGamechatroomDto);
+    return response;
   }
 
   remove(id: number) {

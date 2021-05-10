@@ -1,3 +1,4 @@
+import { Gamechatroom } from 'src/gamechatroom/entities/gamechatroom.entity';
 import { Gamer } from 'src/gamer/entities/gamer.entity';
 
 import {
@@ -17,18 +18,21 @@ export class Message {
   @Column()
   content: string;
 
-  // @Column()
-  // isQuestion: boolean;
+  @Column()
+  isQuestion: boolean;
 
-  // @Column()
-  // likes: number;
+  @Column()
+  likes: number;
 
-  // @CreateDateColumn()
-  // createdAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-  // @UpdateDateColumn()
-  // updatedAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @ManyToOne((type) => Gamer, (gamer) => gamer.messages)
   gamer: Gamer;
+
+  @ManyToOne((type) => Gamechatroom, (gameChatRoom) => gameChatRoom.messages)
+  gameChatRoom: Gamechatroom;
 }

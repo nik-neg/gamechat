@@ -19,7 +19,7 @@ export class GamerService {
     gamer.email = createGamerDto.email;
     gamer.password = createGamerDto.password;
     gamer.avatar = createGamerDto.avatar;
-    console.log(createGamerDto.notifications);
+    // console.log(createGamerDto.notifications);
     gamer.notifications = createGamerDto.notifications;
     gamer.favouriteGameChats = createGamerDto.favouriteGameChats;
     gamer.isAdmin = createGamerDto.isAdmin;
