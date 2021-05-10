@@ -27,6 +27,6 @@ export class Game {
   @Column()
   description: string;
 
-  // @OneToOne((type) => Gamechatroom, (gameChatRoom) => gameChatRoom.game)
-  // gameChatRoom: Gamechatroom;
+  @OneToOne((type) => Gamechatroom, (gameChatRoom) => gameChatRoom.game)
+  gameChatRoom: Gamechatroom;
 }

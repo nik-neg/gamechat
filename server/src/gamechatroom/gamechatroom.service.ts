@@ -12,7 +12,6 @@ export class GamechatroomService {
     private readonly gameChatRoomRepository: Repository<Gamechatroom>,
   ) {}
   async create(createGamechatroomDto: CreateGamechatroomDto, gamerId) {
-    console.log(createGamechatroomDto, gamerId);
     const gameChatRoom = new Gamechatroom();
     gameChatRoom.notificationAllowed =
       createGamechatroomDto.notificationAllowed;
@@ -27,7 +26,6 @@ export class GamechatroomService {
       console.log(err);
     }
   }
-  // }
 
   findAll() {
     return `This action returns all gamechatroom`;

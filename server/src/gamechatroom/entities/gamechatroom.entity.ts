@@ -22,8 +22,8 @@ export class Gamechatroom {
   @Column()
   messagesCount: number;
 
-  // @OneToOne((type) => Game, (game) => game.gameChatRoom)
-  // game: Game;
+  @OneToOne((type) => Game, (game) => game.gameChatRoom)
+  game: Game;
 
   @ManyToOne((type) => Gamer, (gamer) => gamer.gameChatRoom)
   gamer: Gamer;
