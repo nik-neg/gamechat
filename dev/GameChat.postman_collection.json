@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "4a97c8b5-33d8-4e05-ae82-b6ad240bb268",
+		"name": "GameChat",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Make Gamer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Francois\",\r\n    \"lastName\": \"Adam\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/gamer",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"gamer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make Message",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"content\": \"Another Message 2!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/message/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"message",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make GameChatRoom",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"notificationAllowed\": false,\r\n    \"isPrivate\": false,\r\n    \"messagesCount\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/gamechatroom/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"gamechatroom",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make Game",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"New Game!\",\r\n    \"genreList\": \"RPG, Exploration\",\r\n    \"dominantGenre\": \"RPG\",\r\n    \"releaseDate\": \"December 17, 2020 03:24:00\",\r\n    \"coverImagePath\": \"Image URL\",\r\n    \"consoles\": \"Playstation, Xbox, PC\",\r\n    \"ageRating\": 18,\r\n    \"description\": \"An epic new game\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/game/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"game",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
