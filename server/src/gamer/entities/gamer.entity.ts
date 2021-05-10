@@ -1,8 +1,9 @@
+import { Gamechatroom } from 'src/gamechatroom/entities/gamechatroom.entity';
 import { Message } from 'src/message/entities/message.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class User {
+export class Gamer {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -35,4 +36,7 @@ export class User {
 
   @OneToMany((type) => Message, (message) => message.gamer)
   messages: [Message];
+
+  @OneToMany((type) => Gamechatroom, (gamechatroom) => gamechatroom.gamer)
+  gameChatRoom: [Gamechatroom];
 }

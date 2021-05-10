@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Game } from 'src/game/entities/game.entity';
+import { Gamechatroom } from 'src/gamechatroom/entities/gamechatroom.entity';
+import { Gamer } from 'src/gamer/entities/gamer.entity';
 import { Message } from 'src/message/entities/message.entity';
-import { User } from 'src/user/entities/user.entity';
 
 @Module({
   imports: [
@@ -12,7 +14,7 @@ import { User } from 'src/user/entities/user.entity';
       username: 'postgres',
       password: 'Py34551213',
       database: 'Test',
-      entities: [Message, User],
+      entities: [Message, Gamer, Game, Gamechatroom],
       synchronize: true,
     }),
   ],

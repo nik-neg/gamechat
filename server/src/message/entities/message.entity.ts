@@ -1,4 +1,5 @@
-import { User } from 'src/user/entities/user.entity';
+import { Gamer } from 'src/gamer/entities/gamer.entity';
+
 import {
   Column,
   CreateDateColumn,
@@ -28,6 +29,6 @@ export class Message {
   // @UpdateDateColumn()
   // updatedAt: Date;
 
-  @ManyToOne((type) => User, (user) => user.messages)
-  user: User;
+  @ManyToOne((type) => Gamer, (gamer) => gamer.messages)
+  gamer: Gamer;
 }

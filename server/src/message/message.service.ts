@@ -11,10 +11,10 @@ export class MessageService {
     @InjectRepository(Message)
     private readonly messageRepository: Repository<Message>,
   ) {}
-  async create(createMessageDto: CreateMessageDto, userId) {
+  async create(createMessageDto: CreateMessageDto, gamerId) {
     const message = new Message();
     message.content = createMessageDto.content;
-    message.user = userId;
+    message.gamer = gamerId;
     try {
       const response = await this.messageRepository.save(message);
       return response;
