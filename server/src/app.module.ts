@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MessageModule } from './message/message.module';
@@ -9,6 +10,7 @@ import { GamerModule } from './gamer/gamer.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     MessageModule,
     DatabaseModule,
     GameModule,
