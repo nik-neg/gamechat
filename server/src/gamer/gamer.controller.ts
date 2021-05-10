@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { GamerService } from './gamer.service';
 import { CreateGamerDto } from './dto/create-gamer.dto';
 import { UpdateGamerDto } from './dto/update-gamer.dto';
@@ -7,7 +15,7 @@ import { UpdateGamerDto } from './dto/update-gamer.dto';
 export class GamerController {
   constructor(private readonly gamerService: GamerService) {}
 
-  @Post()
+  @Post('register')
   create(@Body() createGamerDto: CreateGamerDto) {
     return this.gamerService.create(createGamerDto);
   }
@@ -20,6 +28,11 @@ export class GamerController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.gamerService.findOne(+id);
+  }
+
+  @Post('login')
+  login(@Body('password') password: string, @Body('email') email: string) {
+    return this.gamerService.login(email, password);
   }
 
   @Patch(':id')

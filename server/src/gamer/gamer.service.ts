@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateGamerDto } from './dto/create-gamer.dto';
@@ -19,7 +19,6 @@ export class GamerService {
     gamer.email = createGamerDto.email;
     gamer.password = createGamerDto.password;
     gamer.avatar = createGamerDto.avatar;
-    console.log(createGamerDto.notifications);
     gamer.notifications = createGamerDto.notifications;
     gamer.favouriteGameChats = createGamerDto.favouriteGameChats;
     gamer.isAdmin = createGamerDto.isAdmin;
@@ -36,11 +35,28 @@ export class GamerService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} gamer`;
+    const gamer = this.gamerRepository.findOne({ id });
+    if (!gamer) throw new NotFoundException('The user does not exist');
+    return gamer;
   }
 
-  update(id: number, updateGamerDto: UpdateGamerDto) {
-    return `This action updates a #${id} gamer`;
+  async login(email: string, password: string) {
+    // Don't add try catch to send back 404
+    const gamer = await this.gamerRepository.findOne({ email });
+    if (!gamer || gamer.password !== password)
+      throw new NotFoundException('Invalid credentials');
+    return gamer;
+  }
+
+  async update(id, updateGamerDto: UpdateGamerDto) {
+    try {
+      const gamer = await this.gamerRepository.findOne({ id });
+      const updatedGamer = { ...gamer, ...updateGamerDto };
+      const response = await this.gamerRepository.save(updatedGamer);
+      return response;
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   remove(id: number) {

@@ -19,11 +19,11 @@ export class Gamer {
   @Column()
   password: string;
 
-  @Column()
+  @Column({
+    type: 'text',
+    default: () => "''",
+  })
   avatar: string;
-
-  // @Column()
-  // billingInformation: {};
 
   @Column({
     type: 'jsonb',
@@ -41,7 +41,10 @@ export class Gamer {
   })
   favouriteGameChats: Array<{ id: number }> = [];
 
-  @Column()
+  @Column({
+    type: 'boolean',
+    default: () => false,
+  })
   isAdmin: boolean;
 
   @OneToMany((type) => Message, (message) => message.gamer)
