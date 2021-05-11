@@ -17,6 +17,11 @@ export class GamerService {
     const gamer = new Gamer();
     const hash = await this.hashPassword(createGamerDto.password);
 
+    const oldGamer = this.gamerRepository.findOne({
+      email: createGamerDto.email,
+    });
+    if (oldGamer) throw new NotFoundException('Invalid email or password');
+
     gamer.firstName = createGamerDto.firstName;
     gamer.lastName = createGamerDto.lastName;
     gamer.email = createGamerDto.email;
@@ -46,7 +51,6 @@ export class GamerService {
 
   async login(email: string, password: string) {
     // Don't add try catch to send back 404
-    console.log(`process.env.SECRET`, process.env.SECRET);
     const gamer = await this.gamerRepository.findOne({ email });
     const isMatch = await bcrypt.compare(password, gamer.password);
     if (!gamer || !isMatch) throw new NotFoundException('Invalid credentials');
@@ -55,6 +59,7 @@ export class GamerService {
 
   async update(id, updateGamerDto: UpdateGamerDto) {
     const gamer = await this.gamerRepository.findOne({ id });
+    if (!gamer) throw new NotFoundException('The user does not exist');
     let updatedGamer = { ...gamer, ...updateGamerDto };
     if (updateGamerDto.password) {
       const hash = await this.hashPassword(updateGamerDto.password);
