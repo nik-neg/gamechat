@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { GameService } from './game.service';
 import { CreateGameDto } from './dto/create-game.dto';
@@ -16,11 +17,8 @@ export class GameController {
   constructor(private readonly gameService: GameService) {}
 
   @Post(':id')
-  create(
-    @Body() createGameDto: CreateGameDto,
-    @Param('id') gameChatRoomId: string,
-  ) {
-    return this.gameService.create(createGameDto, gameChatRoomId);
+  create(@Param('id') gamechatroomId: string, @Query('search') name: string) {
+    return this.gameService.create(name, gamechatroomId);
   }
 
   @Get()
@@ -29,8 +27,8 @@ export class GameController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.gameService.findOne(+id);
+  findOne(@Param('id') apiId: string) {
+    return this.gameService.uploadOne(+apiId);
   }
 
   @Patch(':id')

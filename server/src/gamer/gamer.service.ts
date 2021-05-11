@@ -1,9 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateGamerDto } from './dto/create-gamer.dto';
 import { UpdateGamerDto } from './dto/update-gamer.dto';
 import { Gamer } from './entities/gamer.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class GamerService {
@@ -13,13 +18,19 @@ export class GamerService {
   ) {}
 
   async create(createGamerDto: CreateGamerDto) {
-    let gamer = new Gamer();
+    const gamer = new Gamer();
+    const hash = await this.hashPassword(createGamerDto.password);
+
+    const oldGamer = this.gamerRepository.findOne({
+      email: createGamerDto.email,
+    });
+    if (oldGamer) throw new UnauthorizedException('User already exist');
+
     gamer.firstName = createGamerDto.firstName;
     gamer.lastName = createGamerDto.lastName;
     gamer.email = createGamerDto.email;
-    gamer.password = createGamerDto.password;
+    gamer.password = hash;
     gamer.avatar = createGamerDto.avatar;
-    // console.log(createGamerDto.notifications);
     gamer.notifications = createGamerDto.notifications;
     gamer.favouriteGameChats = createGamerDto.favouriteGameChats;
     gamer.isAdmin = createGamerDto.isAdmin;
@@ -36,14 +47,38 @@ export class GamerService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} gamer`;
+    const gamer = this.gamerRepository.findOne({ id });
+    if (!gamer) throw new NotFoundException('The user does not exist');
+    return gamer;
   }
 
-  update(id: number, updateGamerDto: UpdateGamerDto) {
-    return `This action updates a #${id} gamer`;
+  async login(email: string, password: string) {
+    // Don't add try catch to send back 404
+    const gamer = await this.gamerRepository.findOne({ email });
+    const isMatch = await bcrypt.compare(password, gamer.password);
+    if (!gamer || !isMatch) throw new NotFoundException('Invalid credentials');
+    return gamer;
+  }
+
+  async update(id, updateGamerDto: UpdateGamerDto) {
+    const gamer = await this.gamerRepository.findOne({ id });
+    if (!gamer) throw new NotFoundException('The user does not exist');
+    let updatedGamer = { ...gamer, ...updateGamerDto };
+    if (updateGamerDto.password) {
+      const hash = await this.hashPassword(updateGamerDto.password);
+      updatedGamer = { ...updatedGamer, password: hash };
+    }
+    const response = await this.gamerRepository.save(updatedGamer);
+    return response;
   }
 
   remove(id: number) {
     return `This action removes a #${id} gamer`;
+  }
+
+  private async hashPassword(password: string) {
+    const saltRounds = 8;
+    const hash = await bcrypt.hash(password, saltRounds);
+    return hash;
   }
 }
