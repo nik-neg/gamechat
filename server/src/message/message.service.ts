@@ -48,7 +48,14 @@ export class MessageService {
     let dummy = new Message();
     dummy.id = id;
     const message = await this.messageRepository.findOne(dummy);
-    message.likes += 1;
+    if (!message.liked) {
+      message.likes += 1;
+      message.liked = true;
+    } else {
+      message.likes -= 1;
+      message.liked = false;
+    }
+
     await this.messageRepository.update(id, message);
     }
 
