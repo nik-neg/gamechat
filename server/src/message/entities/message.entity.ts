@@ -24,6 +24,9 @@ export class Message {
   @Column()
   likes: number;
 
+  @Column()
+  liked: number;
+
   @CreateDateColumn()
   createdAt: Date;
 
