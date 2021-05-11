@@ -44,9 +44,20 @@ export class MessageService {
     return `This action returns a #${id} message`;
   }
 
-  update(id: number, updateMessageDto: UpdateMessageDto) {
-    return `This action updates a #${id} message`;
-  }
+  async update(id: number, updateMessageDto: UpdateMessageDto) {
+    let dummy = new Message();
+    dummy.id = id;
+    const message = await this.messageRepository.findOne(dummy);
+    if (!message.liked) {
+      message.likes += 1;
+      message.liked = true;
+    } else {
+      message.likes -= 1;
+      message.liked = false;
+    }
+
+    await this.messageRepository.update(id, message);
+    }
 
   remove(id: number) {
     return `This action removes a #${id} message`;

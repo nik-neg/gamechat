@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4a97c8b5-33d8-4e05-ae82-b6ad240bb268",
+		"_postman_id": "6afc4b94-244c-488c-9460-f3889b695e8b",
 		"name": "GameChat",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -39,7 +39,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"content\": \"Another Message 2!\"\r\n}",
+					"raw": "{\r\n    \"content\": \"Another Message 3!\",\r\n    \"createdAt\": \"2020-12-17T02:24:00.000Z\",\r\n    \"updatedAt\": \"2020-12-17T02:24:00.000Z\",\r\n    \"isQuestion\": false,\r\n    \"likes\": 0\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -47,13 +47,15 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/message/1",
+					"raw": "localhost:3000/message/1/gamechatroom/1",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"message",
+						"1",
+						"gamechatroom",
 						"1"
 					]
 				}
@@ -110,6 +112,25 @@
 					"port": "3000",
 					"path": [
 						"game",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upvote Message",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/message/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"message",
 						"1"
 					]
 				}
