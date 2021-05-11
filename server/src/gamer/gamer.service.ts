@@ -14,7 +14,7 @@ export class GamerService {
   ) {}
 
   async create(createGamerDto: CreateGamerDto) {
-    let gamer = new Gamer();
+    const gamer = new Gamer();
     const hash = await this.hashPassword(createGamerDto.password);
 
     gamer.firstName = createGamerDto.firstName;
