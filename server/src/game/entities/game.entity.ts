@@ -7,25 +7,43 @@ export class Game {
   id: number;
 
   @Column()
-  title: string;
-
-  @Column('text', { array: true })
-  genreList: string[];
+  apiId: number;
 
   @Column()
-  dominantGenre: string;
+  title: string;
+
+  @Column({
+    type: 'jsonb',
+    array: false,
+    default: () => "'[]'",
+    nullable: false,
+  })
+  genreList: Array<{ id: string; name: string }>;
+
+  @Column({
+    type: 'jsonb',
+    array: false,
+    default: () => "'{}'",
+    nullable: false,
+  })
+  dominantGenre: { id: string; name: string };
 
   @Column()
   releaseDate: string;
 
-  @Column()
-  coverImagePath: string;
+  @Column({
+    type: 'jsonb',
+    array: false,
+    default: () => "'{}'",
+    nullable: false,
+  })
+  imagesPath: { cover: string; screenshots: string[] };
 
   @Column('text', { array: true })
   consoles: string[];
 
   @Column()
-  ageRating: number;
+  ageRating: string;
 
   @Column()
   description: string;

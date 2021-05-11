@@ -30,7 +30,7 @@ export class GameController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.gameService.findOne(+id);
+    return this.gameService.uploadOne(+id);
   }
 
   @Patch(':id')
