@@ -25,7 +25,7 @@ export class Message {
   likes: number;
 
   @Column()
-  liked: number;
+  liked: boolean;
 
   @CreateDateColumn()
   createdAt: Date;
