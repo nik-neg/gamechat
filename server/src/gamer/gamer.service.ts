@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateGamerDto } from './dto/create-gamer.dto';
@@ -20,7 +24,7 @@ export class GamerService {
     const oldGamer = this.gamerRepository.findOne({
       email: createGamerDto.email,
     });
-    if (oldGamer) throw new NotFoundException('Invalid email or password');
+    if (oldGamer) throw new UnauthorizedException('User already exist');
 
     gamer.firstName = createGamerDto.firstName;
     gamer.lastName = createGamerDto.lastName;
@@ -44,7 +48,6 @@ export class GamerService {
 
   findOne(id: number) {
     const gamer = this.gamerRepository.findOne({ id });
-    console.log(`process.env.SECRET`, process.env.SECRET);
     if (!gamer) throw new NotFoundException('The user does not exist');
     return gamer;
   }
