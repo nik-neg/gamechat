@@ -18,7 +18,8 @@ export class MessageController {
   @Post(':id/gamechatroom/:chatRoomId')
   create(
     @Body() createMessageDto: CreateMessageDto,
-    @Param('id') userId: number, @Param('chatRoomId') chatRoomId: number,
+    @Param('id') userId: number,
+    @Param('chatRoomId') chatRoomId: number,
   ) {
     return this.messageService.create(createMessageDto, +userId, chatRoomId);
   }

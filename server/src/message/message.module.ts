@@ -6,7 +6,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Gamechatroom } from '../gamechatroom/entities/gamechatroom.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Message]), TypeOrmModule.forFeature([Gamechatroom])],
+  imports: [
+    TypeOrmModule.forFeature([Message]),
+    TypeOrmModule.forFeature([Gamechatroom]),
+  ],
   controllers: [MessageController],
   providers: [MessageService],
 })
