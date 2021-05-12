@@ -18,7 +18,7 @@ export class MessageService {
   ) {}
   async create(createMessageDto: CreateMessageDto, gamerId, chatRoomId) {
     // call API
-    let translateURL = `${process.env.DEEPL_API_URL}?auth_key=${process.env.DEEPL_API_KEY}&text=${createMessageDto.content}&target_lang=EN`;
+    let translateURL = `${process.env.DEEPL_API_URL}?auth_key=${process.env.DEEPL_API_KEY}&text=${createMessageDto.content}&target_lang=ES`;
     translateURL = encodeURI(translateURL);
     await axios
       .post(translateURL, {

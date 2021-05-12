@@ -4,6 +4,7 @@ export default interface Message {
   isQuestion: boolean;
   likes: number;
   liked: boolean;
+  translatedContent: string;
   createdAt: Date;
   updatedAt: Date;
   gamer: number[];

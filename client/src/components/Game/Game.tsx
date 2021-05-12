@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { translateText } from '../../services/game.service';
 import classes from './Game.module.scss';
 
 export function Game(): JSX.Element {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([{ id: 0, content: '' }]);
 
-  const submitHandler = (e: any) => {
+  const submitHandler = async (e: any) => {
     e.preventDefault();
-    addMessage({ id: Math.random(), content: input });
+    const translatedInput = await translateText(input);
+    addMessage({ id: Math.random(), content: translatedInput });
     setInput('');
   };
 
