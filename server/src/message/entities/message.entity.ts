@@ -19,6 +19,9 @@ export class Message {
   content: string;
 
   @Column()
+  translatedContent: string;
+
+  @Column()
   isQuestion: boolean;
 
   @Column()

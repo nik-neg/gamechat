@@ -13,7 +13,7 @@ export class GamechatroomService {
   ) {}
   async create(createGamechatroomDto: CreateGamechatroomDto, gamerId) {
     let gameChatRoom = new Gamechatroom();
-    gameChatRoom = Object.assign(gameChatRoom, {...createGamechatroomDto})
+    gameChatRoom = Object.assign(gameChatRoom, { ...createGamechatroomDto });
     // gameChatRoom.notificationAllowed = createGamechatroomDto.notificationAllowed;
     // gameChatRoom.isPrivate = createGamechatroomDto.isPrivate;
     // gameChatRoom.messagesCount = createGamechatroomDto.messagesCount;
@@ -32,11 +32,7 @@ export class GamechatroomService {
   }
 
   findOne(id: number) {
-    return this.gameChatRoomRepository.findOne(
-      { where:
-          { id: +id }
-      }
-  );
+    return this.gameChatRoomRepository.findOne({ where: { id: +id } });
   }
 
   update(id: number, updateGamechatroomDto: UpdateGamechatroomDto) {
