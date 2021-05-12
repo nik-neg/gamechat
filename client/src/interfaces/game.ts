@@ -1,5 +1,5 @@
-import Genre from "./genre";
-import ImagesPath from "./ImagesPath";
+import Genre from './genre';
+import ImagesPath from './ImagesPath';
 
 export default interface Game {
   id: number;

@@ -1,5 +1,5 @@
-import FavouriteGameChats from "./favouriteGameChats";
-import Message from "./message";
+import FavouriteGameChats from './favouriteGameChats';
+import Message from './message';
 
 export default interface Gamer {
   id: number;
