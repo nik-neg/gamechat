@@ -9,7 +9,11 @@ export function Game(): JSX.Element {
   const submitHandler = async (e: any) => {
     e.preventDefault();
     const translatedInput = await translateText(input);
-    addMessage({ id: Math.random(), content: translatedInput });
+    console.log('game.txs file', translatedInput);
+    addMessage({
+      id: Math.random(),
+      content: translatedInput.translatedContent,
+    });
     setInput('');
   };
 

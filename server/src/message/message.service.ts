@@ -17,6 +17,7 @@ export class MessageService {
     private readonly gameChatRoomRepository: Repository<Gamechatroom>,
   ) {}
   async create(createMessageDto: CreateMessageDto, gamerId, chatRoomId) {
+    console.log(createMessageDto);
     // call API
     let translateURL = `${process.env.DEEPL_API_URL}?auth_key=${process.env.DEEPL_API_KEY}&text=${createMessageDto.content}&target_lang=ES`;
     translateURL = encodeURI(translateURL);
