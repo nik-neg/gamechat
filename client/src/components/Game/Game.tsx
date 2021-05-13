@@ -19,6 +19,7 @@ import Message from '../../interfaces/message';
 
 export function Game(): JSX.Element {
   const [input, setInput] = useState('');
+  const [gamer, setGamer] = useState({ firstName: '', lastName: '' });
   const [messages, setMessages] = useState([
     { id: 0, content: '', date: new Date().toISOString() },
   ]);
@@ -26,7 +27,9 @@ export function Game(): JSX.Element {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await generateMessage(input);
+    const gM = await generateMessage(input);
+    if (gM) setGamer(gM.gamer);
+
     const translatedInput = await translateText();
 
     console.log('game.txs file', translatedInput);
@@ -51,23 +54,13 @@ export function Game(): JSX.Element {
     setInput(value);
   };
 
-  const addMessage = (message: {
-    id: number;
-    content: string;
-    date: string;
-  }) => {
-    setMessages((prevMessages) => {
-      let newMessages: { id: number; content: string; date: string }[] = [];
-      newMessages = [...prevMessages, message].sort((a, b) =>
-        a.date > b.date ? 0 : 1,
-      );
-      return newMessages;
-    });
-  };
-
   const formatDate = (date: string) => {
     const newDate = moment(date);
     return newDate.fromNow();
+  };
+
+  const getInitial = () => {
+    return `${gamer.firstName} ${gamer.lastName}`.split(' ').map((n) => n[0]);
   };
 
   const topicHandler = () => {
@@ -115,10 +108,10 @@ export function Game(): JSX.Element {
                           colorDefault: classes['message__avatar-colorDefault'],
                         }}
                       >
-                        F
+                        {getInitial()}
                       </Avatar>
                     }
-                    title="Francis"
+                    title={`${gamer.firstName} ${gamer.lastName}`}
                     subheader={formatDate(m.date)}
                     classes={{ content: classes.message__header }}
                   />
