@@ -11,6 +11,8 @@ export class GamechatroomService {
   constructor(
     @InjectRepository(Gamechatroom)
     private readonly gameChatRoomRepository: Repository<Gamechatroom>,
+    @InjectRepository(Gamer)
+    private readonly gamerRepository: Repository<Gamer>,
   ) {}
   async create(createGamechatroomDto: CreateGamechatroomDto, gamerId) {
     let gameChatRoom = new Gamechatroom();
@@ -24,15 +26,18 @@ export class GamechatroomService {
     }
   }
   async joinGameChatRoom(gameChatRoomId: number, gamerId: number) {
-    const gameChatRoom = await this.gameChatRoomRepository.findOne({ where: { id: gameChatRoomId } });
-    let dummyGamer = new Gamer();
-    dummyGamer.id = gamerId;
-    console.log(gameChatRoom)
-    // gameChatRoom.gamer.push(dummyGamer);
+    const gameChatRoom = await this.gameChatRoomRepository.findOne({
+      id: gameChatRoomId,
+    });
+    const gamer = await this.gamerRepository.findOne({ id: gamerId });
+    const prevGamers = gameChatRoom.gamer || [];
+    gameChatRoom.gamer = [...prevGamers, gamer];
+    await this.gameChatRoomRepository.save(gameChatRoom);
+    return true;
   }
 
-  findAll() {
-    return `This action returns all gamechatroom`;
+  findAll(gamerId: number, userLang: string) {
+    console.log(gamerId, userLang);
   }
 
   findOne(id: number) {

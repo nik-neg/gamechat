@@ -5,7 +5,9 @@ import {
   Entity,
   OneToMany,
   ManyToMany,
-  PrimaryGeneratedColumn } from 'typeorm';
+  PrimaryGeneratedColumn,
+  JoinTable,
+} from 'typeorm';
 
 @Entity()
 export class Gamer {
@@ -56,5 +58,6 @@ export class Gamer {
   messages: Message[];
 
   @ManyToMany((type) => Gamechatroom, (gamechatroom) => gamechatroom.gamer)
+  @JoinTable()
   gameChatRoom: Gamechatroom[];
 }

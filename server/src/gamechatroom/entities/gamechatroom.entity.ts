@@ -29,7 +29,7 @@ export class Gamechatroom {
   game: Game;
 
   @ManyToMany((type) => Gamer, (gamer) => gamer.gameChatRoom)
-  gamer: Gamer [];
+  gamer: Gamer[];
 
   @OneToMany((type) => Message, (message) => message.gameChatRoom)
   messages: Message[];

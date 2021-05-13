@@ -18,6 +18,7 @@ export class GameController {
 
   @Post(':id')
   create(@Param('id') gamechatroomId: string, @Query('search') name: string) {
+    console.log(gamechatroomId, name);
     return this.gameService.create(name, gamechatroomId);
   }
 
