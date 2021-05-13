@@ -5,8 +5,8 @@ export default interface Message {
   likes: number;
   liked: boolean;
   translatedContent: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   gamer: number[];
   gameChatRoom: number[];
 }

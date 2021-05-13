@@ -1,7 +1,97 @@
 .container {
+  //background: rgb(0, 0, 61);
+}
+
+.header__container {
+  height: 100vh;
+  width: auto;
+  background-image: url('https://media.rawg.io/media/games/84d/84da2ac3fdfc6507807a1808595afb12.jpg');
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header__title__container {
   padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 2rem;
+}
+
+.header__title {
+  font-size: 3rem;
+}
+
+.main {
+  display: flex;
+  width: 100%;
+}
+
+.chat-section {
+  flex-grow: 1;
 }
 
 .form {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 2rem;
   padding: 1rem;
+}
+
+.form__input__container {
+  width: 80%;
+}
+
+.message__container {
+  margin: 2rem;
+  background-color: #effff7;
+}
+
+.message__container:hover {
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+}
+
+.message__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.message__avatar {
+  color: red;
+}
+
+.topic-section {
+  padding: 2rem;
+  margin-top: 3rem;
+  max-width: 30rem;
+  min-width: 15rem;
+  position: relative;
+}
+
+.topic__container {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-top: 4rem;
+  position: sticky;
+  background-color: #fff;
+  top: 5rem;
+  width: 100%;
+}
+
+.topic__container:hover {
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+}
+
+.topic__title {
+  text-align: center;
+  text-transform: capitalize;
+  margin-bottom: 0.5rem;
+}
+
+.topic__item {
+  display: flex;
+  margin: 1rem;
 }
