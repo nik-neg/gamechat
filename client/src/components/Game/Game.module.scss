@@ -1,5 +1,5 @@
 .container {
-  //background: rgb(0, 0, 61);
+  background: #042140;
 }
 
 .header__container {
@@ -11,6 +11,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-shadow: 2px 2px 5px black;
 }
 
 .header__title__container {
@@ -42,6 +43,8 @@
 
 .form__input__container {
   width: 80%;
+  background-color: #fff;
+  border-radius: 5px;
 }
 
 .message__container {
@@ -58,7 +61,15 @@
   justify-content: space-between;
 }
 
-.message__avatar {
+.message__avatar-colorDefault {
+  background-color: red;
+}
+
+.message__icon__button:hover {
+  background-color: rgba(255, 0, 0, 0.2) !important;
+}
+
+.message__icon__svg {
   color: red;
 }
 
@@ -94,4 +105,10 @@
 .topic__item {
   display: flex;
   margin: 1rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topic__item:hover {
+  cursor: pointer;
 }

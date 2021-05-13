@@ -60,6 +60,10 @@ export function Game(): JSX.Element {
     return newDate.fromNow();
   };
 
+  const topicHandler = () => {
+    console.log('click');
+  };
+
   return (
     <div className={classes.container}>
       <header className={classes.header__container}>
@@ -80,7 +84,9 @@ export function Game(): JSX.Element {
               variant="filled"
               value={input}
               onChange={changeHandler}
-              classes={{ root: classes.form__input__container }}
+              classes={{
+                root: classes.form__input__container,
+              }}
             />
             <Button variant="contained" type="submit" color="primary">
               Send
@@ -95,7 +101,9 @@ export function Game(): JSX.Element {
                     avatar={
                       <Avatar
                         aria-label="recipe"
-                        classes={{ root: classes.message__avatar }}
+                        classes={{
+                          colorDefault: classes['message__avatar-colorDefault'],
+                        }}
                       >
                         F
                       </Avatar>
@@ -106,7 +114,7 @@ export function Game(): JSX.Element {
                   />
                   <CardContent>
                     <Typography
-                      variant="body2"
+                      variant="h5"
                       color="textSecondary"
                       component="p"
                     >
@@ -114,7 +122,13 @@ export function Game(): JSX.Element {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <IconButton aria-label="add to favorites">
+                    <IconButton
+                      aria-label="add to favorites"
+                      classes={{
+                        root: classes.message__icon__button,
+                        label: classes.message__icon__svg,
+                      }}
+                    >
                       <FavoriteIcon />
                     </IconButton>
                   </CardActions>
@@ -126,13 +140,13 @@ export function Game(): JSX.Element {
           <div className={classes.topic__container}>
             <h1 className={classes.topic__title}>Topic</h1>
             <div className={classes.topic__main}>
-              <div className={classes.topic__item}>
+              <div className={classes.topic__item} onClick={topicHandler}>
                 <h3>Discussion</h3>
-                <button>count</button>
+                <span>0</span>
               </div>
-              <div className={classes.topic__item}>
+              <div className={classes.topic__item} onClick={topicHandler}>
                 <h3>Question</h3>
-                <button>count</button>
+                <span>0</span>
               </div>
             </div>
           </div>
