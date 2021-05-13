@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { translateText } from '../../services/game.service';
 import classes from './Game.module.scss';
 
@@ -6,18 +6,20 @@ export function Game(): JSX.Element {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([{ id: 0, content: '' }]);
 
-  const submitHandler = async (e: any) => {
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const translatedInput = await translateText(input);
     console.log('game.txs file', translatedInput);
-    addMessage({
-      id: Math.random(),
-      content: translatedInput.translatedContent,
-    });
+    if (translatedInput) {
+      addMessage({
+        id: Math.random(),
+        content: translatedInput.translatedContent,
+      });
+    }
     setInput('');
   };
 
-  const changeHandler = (e: any) => {
+  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInput(value);
   };

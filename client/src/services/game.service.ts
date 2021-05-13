@@ -1,19 +1,8 @@
-export const translateText = async (text: string) => {
-  // const formData = new FormData();
-  // formData.append('content', text);
-  // formData.append('translatedContent', '');
-  // formData.append('isQuestion', 'false');
-  // formData.append('likes', '0');
-  // formData.append('liked', 'false');
-  // formData.append('createdAt', '2020-12-17T02:24:00.000Z');
-  // formData.append('updatedAt', '2020-12-17T02:24:00.000Z');
+import Message from '../interfaces/message';
 
-  //const { formData } = this.state;
-  // const formToSubmit = new FormData();
-  // for (const key in formData) {
-  //   formToSubmit.append(key, formData[key]);
-  // }
-
+export const translateText = async (
+  text: string,
+): Promise<Message | undefined> => {
   const option = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -23,8 +12,8 @@ export const translateText = async (text: string) => {
       isQuestion: false,
       likes: 0,
       liked: false,
-      createdAt: '2020-12-17T02:24:00.000Z',
-      updatedAt: '2020-12-17T02:24:00.000Z',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     }),
   };
   try {
@@ -32,8 +21,8 @@ export const translateText = async (text: string) => {
       `${process.env.REACT_APP_SERVER_BASE_URL}/message/1/gamechatroom/1`,
       option,
     );
-    console.log(res);
-    const data = await res.json();
+    const data: Message = await res.json();
+    console.log('[game service] translateText', data);
     return data;
   } catch (error) {
     console.log(error);
