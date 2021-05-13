@@ -8,8 +8,9 @@ import { Gamechatroom } from '../gamechatroom/entities/gamechatroom.entity';
 import { Gamer } from '../gamer/entities/gamer.entity';
 import axios from 'axios';
 
-import {getConnection} from "typeorm";
-import {getRepository} from "typeorm";
+import { getConnection } from 'typeorm';
+import { getRepository } from 'typeorm';
+import { getManager } from 'typeorm';
 
 @Injectable()
 export class MessageService {
@@ -47,11 +48,15 @@ export class MessageService {
     let message = new Message();
     message = Object.assign(message, { ...createMessageDto });
     message.gamer = await this.gamerRepository.findOne({ id: gamerId });
-    message.gameChatRoom = await this.gameChatRoomRepository.findOne({ id: chatRoomId });
+    message.gameChatRoom = await this.gameChatRoomRepository.findOne({
+      id: chatRoomId,
+    });
     try {
       const response = await this.messageRepository.save(message);
       if (response.gameChatRoom.id) {
-        const gameChatRoom = await this.gameChatRoomRepository.findOne({ id: chatRoomId});
+        const gameChatRoom = await this.gameChatRoomRepository.findOne({
+          id: chatRoomId,
+        });
         gameChatRoom.messagesCount += 1;
         // console.log(response.gameChatRoom, gameChatRoom)
         await this.gameChatRoomRepository.update(
@@ -67,41 +72,37 @@ export class MessageService {
 
   async findAllMessagesInAChatRoomAndStoreToDatabase(userLanguage, chatRoomId) {
     // find all messages for a chat room
-    const gameChatRoom = await this.gameChatRoomRepository.findOne({ id: chatRoomId });
-
+    const gameChatRoom = await this.gameChatRoomRepository.findOne({
+      id: chatRoomId,
+    });
     // use query builder
-    // SELECT DISTINCT content FROM message, gamechatroom WHERE "gameChatRoomId"=gamechatroom.id;
-    const messages = await getConnection().createQueryBuilder()
-    .select("content")
-    .from(Message, "message")
-    .from(Gamechatroom, "gamechatroom")
-    .where("message.gameChatRoomId = :id", { id: gameChatRoom.id }).getMany();
-
-
-    // const messages = gameChatRoom.messages;
+    const messages = await getManager()
+      .createQueryBuilder()
+      .select('message')
+      .from(Message, 'message')
+      .where('message.gameChatRoomId = :id', { id: gameChatRoom.id })
+      .getMany(); // gameChatRoom.id
     // loop through and pass the content to the api
-    console.log("befor", messages)
-    // for (let message of messages ) {
-    //   console.log("for")
-    //   let translateURL = `${process.env.DEEPL_API_URL}?auth_key=${process.env.DEEPL_API_KEY}&text=${message.content}&target_lang=${userLanguage}`;
-    //   translateURL = encodeURI(translateURL);
-    //   await axios
-    //     .post(translateURL, {
-    //       headers: {
-    //         'Content-Type': 'application/x-www-form-urlencoded',
-    //       },
-    //     })
-    //     .then(function (response) {
-    //       message.translatedContent[userLanguage] =
-    //         response.data.translations[0].text;
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //     });
-    //     this.messageRepository.update(message.id, message);
-    // }
-    // return updates messages
-    return 'messages';
+    for (const message of messages) {
+      let translateURL = `${process.env.DEEPL_API_URL}?auth_key=${process.env.DEEPL_API_KEY}&text=${message.content}&target_lang=${userLanguage}`;
+      translateURL = encodeURI(translateURL);
+      await axios
+        .post(translateURL, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        })
+        .then(function (response) {
+          message.translatedContent[userLanguage] =
+            response.data.translations[0].text;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      this.messageRepository.update(message.id, message);
+    }
+    // updated messages
+    return messages;
   }
 
   findOne(id: number) {

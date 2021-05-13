@@ -30,7 +30,10 @@ export class MessageController {
     @Param('id') chatRoomId: string,
     @Param('language') userLanguage: string,
   ) {
-    return this.messageService.findAllMessagesInAChatRoomAndStoreToDatabase(userLanguage, chatRoomId);
+    return this.messageService.findAllMessagesInAChatRoomAndStoreToDatabase(
+      userLanguage,
+      chatRoomId,
+    );
   }
 
   @Get(':id')
