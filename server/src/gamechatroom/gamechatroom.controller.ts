@@ -41,6 +41,13 @@ export class GamechatroomController {
     return this.gamechatroomService.update(+id, updateGamechatroomDto);
   }
 
+  @Patch(':id/gamer/:gamerId')
+  joinGameChatRoom(
+    @Param('id') id: string, @Param('gamerId') gamerId: string,
+  ) {
+    return this.gamechatroomService.joinGameChatRoom(+id, +gamerId);
+  }
+
 
   @Delete(':id')
   remove(@Param('id') id: string) {

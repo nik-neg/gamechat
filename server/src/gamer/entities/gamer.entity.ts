@@ -53,8 +53,8 @@ export class Gamer {
   isAdmin: boolean;
 
   @OneToMany((type) => Message, (message) => message.gamer)
-  messages: [Message];
+  messages: Message[];
 
   @ManyToMany((type) => Gamechatroom, (gamechatroom) => gamechatroom.gamer)
-  gameChatRoom: [Gamechatroom];
+  gameChatRoom: Gamechatroom[];
 }

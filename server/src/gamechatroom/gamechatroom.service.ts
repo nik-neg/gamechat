@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateGamechatroomDto } from './dto/create-gamechatroom.dto';
 import { UpdateGamechatroomDto } from './dto/update-gamechatroom.dto';
 import { Gamechatroom } from './entities/gamechatroom.entity';
+import { Gamer } from '../gamer/entities/gamer.entity';
 
 @Injectable()
 export class GamechatroomService {
@@ -14,17 +15,20 @@ export class GamechatroomService {
   async create(createGamechatroomDto: CreateGamechatroomDto, gamerId) {
     let gameChatRoom = new Gamechatroom();
     gameChatRoom = Object.assign(gameChatRoom, { ...createGamechatroomDto });
-    // gameChatRoom.notificationAllowed = createGamechatroomDto.notificationAllowed;
-    // gameChatRoom.isPrivate = createGamechatroomDto.isPrivate;
-    // gameChatRoom.messagesCount = createGamechatroomDto.messagesCount;
     gameChatRoom.gamer = gamerId;
     try {
       const response = await this.gameChatRoomRepository.save(gameChatRoom);
-      // console.log(response);
       return response;
     } catch (err) {
       console.log(err);
     }
+  }
+  async joinGameChatRoom(gameChatRoomId: number, gamerId: number) {
+    const gameChatRoom = await this.gameChatRoomRepository.findOne({ where: { id: gameChatRoomId } });
+    let dummyGamer = new Gamer();
+    dummyGamer.id = gamerId;
+    console.log(gameChatRoom)
+    // gameChatRoom.gamer.push(dummyGamer);
   }
 
   findAll() {
