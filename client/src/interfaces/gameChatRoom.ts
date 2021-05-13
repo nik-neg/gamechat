@@ -1,5 +1,3 @@
-import Game from './game';
-
 export default interface Gamechatroom {
   id: number;
   notificationAllowed: boolean;
