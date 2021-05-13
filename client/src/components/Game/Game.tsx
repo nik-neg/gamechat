@@ -24,7 +24,9 @@ export function Game(): JSX.Element {
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const translatedInput = await translateText(input);
+    
     console.log('game.txs file', translatedInput);
     setInput('');
     if (translatedInput) {

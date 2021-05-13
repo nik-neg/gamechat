@@ -10,6 +10,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+// https://stackoverflow.com/questions/36467469/is-key-value-pair-available-in-typescript/50621451
+interface TranslatedContentDictionary {
+  [key: string]: string;
+}
+
 @Entity()
 export class Message {
   @PrimaryGeneratedColumn()
@@ -18,8 +23,16 @@ export class Message {
   @Column()
   content: string;
 
-  @Column()
-  translatedContent: string;
+  // @Column({
+  //   type: 'jsonb',
+  //   array: false,
+  //   default: () => "'[]'",
+  //   nullable: false,
+  // })
+  // translatedContent: Array<{countryCode: string = contentn:string}> = [];
+
+  @Column({ type: 'json' })
+  translatedContent: TranslatedContentDictionary;
 
   @Column()
   isQuestion: boolean;

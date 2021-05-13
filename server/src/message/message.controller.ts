@@ -19,14 +19,21 @@ export class MessageController {
   create(
     @Body() createMessageDto: CreateMessageDto,
     @Param('id') userId: number,
+    // @Param('language') userLanguage: string,
     @Param('chatRoomId') chatRoomId: number,
   ) {
     return this.messageService.create(createMessageDto, +userId, chatRoomId);
   }
 
-  @Get()
-  findAll() {
-    return this.messageService.findAll();
+  @Patch('gamechatroom/:id/:language')
+  findAll(
+    @Param('id') chatRoomId: string,
+    @Param('language') userLanguage: string,
+  ) {
+    return this.messageService.findAllMessagesInAChatRoomAndStoreToDatabase(
+      userLanguage,
+      chatRoomId,
+    );
   }
 
   @Get(':id')

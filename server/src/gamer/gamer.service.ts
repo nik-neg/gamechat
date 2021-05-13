@@ -20,11 +20,9 @@ export class GamerService {
   async create(createGamerDto: CreateGamerDto) {
     const gamer = new Gamer();
     const hash = await this.hashPassword(createGamerDto.password);
-    console.log(createGamerDto);
     const oldGamer = await this.gamerRepository.findOne({
       email: createGamerDto.email,
     });
-    // console.log(oldGamer)
     if (oldGamer) throw new UnauthorizedException('User already exist');
 
     gamer.firstName = createGamerDto.firstName;

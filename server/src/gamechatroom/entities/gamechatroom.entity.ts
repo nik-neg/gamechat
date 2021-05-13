@@ -4,7 +4,8 @@ import { Message } from 'src/message/entities/message.entity';
 import {
   Column,
   Entity,
-  ManyToOne,
+  // ManyToOne,
+  ManyToMany,
   OneToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -27,8 +28,8 @@ export class Gamechatroom {
   @OneToOne((type) => Game, (game) => game.gameChatRoom)
   game: Game;
 
-  @ManyToOne((type) => Gamer, (gamer) => gamer.gameChatRoom)
-  gamer: Gamer;
+  @ManyToMany((type) => Gamer, (gamer) => gamer.gameChatRoom)
+  gamer: Gamer[];
 
   @OneToMany((type) => Message, (message) => message.gameChatRoom)
   messages: Message[];

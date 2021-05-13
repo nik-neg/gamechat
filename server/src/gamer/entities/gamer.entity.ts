@@ -1,6 +1,13 @@
 import { Gamechatroom } from 'src/gamechatroom/entities/gamechatroom.entity';
 import { Message } from 'src/message/entities/message.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  JoinTable,
+} from 'typeorm';
 
 @Entity()
 export class Gamer {
@@ -48,8 +55,9 @@ export class Gamer {
   isAdmin: boolean;
 
   @OneToMany((type) => Message, (message) => message.gamer)
-  messages: [Message];
+  messages: Message[];
 
-  @OneToMany((type) => Gamechatroom, (gamechatroom) => gamechatroom.gamer)
-  gameChatRoom: [Gamechatroom];
+  @ManyToMany((type) => Gamechatroom, (gamechatroom) => gamechatroom.gamer)
+  @JoinTable()
+  gameChatRoom: Gamechatroom[];
 }

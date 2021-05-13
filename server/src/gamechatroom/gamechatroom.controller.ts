@@ -23,9 +23,9 @@ export class GamechatroomController {
     return this.gamechatroomService.create(createGamechatroomDto, gamerId);
   }
 
-  @Get()
-  findAll() {
-    return this.gamechatroomService.findAll();
+  @Get(':id/:lang')
+  findAll(@Param('id') gamerId: string, @Param('lang') userLang: string) {
+    return this.gamechatroomService.findAll(+gamerId, userLang);
   }
 
   @Get(':id')
@@ -39,6 +39,14 @@ export class GamechatroomController {
     @Body() updateGamechatroomDto: UpdateGamechatroomDto,
   ) {
     return this.gamechatroomService.update(+id, updateGamechatroomDto);
+  }
+
+  @Patch(':id/gamer/:gamerId')
+  joinGameChatRoom(
+    @Param('id') gameChatRoomId: string,
+    @Param('gamerId') gamerId: string,
+  ) {
+    return this.gamechatroomService.joinGameChatRoom(+gameChatRoomId, +gamerId);
   }
 
   @Delete(':id')
