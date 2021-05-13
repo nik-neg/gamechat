@@ -13,8 +13,9 @@ import {
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import moment from 'moment';
 
-import { translateText } from '../../services/game.service';
+import { generateMessage, translateText } from '../../services/game.service';
 import classes from './Game.module.scss';
+import Message from '../../interfaces/message';
 
 export function Game(): JSX.Element {
   const [input, setInput] = useState('');
@@ -25,15 +26,22 @@ export function Game(): JSX.Element {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const translatedInput = await translateText(input);
-    
+    await generateMessage(input);
+    const translatedInput = await translateText();
+
     console.log('game.txs file', translatedInput);
     setInput('');
-    if (translatedInput) {
-      addMessage({
-        id: translatedInput.id,
-        date: translatedInput.createdAt,
-        content: translatedInput.translatedContent,
+    if (translatedInput.length) {
+      setMessages(() => {
+        let newMessages: { id: number; content: string; date: string }[] = [];
+        newMessages = translatedInput
+          .map((m: Message) => ({
+            id: m.id,
+            date: m.createdAt,
+            content: m.translatedContent.FR,
+          }))
+          .sort((a, b) => (a.date > b.date ? 0 : 1));
+        return newMessages;
       });
     }
   };

@@ -1,6 +1,6 @@
 import Message from '../interfaces/message';
 
-export const translateText = async (
+export const generateMessage = async (
   text: string,
 ): Promise<Message | undefined> => {
   const option = {
@@ -8,7 +8,7 @@ export const translateText = async (
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       content: text,
-      translatedContent: '',
+      translatedContent: {},
       isQuestion: false,
       likes: 0,
       liked: false,
@@ -22,9 +22,27 @@ export const translateText = async (
       option,
     );
     const data: Message = await res.json();
+    console.log('[game service] generateMessage', data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const translateText = async (): Promise<Message[] | []> => {
+  const option = {
+    method: 'PATCH',
+  };
+  try {
+    const res = await fetch(
+      `${process.env.REACT_APP_SERVER_BASE_URL}/message/gamechatroom/1/FR`,
+      option,
+    );
+    const data: Message[] = await res.json();
     console.log('[game service] translateText', data);
     return data;
   } catch (error) {
     console.log(error);
+    return [];
   }
 };
