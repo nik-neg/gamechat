@@ -8,7 +8,9 @@ export function Game(): JSX.Element {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
+
     const translatedInput = await translateText(input);
+    
     console.log('game.txs file', translatedInput);
     addMessage({
       id: Math.random(),

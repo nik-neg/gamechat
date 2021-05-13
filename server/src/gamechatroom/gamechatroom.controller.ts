@@ -41,6 +41,7 @@ export class GamechatroomController {
     return this.gamechatroomService.update(+id, updateGamechatroomDto);
   }
 
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.gamechatroomService.remove(+id);

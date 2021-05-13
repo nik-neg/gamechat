@@ -15,18 +15,22 @@ import { UpdateMessageDto } from './dto/update-message.dto';
 export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
-  @Post(':id/gamechatroom/:chatRoomId')
+  @Post(':id/:language/gamechatroom/:chatRoomId')
   create(
     @Body() createMessageDto: CreateMessageDto,
     @Param('id') userId: number,
+    @Param('language') userLanguage: string,
     @Param('chatRoomId') chatRoomId: number,
   ) {
-    return this.messageService.create(createMessageDto, +userId, chatRoomId);
+    return this.messageService.create(createMessageDto, +userId, chatRoomId, userLanguage);
   }
 
-  @Get()
-  findAll() {
-    return this.messageService.findAll();
+  @Get('gamechatroom/:id/:language')
+  findAll(
+    @Param('id') chatRoomId: string,
+    @Param('language') userLanguage: string,
+  ) {
+    return this.messageService.findAll(userLanguage, chatRoomId);
   }
 
   @Get(':id')

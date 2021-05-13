@@ -16,10 +16,10 @@ export class MessageService {
     @InjectRepository(Gamechatroom)
     private readonly gameChatRoomRepository: Repository<Gamechatroom>,
   ) {}
-  async create(createMessageDto: CreateMessageDto, gamerId, chatRoomId) {
+  async create(createMessageDto: CreateMessageDto, gamerId, chatRoomId, userLanguage) {
     console.log(createMessageDto);
     // call API
-    let translateURL = `${process.env.DEEPL_API_URL}?auth_key=${process.env.DEEPL_API_KEY}&text=${createMessageDto.content}&target_lang=ES`;
+    let translateURL = `${process.env.DEEPL_API_URL}?auth_key=${process.env.DEEPL_API_KEY}&text=${createMessageDto.content}&target_lang=${userLanguage}`;
     translateURL = encodeURI(translateURL);
     await axios
       .post(translateURL, {
@@ -28,7 +28,7 @@ export class MessageService {
         },
       })
       .then(function (response) {
-        createMessageDto.translatedContent = response.data.translations[0].text;
+        createMessageDto.translatedContent[userLanguage] = response.data.translations[0].text;
       })
       .catch(function (error) {
         console.log(error);
@@ -56,8 +56,8 @@ export class MessageService {
     }
   }
 
-  findAll() {
-    return `This action returns all message`;
+  findAll(userLanguage, chatRoomId) {
+    return `This action returns all message`; // return array with spec. language
   }
 
   findOne(id: number) {

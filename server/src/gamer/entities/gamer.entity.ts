@@ -1,6 +1,11 @@
 import { Gamechatroom } from 'src/gamechatroom/entities/gamechatroom.entity';
 import { Message } from 'src/message/entities/message.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  ManyToMany,
+  PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Gamer {
@@ -50,6 +55,6 @@ export class Gamer {
   @OneToMany((type) => Message, (message) => message.gamer)
   messages: [Message];
 
-  @OneToMany((type) => Gamechatroom, (gamechatroom) => gamechatroom.gamer)
+  @ManyToMany((type) => Gamechatroom, (gamechatroom) => gamechatroom.gamer)
   gameChatRoom: [Gamechatroom];
 }
