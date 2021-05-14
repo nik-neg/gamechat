@@ -40,7 +40,7 @@ export function Game(): JSX.Element {
     if (gM) {
       setGamer(gM.gamer);
       console.log('if', gM);
-      translatedInput = gM.translatedContent['userLanguage']; //await translateAllMessages();
+      translatedInput = gM.translatedContent['FR']; //await translateAllMessages();
     }
     console.log('game.txs file', translatedInput);
     setInput('');
@@ -79,7 +79,7 @@ export function Game(): JSX.Element {
     setMessages((prevMessages) => {
       let newMessages: { id: number; content: string; date: string }[] = [];
       newMessages = [...prevMessages, message].sort((a, b) =>
-        a.date > b.date ? 0 : 1,
+        a.date < b.date ? 0 : 1,
       );
       return newMessages;
     });

@@ -50,7 +50,7 @@ export class MessageService {
 
       // return translated message content through the API call
       const translatedMessageContent = await this.translateOneMessage(userLanguage, translatedMessageresponse);
-      translatedMessageresponse.translatedContent.userLanguage = translatedMessageContent;
+      translatedMessageresponse.translatedContent[userLanguage] = translatedMessageContent;
       await this.messageRepository.update(
         translatedMessageresponse.id,
         translatedMessageresponse
