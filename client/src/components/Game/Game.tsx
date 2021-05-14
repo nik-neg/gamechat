@@ -35,12 +35,12 @@ export function Game(): JSX.Element {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const gM = await generateMessage(input, gamer.language);
+    const gM = await generateMessage(input, 'FR'); // gamer.language doesnt work
     let translatedInput = '';
     if (gM) {
       setGamer(gM.gamer);
-      console.log('if');
-      translatedInput = gM.translatedContent[gamer.language]; //await translateAllMessages();
+      console.log('if', gM);
+      translatedInput = gM.translatedContent['userLanguage']; //await translateAllMessages();
     }
     console.log('game.txs file', translatedInput);
     setInput('');
