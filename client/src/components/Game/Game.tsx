@@ -24,8 +24,8 @@ import classes from './Game.module.scss';
 export function Game(): JSX.Element {
   const [input, setInput] = useState('');
   const [gamer, setGamer] = useState({
-    firstName: '',
-    lastName: '',
+    firstName: 'FirstName',
+    lastName: 'LastName',
     language: 'FR',
   });
   const [messages, setMessages] = useState([
@@ -126,10 +126,10 @@ export function Game(): JSX.Element {
                           colorDefault: classes['message__avatar-colorDefault'],
                         }}
                       >
-                        {getInitial()}
+                        {gamer ? getInitial() : ''}
                       </Avatar>
                     }
-                    title={`${gamer.firstName} ${gamer.lastName}`}
+                    title={'Tesuser'} // gamer ? `${gamer.firstName} ${gamer.lastName}`: ''
                     subheader={formatDate(m.date)}
                     classes={{ content: classes.message__header }}
                   />
