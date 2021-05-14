@@ -11,6 +11,7 @@ export class CreateGamerDto {
   notifications: [Message];
   favouriteGameChats: { id: number }[];
   isAdmin: boolean;
+  language: string;
 
   // messages: [number];
 }

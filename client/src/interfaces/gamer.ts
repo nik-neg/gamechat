@@ -11,6 +11,7 @@ export default interface Gamer {
   notifications: Message[];
   favouriteGameChats: FavouriteGameChats[];
   isAdmin: boolean;
+  language: string;
   messages: number[];
   gameChatRoom: number[];
 }

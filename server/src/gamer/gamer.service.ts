@@ -33,6 +33,7 @@ export class GamerService {
     gamer.notifications = createGamerDto.notifications;
     gamer.favouriteGameChats = createGamerDto.favouriteGameChats;
     gamer.isAdmin = createGamerDto.isAdmin;
+    gamer.language = createGamerDto.language;
     try {
       const response = await this.gamerRepository.save(gamer);
       return response;

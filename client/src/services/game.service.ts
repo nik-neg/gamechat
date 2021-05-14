@@ -2,6 +2,7 @@ import Message from '../interfaces/message';
 
 export const generateMessage = async (
   text: string,
+  language: string,
 ): Promise<Message | undefined> => {
   const option = {
     method: 'POST',
@@ -18,9 +19,10 @@ export const generateMessage = async (
   };
   try {
     const res = await fetch(
-      `${process.env.REACT_APP_SERVER_BASE_URL}/message/1/gamechatroom/1`,
+      `${process.env.REACT_APP_SERVER_BASE_URL}/message/1/gamechatroom/1/${language}`,
       option,
     );
+    console.log(res);
     const data: Message = await res.json();
     console.log('[game service] generateMessage', data);
     return data;
@@ -29,20 +31,38 @@ export const generateMessage = async (
   }
 };
 
-export const translateText = async (): Promise<Message[] | []> => {
+export const translateAllMessages = async (): Promise<Message[] | []> => {
   const option = {
     method: 'PATCH',
   };
   try {
     const res = await fetch(
-      `${process.env.REACT_APP_SERVER_BASE_URL}/message/gamechatroom/1/FR`,
+      `${process.env.REACT_APP_SERVER_BASE_URL}/message/gamechatroom/1/all/FR`,
       option,
     );
     const data: Message[] = await res.json();
-    console.log('[game service] translateText', data);
+    console.log('[game service] translateAllMessages', data);
     return data;
   } catch (error) {
     console.log(error);
     return [];
   }
 };
+
+// export const translateMessage = async (): Promise<Message[] | []> => {
+//   const option = {
+//     method: 'PATCH',
+//   };
+//   try {
+//     const res = await fetch(
+//       `${process.env.REACT_APP_SERVER_BASE_URL}/message/gamechatroom/1/FR`,
+//       option,
+//     );
+//     const data: Message[] = await res.json();
+//     console.log('[game service] translateMessage', data);
+//     return data;
+//   } catch (error) {
+//     console.log(error);
+//     return [];
+//   }
+// }

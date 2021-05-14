@@ -26,25 +26,8 @@ export class MessageService {
     createMessageDto: CreateMessageDto,
     gamerId,
     chatRoomId,
-    // userLanguage,
+    userLanguage,
   ) {
-    // call API
-    // let translateURL = `${process.env.DEEPL_API_URL}?auth_key=${process.env.DEEPL_API_KEY}&text=${createMessageDto.content}&target_lang=${userLanguage}`;
-    // translateURL = encodeURI(translateURL);
-    // await axios
-    //   .post(translateURL, {
-    //     headers: {
-    //       'Content-Type': 'application/x-www-form-urlencoded',
-    //     },
-    //   })
-    //   .then(function (response) {
-    //     createMessageDto.translatedContent[userLanguage] =
-    //       response.data.translations[0].text;
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-
     let message = new Message();
     message = Object.assign(message, { ...createMessageDto });
     message.gamer = await this.gamerRepository.findOne({ id: gamerId });
@@ -52,23 +35,54 @@ export class MessageService {
       id: chatRoomId,
     });
     try {
-      const response = await this.messageRepository.save(message);
-      if (response.gameChatRoom.id) {
+      const translatedMessageresponse = await this.messageRepository.save(message);
+      if (translatedMessageresponse.gameChatRoom.id) {
         const gameChatRoom = await this.gameChatRoomRepository.findOne({
           id: chatRoomId,
         });
         gameChatRoom.messagesCount += 1;
         // console.log(response.gameChatRoom, gameChatRoom)
         await this.gameChatRoomRepository.update(
-          +response.gameChatRoom.id,
+          +translatedMessageresponse.gameChatRoom.id,
           gameChatRoom,
         );
       }
-      return response;
+
+      // return translated message content through the API call
+      const translatedMessageContent = await this.translateOneMessage(userLanguage, translatedMessageresponse);
+      translatedMessageresponse.translatedContent.userLanguage = translatedMessageContent;
+      await this.messageRepository.update(
+        translatedMessageresponse.id,
+        translatedMessageresponse
+      );
+      return await this.messageRepository.findOne({
+          id: translatedMessageresponse.id,
+        });
     } catch (err) {
       console.log(err);
     }
   }
+
+  async translateOneMessage(userLanguage: string, saveResponseMessage: Message) : Promise<string> {
+    // call API
+    let translatedMessageContent;
+    let translateURL = `${process.env.DEEPL_API_URL}?auth_key=${process.env.DEEPL_API_KEY}&text=${saveResponseMessage.content}&target_lang=${userLanguage}`;
+    translateURL = encodeURI(translateURL);
+    await axios
+      .post(translateURL, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      })
+      .then(function (response) {
+        translatedMessageContent = response.data.translations[0].text;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      return translatedMessageContent;
+  }
+
 
   async findAllMessagesInAChatRoomAndStoreToDatabase(userLanguage, chatRoomId) {
     // find all messages for a chat room
