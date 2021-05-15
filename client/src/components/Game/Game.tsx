@@ -41,7 +41,7 @@ export function Game(): JSX.Element {
           .map((m: Message) => ({
             id: m.id,
             date: m.createdAt,
-            content: m.translatedContent.FR,
+            content: m.translatedContent.EN,
           }))
           .sort((a, b) => (a.date > b.date ? 0 : 1));
         return newMessages;
@@ -74,7 +74,7 @@ export function Game(): JSX.Element {
           <h1 className={classes.header__title}>Grand Theft Auto V</h1>
         </div>
         <Button variant="contained" type="submit" color="primary">
-          Add to favorit
+          Add to favourites
         </Button>
       </header>
       <main className={classes.main}>
@@ -126,7 +126,7 @@ export function Game(): JSX.Element {
                   </CardContent>
                   <CardActions>
                     <IconButton
-                      aria-label="add to favorites"
+                      aria-label="add to favourites"
                       classes={{
                         root: classes.message__icon__button,
                         label: classes.message__icon__svg,

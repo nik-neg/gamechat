@@ -35,7 +35,7 @@ export const translateText = async (): Promise<Message[] | []> => {
   };
   try {
     const res = await fetch(
-      `${process.env.REACT_APP_SERVER_BASE_URL}/message/gamechatroom/1/FR`,
+      `${process.env.REACT_APP_SERVER_BASE_URL}/message/gamechatroom/1/EN`,
       option,
     );
     const data: Message[] = await res.json();
