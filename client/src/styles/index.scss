@@ -13,15 +13,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+ul {
+  list-style: none;
 }
 
-.light {
-  --main-color: green;
-}
-
-.dark {
-  --main-color: rgb(0, 31, 0);
+li {
+  text-decoration: none;
 }

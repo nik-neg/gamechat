@@ -1,0 +1,5 @@
+@function adjust-alpha($clr, $a) {
+  $alpha: 1 - $a;
+
+  @return adjust-color($clr, $alpha: -$alpha);
+}

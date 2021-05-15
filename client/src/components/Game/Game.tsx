@@ -91,7 +91,14 @@ export function Game(): JSX.Element {
         <div className={classes.header__title__container}>
           <h1 className={classes.header__title}>Grand Theft Auto V</h1>
         </div>
-        <Button variant="contained" type="submit" color="primary">
+        <Button
+          variant="contained"
+          type="submit"
+          color="primary"
+          classes={{
+            root: classes.btn,
+          }}
+        >
           Add to favourites
         </Button>
       </header>
