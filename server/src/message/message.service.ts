@@ -35,7 +35,9 @@ export class MessageService {
       id: chatRoomId,
     });
     try {
-      const translatedMessageresponse = await this.messageRepository.save(message);
+      const translatedMessageresponse = await this.messageRepository.save(
+        message,
+      );
       if (translatedMessageresponse.gameChatRoom.id) {
         const gameChatRoom = await this.gameChatRoomRepository.findOne({
           id: chatRoomId,
@@ -49,21 +51,29 @@ export class MessageService {
       }
 
       // return translated message content through the API call
-      const translatedMessageContent = await this.translateOneMessage(userLanguage, translatedMessageresponse);
-      translatedMessageresponse.translatedContent[userLanguage] = translatedMessageContent;
+      const translatedMessageContent = await this.translateOneMessage(
+        userLanguage,
+        translatedMessageresponse,
+      );
+      translatedMessageresponse.translatedContent[
+        userLanguage
+      ] = translatedMessageContent;
       await this.messageRepository.update(
         translatedMessageresponse.id,
-        translatedMessageresponse
+        translatedMessageresponse,
       );
       return await this.messageRepository.findOne({
-          id: translatedMessageresponse.id,
-        });
+        id: translatedMessageresponse.id,
+      });
     } catch (err) {
       console.log(err);
     }
   }
 
-  async translateOneMessage(userLanguage: string, saveResponseMessage: Message) : Promise<string> {
+  async translateOneMessage(
+    userLanguage: string,
+    saveResponseMessage: Message,
+  ): Promise<string> {
     // call API
     let translatedMessageContent;
     let translateURL = `${process.env.DEEPL_API_URL}?auth_key=${process.env.DEEPL_API_KEY}&text=${saveResponseMessage.content}&target_lang=${userLanguage}`;
@@ -80,9 +90,8 @@ export class MessageService {
       .catch(function (error) {
         console.log(error);
       });
-      return translatedMessageContent;
+    return translatedMessageContent;
   }
-
 
   async findAllMessagesInAChatRoomAndStoreToDatabase(userLanguage, chatRoomId) {
     // find all messages for a chat room
