@@ -26,6 +26,9 @@ export class Gamer {
   @Column()
   password: string;
 
+  @Column()
+  language: string;
+
   @Column({
     type: 'text',
     default: () => "''",

@@ -13,13 +13,21 @@ import {
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import moment from 'moment';
 
-import { generateMessage, translateText } from '../../services/game.service';
+import {
+  generateMessage,
+  // translateAllMessages,
+  // translateMessage,
+} from '../../services/game.service';
 import classes from './Game.module.scss';
-import Message from '../../interfaces/message';
+// import Message from '../../interfaces/message';
 
 export function Game(): JSX.Element {
   const [input, setInput] = useState('');
-  const [gamer, setGamer] = useState({ firstName: '', lastName: '' });
+  const [gamer, setGamer] = useState({
+    firstName: 'FirstName',
+    lastName: 'LastName',
+    language: 'FR',
+  });
   const [messages, setMessages] = useState([
     { id: 0, content: '', date: new Date().toISOString() },
   ]);
@@ -27,24 +35,20 @@ export function Game(): JSX.Element {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const gM = await generateMessage(input);
-    if (gM) setGamer(gM.gamer);
-
-    const translatedInput = await translateText();
-
+    const gM = await generateMessage(input, 'FR'); // gamer.language doesnt work
+    let translatedInput = '';
+    if (gM) {
+      setGamer(gM.gamer);
+      console.log('if', gM);
+      translatedInput = gM.translatedContent['FR']; //await translateAllMessages();
+    }
     console.log('game.txs file', translatedInput);
     setInput('');
-    if (translatedInput.length) {
-      setMessages(() => {
-        let newMessages: { id: number; content: string; date: string }[] = [];
-        newMessages = translatedInput
-          .map((m: Message) => ({
-            id: m.id,
-            date: m.createdAt,
-            content: m.translatedContent.EN,
-          }))
-          .sort((a, b) => (a.date > b.date ? 0 : 1));
-        return newMessages;
+    if (translatedInput) {
+      addMessage({
+        id: 1,
+        content: translatedInput,
+        date: new Date().toISOString(),
       });
     }
   };
@@ -65,6 +69,20 @@ export function Game(): JSX.Element {
 
   const topicHandler = () => {
     console.log('click');
+  };
+
+  const addMessage = (message: {
+    id: number;
+    content: string;
+    date: string;
+  }) => {
+    setMessages((prevMessages) => {
+      let newMessages: { id: number; content: string; date: string }[] = [];
+      newMessages = [...prevMessages, message].sort((a, b) =>
+        a.date < b.date ? 0 : 1,
+      );
+      return newMessages;
+    });
   };
 
   return (
@@ -108,10 +126,10 @@ export function Game(): JSX.Element {
                           colorDefault: classes['message__avatar-colorDefault'],
                         }}
                       >
-                        {getInitial()}
+                        {gamer ? getInitial() : ''}
                       </Avatar>
                     }
-                    title={`${gamer.firstName} ${gamer.lastName}`}
+                    title={'Tesuser'} // gamer ? `${gamer.firstName} ${gamer.lastName}`: ''
                     subheader={formatDate(m.date)}
                     classes={{ content: classes.message__header }}
                   />

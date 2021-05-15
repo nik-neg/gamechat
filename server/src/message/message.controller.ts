@@ -15,17 +15,17 @@ import { UpdateMessageDto } from './dto/update-message.dto';
 export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
-  @Post(':id/gamechatroom/:chatRoomId')
+  @Post(':id/gamechatroom/:chatRoomId/:language')
   create(
     @Body() createMessageDto: CreateMessageDto,
     @Param('id') userId: number,
-    // @Param('language') userLanguage: string,
     @Param('chatRoomId') chatRoomId: number,
+    @Param('language') userLanguage: string,
   ) {
-    return this.messageService.create(createMessageDto, +userId, chatRoomId);
+    return this.messageService.create(createMessageDto, +userId, chatRoomId, userLanguage);
   }
 
-  @Patch('gamechatroom/:id/:language')
+  @Patch('gamechatroom/:id/all/:language')
   findAll(
     @Param('id') chatRoomId: string,
     @Param('language') userLanguage: string,
@@ -35,6 +35,20 @@ export class MessageController {
       chatRoomId,
     );
   }
+
+  // @Patch(':messageId/gamechatroom/:gameChatRoomId/:language') // /message/1/gamechatroom/1/FR
+  // translateMessage(
+  //   @Body() updateMessageDto: UpdateMessageDto,
+  //   @Param('messageId') messageId: string,
+  //   @Param('gameChatRoomId') gameChatRoomId: string,
+  //   @Param('language') userLanguage: string,
+  // ) {
+  //   return this.messageService.translateOneMessage(
+  //     messageId,
+  //     gameChatRoomId,
+  //     userLanguage
+  //   );
+  // }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
