@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import * as dotenv from 'dotenv';
-import './index.scss';
+import './styles/index.scss';
 import App from './components/App/App';
 import reportWebVitals from './reportWebVitals';
 
