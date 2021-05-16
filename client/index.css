@@ -1,0 +1,55 @@
+html {
+  background: url("http://images6.fanpop.com/image/photos/33300000/Abstract-Space-space-33308889-1920-1200.jpg") no-repeat center center fixed;
+}
+
+.entry-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 40%;
+}
+
+div.entry {
+  width: 320px;
+  height: 120px;
+  background: #222;
+  color: #fff;
+  text-align: center;
+  line-height: 120px;
+  font-size: 40px;
+}
+
+.button {
+  background-color: #04AA6D;
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+.button5 {border-radius: 50%;}
+/*  Ripple */
+
+.ripple {
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  position: absolute;
+  opacity: 1;
+}
+.rippleEffect {
+    animation: rippleDrop .6s linear;
+}
+
+@keyframes rippleDrop {
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/*********++*/
