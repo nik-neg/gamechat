@@ -18,7 +18,7 @@ import {
   generateMessage,
   // translateAllMessages,
   // translateMessage,
-} from '../../services/game.service';
+} from '../../services/message.service';
 import classes from './Game.module.scss';
 import { fetchGames } from '../../store/reducers/games';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';

@@ -1,0 +1,73 @@
+@import '../../../styles/utils/variables';
+
+.container {
+  padding: 1rem;
+  background-color: $colour-bcg;
+  color: $colour-font;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#container {
+  background-color: red;
+}
+
+.image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  fill: $colour-font;
+  z-index: 0;
+  max-height: 400px;
+}
+
+#ctr-ps-1 {
+  max-height: 200px;
+  bottom: 2rem;
+  left: unset;
+  right: -2rem;
+}
+
+#ctr-ps-2 {
+  max-height: 300px;
+  left: unset;
+  top: unset;
+  right: 1rem;
+  bottom: -1rem;
+  transform: rotateZ(-45deg);
+}
+
+#ctr-ps-3 {
+  max-height: 100px;
+  top: unset;
+  bottom: 2rem;
+  left: -10rem;
+  transform: rotateZ(30deg);
+}
+
+#ctr-xbox {
+  min-height: 500px;
+  top: 2rem;
+  left: -10rem;
+}
+
+.title {
+  margin-top: -2rem;
+  margin-bottom: 2rem;
+}
+
+.form {
+  background-color: $colour-font;
+  padding: 2rem;
+  color: $colour-bcg;
+  border-radius: 5px;
+  &__container {
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+  }
+}

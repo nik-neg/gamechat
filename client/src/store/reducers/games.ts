@@ -3,7 +3,7 @@ import Game from '../../interfaces/game';
 import {
   fetchAllGamesFromAPI,
   fetchAllGamesFromDB,
-} from '../../services/game.Real.service';
+} from '../../services/game.service';
 
 const initialState: {
   status: string;

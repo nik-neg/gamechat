@@ -6,12 +6,12 @@ export default interface Gamer {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
-  avatar: string;
-  notifications: Message[];
-  favouriteGameChats: FavouriteGameChats[];
-  isAdmin: boolean;
+  password?: string;
+  avatar?: string;
+  notifications?: Message[];
+  favouriteGameChats?: FavouriteGameChats[];
+  isAdmin?: boolean;
   language: string;
-  messages: number[];
-  gameChatRoom: number[];
+  messages?: number[];
+  gameChatRoom?: number[];
 }
