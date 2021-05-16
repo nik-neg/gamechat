@@ -107,8 +107,72 @@ export class GameService {
     return response;
   }
 
-  findAll() {
-    return `This action returns all game`;
+  async findAllFromDB() {
+    return await this.gameRepository.find({});
+  }
+
+  async findAllFromApiAndSave() {
+    const res = await axios.get(
+      `${process.env.GAME_API_URL}/games?key=${process.env.GAME_API_KEY}`,
+    );
+
+    const games = res.data.results;
+    const response = [];
+    for (const newGame of games) {
+      const oldGame = await this.gameRepository.findOne({ apiId: newGame.id });
+      if (oldGame) {
+        response.push(oldGame);
+        continue;
+      }
+
+      const [resScreenshots, resDetails] = await Promise.all([
+        axios.get(
+          `${process.env.GAME_API_URL}/games/${newGame.id}/screenshots?key=${process.env.GAME_API_KEY}`,
+        ),
+        axios.get(
+          `${process.env.GAME_API_URL}/games/${newGame.id}?key=${process.env.GAME_API_KEY}`,
+        ),
+      ]);
+
+      const { platforms, stores, description_raw } = resDetails.data;
+      newGame.platforms = platforms;
+      newGame.stores = stores;
+      newGame.description_raw = description_raw;
+
+      const screenshots = resDetails.data.platforms
+        .map((p) => p.platform.image_background)
+        .concat(resDetails.data.stores.map((s) => s.store.image_background))
+        .concat(
+          resScreenshots.data.results.map(
+            ({ image }: { image: string }) => image,
+          ),
+        );
+
+      const entity = {
+        apiId: newGame.id,
+        title: newGame.name_original || newGame.name,
+        genreList: newGame.genres.map(
+          ({ id, name }: { id: number; name: string }) => ({
+            id,
+            name,
+          }),
+        ),
+        dominantGenre: {
+          id: newGame.genres[0].id,
+          name: newGame.genres[0].name,
+        },
+        releaseDate: new Date(newGame.released).toISOString(),
+        imagesPath: { cover: newGame.background_image, screenshots },
+        consoles: newGame.platforms.map((p) => p.platform.name),
+        ageRating: newGame.esrb_rating ? newGame.esrb_rating.name : '',
+        description: newGame.description_raw,
+      };
+      const game = await this.gameRepository.save(entity);
+      response.push(game);
+    }
+    console.log(response);
+
+    return response;
   }
 
   findOne(id: number) {

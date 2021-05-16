@@ -13,7 +13,7 @@ function App(): JSX.Element {
     <Switch>
       <Route path="/auth/login" component={Login} />
       <Route path="/user/:id" component={Profile} />
-      <Route path="/gamechat/:id" component={Game} />
+      <Route path="/gamechat/:gameId" component={Game} />
       <Route path="/" exact component={Home} />
       <Redirect to="/" />
     </Switch>

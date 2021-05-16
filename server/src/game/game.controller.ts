@@ -22,9 +22,14 @@ export class GameController {
     return this.gameService.create(name, gamechatroomId);
   }
 
-  @Get()
-  findAll() {
-    return this.gameService.findAll();
+  @Get('rawg')
+  findAllFromApiAndSave() {
+    return this.gameService.findAllFromApiAndSave();
+  }
+
+  @Get('db')
+  findAllFromDB() {
+    return this.gameService.findAllFromDB();
   }
 
   @Get(':id')

@@ -1,4 +1,5 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   Avatar,
   Button,
@@ -19,15 +20,30 @@ import {
   // translateMessage,
 } from '../../services/game.service';
 import classes from './Game.module.scss';
+import { fetchGames } from '../../store/reducers/games';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { matchPath, match } from 'react-router';
 // import Message from '../../interfaces/message';
 
-export function Game(): JSX.Element {
+export function Game({ match }: any): JSX.Element {
+  //const [gameInfo, setGameInfo] = useState()
   const [input, setInput] = useState('');
   const [gamer, setGamer] = useState({
     firstName: 'FirstName',
     lastName: 'LastName',
     language: 'FR',
   });
+  const { gameId } = match.params;
+
+  const gameInfo = useAppSelector((state) => state.games.entities[gameId]);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    console.log('gameId :>> ', gameId);
+    dispatch(fetchGames());
+  }, [dispatch]);
+
   const [messages, setMessages] = useState([
     { id: 0, content: '', date: new Date().toISOString() },
   ]);
@@ -45,6 +61,7 @@ export function Game(): JSX.Element {
     console.log('game.txs file', translatedInput);
     setInput('');
     if (translatedInput) {
+      console.log('object');
       addMessage({
         id: 1,
         content: translatedInput,
@@ -89,7 +106,7 @@ export function Game(): JSX.Element {
     <div className={classes.container}>
       <header className={classes.header__container}>
         <div className={classes.header__title__container}>
-          <h1 className={classes.header__title}>Grand Theft Auto V</h1>
+          <h1 className={classes.header__title}>{'gameInfo.title'}</h1>
         </div>
         <Button
           variant="contained"
@@ -183,5 +200,9 @@ export function Game(): JSX.Element {
     </div>
   );
 }
+
+Game.propTypes = {
+  match: PropTypes.object,
+};
 
 export default Game;
