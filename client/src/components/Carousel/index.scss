@@ -5,26 +5,26 @@
   position: relative;
 }
 
-html,
-body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  font-size: 3vmin;
-}
+// html,
+// body {
+//   height: 100%;
+//   width: 100%;
+//   margin: 0;
+//   padding: 0;
+//   font-size: 3vmin;
+// }
 
-html {
-  background: #151515;
-  color: #fff;
-  overflow: hidden;
-}
+// html {
+//   background: #151515;
+//   color: #fff;
+//   overflow: hidden;
+// }
 
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+// body {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
 
 .slides {
   display: grid;
@@ -38,9 +38,9 @@ body {
     border: none;
     color: white;
     position: absolute;
-    font-size: 5rem;
-    width: 5rem;
-    height: 5rem;
+    font-size: 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
     top: 30%;
     transition: opacity 0.3s;
     opacity: 0.7;
@@ -100,7 +100,7 @@ body {
 
 
   transform-style: preserve-3d;
-  transform: perspective(500px) translateX(calc(100% * var(--offset)))
+  transform: perspective(250px) translateX(calc(100% * var(--offset)))
     rotateY(calc(-45deg * var(--dir)));
 }
 
@@ -138,7 +138,7 @@ body {
   right: -10%;
   bottom: 0;
   background-repeat: no-repeat;
-  background-size: 750px 562.5px;
+  background-size: 375px 275px;
   background-position: center center;
   z-index: -1;
   opacity: 0;
@@ -170,7 +170,7 @@ body {
 
     &:hover {
       transition: none;
-      transform: perspective(1000px) rotateY(calc(var(--x) * 45deg))
+      transform: perspective(250px) rotateY(calc(var(--x) * 45deg))
         rotateX(calc(var(--y) * -45deg));
     }
   }

@@ -22,7 +22,7 @@ export default function Dashboard() {
   return (
     <div className={classes.root}>
       <Grid container spacing={3} alignItems="center">
-        <Grid item xs={12}>
+        <Grid item xs={8}>
           <Carousel />
         </Grid>
         <Grid item xs={6}>

@@ -8,6 +8,8 @@ import MediaCard from '../MediaCard/MediaCard';
 import { Box } from '@material-ui/core';
 import CarouselWrapper from '../CarouselWrapper/CarouselWrapper';
 
+import DemoCarousel from '../ResponsiveCarousel/ResponsiveCarousel';
+
 const useStyles = makeStyles((theme: any) => ({
   root: {
     flexGrow: 1,
@@ -57,7 +59,16 @@ export default function Home() {
               dolor sit amet.
             </Grid>
             <Grid item xs={4}>
-              {/* <CarouselWrapper /> */}
+              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+              nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+              erat, sed diam voluptua. At vero eos et accusam et justo duo
+              dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+              sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+              amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+              invidunt ut labore et dolore magna aliquyam erat, sed diam
+              voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+              Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
+              dolor sit amet.
             </Grid>
           </Grid>
         </Grid>
@@ -83,28 +94,8 @@ export default function Home() {
                 est Lorem ipsum dolor sit amet.
               </Grid>
               <Grid item xs={8}>
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                aliquyam erat, sed diam voluptua. At vero eos et accusam et
-                justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-                takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-                dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-                eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                sed diam voluptua. At vero eos et accusam et justo duo dolores
-                et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
-                est Lorem ipsum dolor sit amet.
-              </Grid>
-              <Grid item xs={8}>
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                aliquyam erat, sed diam voluptua. At vero eos et accusam et
-                justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-                takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-                dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-                eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                sed diam voluptua. At vero eos et accusam et justo duo dolores
-                et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
-                est Lorem ipsum dolor sit amet.
+                {/* <CarouselWrapper /> */}
+                <DemoCarousel />
               </Grid>
               <Grid item xs={8}>
                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed

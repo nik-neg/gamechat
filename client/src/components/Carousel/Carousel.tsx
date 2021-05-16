@@ -103,7 +103,7 @@ const slidesReducer = (state: any, event: any) => {
 function Slide(props: any) {
   const { offset, slide } = props;
   const active = offset === 0 ? true : null;
-  const ref = useTilt(active);
+  const ref = useTilt(active)!;
 
   return (
     <div
