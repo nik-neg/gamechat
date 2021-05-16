@@ -6,9 +6,11 @@ import { Carousel } from 'react-responsive-carousel';
 export default class DemoCarousel extends Component {
   render() {
     return (
-      <Carousel>
+      // styles={{ paddingLeft: '150px' }}
+      <Carousel width="75%">
         <div>
           <img src="https://images.unsplash.com/photo-1571771019784-3ff35f4f4277?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ" />
+
           <p className="legend">Legend 1</p>
         </div>
         <div>

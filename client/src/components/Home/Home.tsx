@@ -21,6 +21,12 @@ const useStyles = makeStyles((theme: any) => ({
   },
 }));
 
+const styles = {
+  root: {
+    paddingLeft: '150px',
+  },
+};
+
 export default function Home() {
   const classes = useStyles();
 
@@ -82,7 +88,7 @@ export default function Home() {
               alignItems="flex-start"
             >
               <Grid item xs={8}>
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                {/* Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
                 diam nonumy eirmod tempor invidunt ut labore et dolore magna
                 aliquyam erat, sed diam voluptua. At vero eos et accusam et
                 justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
@@ -91,23 +97,11 @@ export default function Home() {
                 eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
                 sed diam voluptua. At vero eos et accusam et justo duo dolores
                 et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
-                est Lorem ipsum dolor sit amet.
+                est Lorem ipsum dolor sit amet. */}
               </Grid>
               <Grid item xs={8}>
                 {/* <CarouselWrapper /> */}
-                <DemoCarousel />
-              </Grid>
-              <Grid item xs={8}>
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                aliquyam erat, sed diam voluptua. At vero eos et accusam et
-                justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-                takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-                dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-                eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                sed diam voluptua. At vero eos et accusam et justo duo dolores
-                et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
-                est Lorem ipsum dolor sit amet.
+                <DemoCarousel className={classes.root} />
               </Grid>
               <Grid item xs={8}>
                 <Grid container spacing={3}>
