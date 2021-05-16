@@ -17,6 +17,7 @@ export class AppGateway
 
   @SubscribeMessage('msgToServer')
   handleMessage(client: Socket, payload: string): void {
+    console.log('payload', payload);
     this.server.emit('msgToClient', payload);
   }
 
@@ -25,10 +26,13 @@ export class AppGateway
   }
 
   handleDisconnect(client: Socket) {
-    this.logger.log(`Client disconnected: ${client.id}`);
+    // this.logger.log(`Client disconnected: ${client}`);
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    this.logger.log(`Client connected: ${client.id}`);
+    // this.logger.log(`Client connected: ${client.id}`);
+    // this.logger.log(args);
+    // this.logger.log(Object.keys(client));
+    // this.logger.log(client.connected);
   }
 }
