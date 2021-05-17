@@ -22,10 +22,10 @@ const Home = (): JSX.Element => {
       socket.emit('msgToServer', 'client data');
     });
 
-    socket.on('msgToServer', function (msgToServer: any) {
-      console.log('Connection to server established. SocketID is', msgToServer);
-      socket.emit('msgToClient', JSON.stringify('client data'));
-    });
+    // socket.on('msgToServer', function (msgToServer: any) {
+    //   console.log('Connection to server established. SocketID is', msgToServer);
+    //   socket.emit('msgToClient', JSON.stringify('client data'));
+    // });
   }, []);
 
   function handleSubmit(event: any) {
