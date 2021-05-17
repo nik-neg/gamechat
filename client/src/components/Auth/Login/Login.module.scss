@@ -1,5 +1,8 @@
 @import '../../../styles/utils/variables';
 
+.btn {
+  font-size: medium;
+}
 .container {
   padding: 1rem;
   background-color: $colour-bcg;
@@ -65,9 +68,27 @@
   padding: 2rem;
   color: $colour-bcg;
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
   &__container {
     z-index: 5;
     display: flex;
     justify-content: center;
   }
+}
+
+.btn {
+  margin-top: 2rem;
+  width: fit-content;
+  padding: 1rem;
+  border-radius: 5px;
+  border: none;
+  background-color: $colour-bcg;
+  color: $colour-font;
+  text-transform: uppercase;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: $primary-colour-base;
 }

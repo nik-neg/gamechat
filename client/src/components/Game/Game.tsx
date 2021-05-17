@@ -15,6 +15,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import moment from 'moment';
 
 import {
+  fetchAllMessages,
   generateMessage,
   // translateAllMessages,
   // translateMessage,
@@ -23,6 +24,7 @@ import classes from './Game.module.scss';
 import { fetchGames } from '../../store/reducers/games';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { matchPath, match } from 'react-router';
+import { fetchGamers } from '../../store/reducers/gamers';
 // import Message from '../../interfaces/message';
 
 export function Game({ match }: any): JSX.Element {
@@ -42,6 +44,7 @@ export function Game({ match }: any): JSX.Element {
   useEffect(() => {
     console.log('gameId :>> ', gameId);
     dispatch(fetchGames());
+    dispatch(fetchGamers());
   }, [dispatch]);
 
   const [messages, setMessages] = useState([

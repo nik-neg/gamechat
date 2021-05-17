@@ -9,6 +9,7 @@ import { CreateGamerDto } from './dto/create-gamer.dto';
 import { UpdateGamerDto } from './dto/update-gamer.dto';
 import { Gamer } from './entities/gamer.entity';
 import * as bcrypt from 'bcrypt';
+import { getManager } from 'typeorm';
 
 @Injectable()
 export class GamerService {
@@ -42,8 +43,22 @@ export class GamerService {
     }
   }
 
-  findAll() {
-    return `This action returns all gamer`;
+  async findAll() {
+    return await this.gamerRepository.find({});
+  }
+
+  async findAllInChatRoom(gameChatRoomId: number) {
+    // return await getManager()
+    //   .createQueryBuilder()
+    //   .select('gamer')
+    //   .from(Gamer, 'gamer')
+    //   .where('gamer.gameChatRoom.id = :id', { id: gameChatRoomId })
+    //   .getMany();
+
+    return await this.gamerRepository.find({
+      relations: ['gameChatRoom'],
+      where: { id: gameChatRoomId },
+    });
   }
 
   findOne(id: number) {

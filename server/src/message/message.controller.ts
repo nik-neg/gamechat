@@ -22,7 +22,12 @@ export class MessageController {
     @Param('chatRoomId') chatRoomId: number,
     @Param('language') userLanguage: string,
   ) {
-    return this.messageService.create(createMessageDto, +userId, chatRoomId, userLanguage);
+    return this.messageService.create(
+      createMessageDto,
+      +userId,
+      chatRoomId,
+      userLanguage,
+    );
   }
 
   @Patch('gamechatroom/:id/all/:language')
@@ -49,6 +54,15 @@ export class MessageController {
   //     userLanguage
   //   );
   // }
+
+  @Get('all')
+  findAllMessages() {
+    return this.messageService.findAllMessages();
+  }
+  @Get('gamechatroom/:id')
+  findAllMessagesForAChatRoom(@Param('id') id: string) {
+    return this.messageService.findAllMessagesForAChatRoom(+id);
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

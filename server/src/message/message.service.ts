@@ -128,8 +128,21 @@ export class MessageService {
     return messages;
   }
 
+  async findAllMessages() {
+    return await this.messageRepository.find();
+  }
+
+  async findAllMessagesForAChatRoom(id: number) {
+    return await getManager()
+      .createQueryBuilder()
+      .select('message')
+      .from(Message, 'message')
+      .where('message.gameChatRoomId = :id', { id })
+      .getMany();
+  }
+
   findOne(id: number) {
-    return `This action returns a #${id} message`;
+    return `this is the id: ${id}`;
   }
 
   async update(id: number, updateMessageDto: UpdateMessageDto) {

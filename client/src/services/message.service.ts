@@ -49,6 +49,32 @@ export const translateAllMessages = async (): Promise<Message[] | []> => {
   }
 };
 
+export const fetchAllMessages = async () => {
+  try {
+    const res = await fetch(
+      `${process.env.REACT_APP_SERVER_BASE_URL}/message/all`,
+    );
+    const messages = await res.json();
+    return messages;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+export const fetchAllMessagesFromChatRoom = async (id: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.REACT_APP_SERVER_BASE_URL}/messages/gamechatroom/${id}`,
+    );
+    const messages = await res.json();
+    return messages;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
 // export const translateMessage = async (): Promise<Message[] | []> => {
 //   const option = {
 //     method: 'PATCH',

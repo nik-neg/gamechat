@@ -25,6 +25,11 @@ export class GamerController {
     return this.gamerService.findAll();
   }
 
+  @Get('gamechatroom/:id')
+  findAllInChatRoom(@Param('id') gameChatRoomId: string) {
+    return this.gamerService.findAllInChatRoom(+gameChatRoomId);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.gamerService.findOne(+id);

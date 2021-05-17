@@ -8,6 +8,7 @@ import { ReactComponent as ControllerXbox } from '../../../images/controller-xbo
 import { useAppDispatch } from '../../../hooks/redux';
 import { login } from '../../../store/reducers/auth';
 import { useHistory } from 'react-router';
+import { TextField } from '@material-ui/core';
 
 const Login = (): JSX.Element => {
   const initialUser: { email: string; password: string } = {
@@ -20,7 +21,6 @@ const Login = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const history = useHistory();
-
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (user.email && user.password) {
@@ -41,22 +41,30 @@ const Login = (): JSX.Element => {
       <ControllerPS2 className={classes.image} id={classes['ctr-ps-2']} />
       <ControllerPS3 className={classes.image} id={classes['ctr-ps-3']} />
       <ControllerXbox className={classes.image} id={classes['ctr-xbox']} />
-      <h1 className={classes.title}>Login</h1>
       <div className={classes.form__container}>
-        <form className={classes.form} onSubmit={submitHandler}>
-          <div className={classes.field__container}>
-            <label htmlFor="email">Email</label>
-            <input id="email" name="email" onChange={changeHandler}></input>
-          </div>
-          <div className={classes.field__container}>
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              name="password"
-              onChange={changeHandler}
-            ></input>
-          </div>
-          <button type="submit">Login</button>
+        <form
+          className={classes.form}
+          noValidate
+          autoComplete="off"
+          onSubmit={submitHandler}
+        >
+          <TextField
+            className={classes.field__container}
+            id="standard-basic"
+            label="Email"
+            name="email"
+            onChange={changeHandler}
+          />
+          <TextField
+            className={classes.field__container}
+            id="filled-basic"
+            label="Password"
+            name="password"
+            onChange={changeHandler}
+          />
+          <button className={classes.btn} type="submit">
+            Login
+          </button>
         </form>
       </div>
     </div>
