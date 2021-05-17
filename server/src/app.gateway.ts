@@ -8,7 +8,7 @@ import {
 } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
-
+//3002, { transports: ['websocket'] }
 @WebSocketGateway()
 export class AppGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -26,11 +26,11 @@ export class AppGateway
   }
 
   handleDisconnect(client: Socket) {
-    // this.logger.log(`Client disconnected: ${client}`);
+    this.logger.log(`Client disconnected: ${client}`);
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    // this.logger.log(`Client connected: ${client.id}`);
+    this.logger.log(`Client connected: ${client.id}`);
     // this.logger.log(args);
     // this.logger.log(Object.keys(client));
     // this.logger.log(client.connected);

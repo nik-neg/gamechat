@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // import { io } from 'socket.io-client';
-import { io } from 'socket.io-client';
+import io from 'socket.io-client';
 import classes from './Home.module.scss';
 import Wrapper from '../Vue/Wrapper';
 
@@ -12,26 +12,21 @@ const Home = (): JSX.Element => {
   // const [socket, setsocket] = useState(io(url ? url : ''));
   const [messages, setMessages] = useState(['']);
 
-  // useEffect(() => {
-  //   console.log(url);
-  //   const socket = io(url);
-  //   console.log(socket.connect());
-  //   console.log(socket);
+  useEffect(() => {
+    console.log(url);
+    const socket = io(url);
+    console.log(socket);
 
-  //   socket.on('msgToServer', function (msgToServer: any) {
-  //     console.log('Connection to server established. SocketID is', msgToServer);
-  //     socket.emit('msgToClient', 'client data');
-  //   });
+    socket.on('connect', () => {
+      console.log('Connected!');
+      socket.emit('msgToServer', 'client data');
+    });
 
-  //   // socket.on('msgToServer', () => {
-  //   //   console.log(socket.connected);
-  //   //   console.log(socket.id);
-  //   // });
-  //   // socket.on('connect_error', (err: any) => {
-  //   //   console.log(err);
-  //   // });
-  //   // socket.emit('msgToServer', 'Testing123');
-  // }, []);
+    socket.on('msgToServer', function (msgToServer: any) {
+      console.log('Connection to server established. SocketID is', msgToServer);
+      socket.emit('msgToClient', JSON.stringify('client data'));
+    });
+  }, []);
 
   function handleSubmit(event: any) {
     event.preventDefault();
@@ -90,7 +85,7 @@ const Home = (): JSX.Element => {
 
   return (
     <div>
-      <Wrapper />
+      {/* <Wrapper /> */}
       {/* <script
         type="text/javascript"
         src="https://cdn.socket.io/socket.io-1.4.5.js"
