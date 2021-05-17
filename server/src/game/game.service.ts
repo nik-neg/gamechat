@@ -198,7 +198,6 @@ export class GameService {
       const game = await this.gameRepository.save(entity);
       response.push(game);
     }
-    console.log(response);
 
     return response;
   }

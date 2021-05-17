@@ -1,0 +1,28 @@
+@import '../../styles/utils/variables';
+@import '../../styles/utils/mixins';
+@import '../../styles/components/button';
+
+.container {
+  background: $colour-bcg;
+}
+
+.btn {
+  @extend .btn-base;
+}
+
+.tab {
+  margin-left: 3rem;
+}
+
+.searchIcon {
+  margin-left: 35rem;
+}
+
+.toolBar {
+  background-color: $colour-bcg;
+  // $colour-primary
+}
+
+.paper {
+  background-color: $colour-bcg;
+}

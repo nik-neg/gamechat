@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import moment from 'moment';
+import io from 'socket.io-client';
 
 import {
   fetchAllMessagesFromChatRoom,
@@ -29,6 +30,8 @@ import Game from '../../interfaces/game';
 import { getDefaultWatermarks } from 'istanbul-lib-report';
 import Spinner from '../Spinner/Spinner';
 // import Message from '../../interfaces/message';
+
+const url = process.env.REACT_APP_SERVER_BASE_URL ?? '';
 
 export function GameChat({ match }: any): JSX.Element {
   const initialGameInfo: Game = {
@@ -67,6 +70,26 @@ export function GameChat({ match }: any): JSX.Element {
   const [messages, setMessages] = useState([
     { id: 0, content: '', date: new Date().toISOString() },
   ]);
+
+  useEffect(() => {
+    console.log(url);
+    const socket = io(url);
+    console.log(socket);
+
+    socket.on('connect', () => {
+      console.log('Connected!');
+      socket.emit('msgToServer', 'client data');
+    });
+
+    socket.on('msgToClient', (msg) => {
+      console.log(msg);
+    });
+
+    // socket.on('msgToServer', function (msgToServer: any) {
+    //   console.log('Connection to server established. SocketID is', msgToServer);
+    //   socket.emit('msgToClient', JSON.stringify('client data'));
+    // });
+  }, []);
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

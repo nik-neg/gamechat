@@ -7,6 +7,7 @@ import { DatabaseModule } from './database/database.module';
 import { GameModule } from './game/game.module';
 import { GamechatroomModule } from './gamechatroom/gamechatroom.module';
 import { GamerModule } from './gamer/gamer.module';
+import { AppGateway } from './app.gateway';
 
 @Module({
   imports: [
@@ -18,6 +19,6 @@ import { GamerModule } from './gamer/gamer.module';
     GamerModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AppGateway],
 })
 export class AppModule {}

@@ -7,7 +7,11 @@ import { Box } from '@material-ui/core';
 import CarouselWrapper from '../CarouselWrapper/CarouselWrapper';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+// import { io } from 'socket.io-client';
 import classes from './Home.module.scss';
+import Wrapper from '../Vue/Wrapper';
+
+const url = process.env.REACT_APP_SERVER_BASE_URL ?? '';
 
 import DemoCarousel from '../ResponsiveCarousel/ResponsiveCarousel';
 import { fetchGames } from '../../store/reducers/games';
