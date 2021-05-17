@@ -27,6 +27,11 @@ export class GameController {
     return this.gameService.findAllFromApiAndSave();
   }
 
+  @Get('rawg/genres')
+  getGamesForAllGenres() {
+    return this.gameService.getGamesForAllGenres();
+  }
+
   @Get('db')
   findAllFromDB() {
     return this.gameService.findAllFromDB();

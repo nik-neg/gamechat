@@ -1,27 +1,33 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
+import Game from '../../interfaces/game';
 
-export default class DemoCarousel extends Component {
-  render() {
-    return (
-      // styles={{ paddingLeft: '150px' }}
-      <Carousel width="75%">
-        <div>
-          <img src="https://images.unsplash.com/photo-1571771019784-3ff35f4f4277?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ" />
+import classes from './ResponsiveCarousel.module.scss';
 
-          <p className="legend">Legend 1</p>
+const DemoCarousel = ({ cards }: any) => {
+  return (
+    // styles={{ paddingLeft: '150px' }}
+    <Carousel>
+      {cards.map((card: Game) => (
+        <div key={card.id} className={classes.image__container}>
+          <img
+            src={card.imagesPath.cover}
+            className={classes.image}
+            alt={card.title}
+          />
+
+          <h2 className={classes.legend}>{card.title}</h2>
         </div>
-        <div>
-          <img src="https://images.unsplash.com/photo-1581836499506-4a660b39478a?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ" />
-          <p className="legend">Legend 2</p>
-        </div>
-        <div>
-          <img src="https://images.unsplash.com/photo-1566522650166-bd8b3e3a2b4b?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ" />
-          <p className="legend">Legend 3</p>
-        </div>
-      </Carousel>
-    );
-  }
-}
+      ))}
+    </Carousel>
+  );
+};
+
+DemoCarousel.propTypes = {
+  cards: PropTypes.array,
+};
+
+export default DemoCarousel;

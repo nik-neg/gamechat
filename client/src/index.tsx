@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import * as dotenv from 'dotenv';
-// import './styles/index.scss';
+import './styles/index.scss';
 import App from './components/App/App';
 import Home from './components/Home/Home';
 import reportWebVitals from './reportWebVitals';

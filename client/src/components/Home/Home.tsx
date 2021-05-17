@@ -1,6 +1,4 @@
-import classes from './Home.module.scss';
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import AppBar from '../AppBar/AppBar';
@@ -8,7 +6,14 @@ import MediaCard from '../MediaCard/MediaCard';
 import { Box } from '@material-ui/core';
 import CarouselWrapper from '../CarouselWrapper/CarouselWrapper';
 
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import classes from './Home.module.scss';
+
 import DemoCarousel from '../ResponsiveCarousel/ResponsiveCarousel';
+import { fetchGames } from '../../store/reducers/games';
+import Game from '../../interfaces/game';
+import MediaCardsList from '../MediaCardsList/MediaCardsList';
+import { fetchGamesByGenre } from '../../services/game.service';
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -28,10 +33,34 @@ const styles = {
 };
 
 export default function Home() {
-  const classes = useStyles();
+  const style = useStyles();
+
+  const initialGenres: string[] = [];
+  const initialGamesGenre: { [genre: string]: Game[] } = {};
+
+  const [genres, setGenres] = useState(initialGenres);
+  const [gamesGenre, setGamesGenre] = useState(initialGamesGenre);
+  const dispatch = useAppDispatch();
+  const gameReducer = useAppSelector((state) => state.games);
+
+  const games: Game[] = gameReducer.ids.map((id) => gameReducer.entities[id]);
+
+  useEffect(() => {
+    dispatch(fetchGames());
+    fetchGenres();
+  }, []);
+
+  const fetchGenres = async () => {
+    const gamesGenre = await fetchGamesByGenre();
+    const genreCat: string[] = Object.keys(gamesGenre);
+    setGenres(genreCat);
+    setGamesGenre(gamesGenre);
+  };
 
   return (
-    <div className={classes.root}>
+    <div className={`${style.root} ${classes.container}`}>
+      {/**
+      
       <Grid
         container
         spacing={4}
@@ -39,45 +68,6 @@ export default function Home() {
         justify="flex-start"
         alignItems="flex-start"
       >
-        <Grid item xs={12}>
-          <Grid item xs={12}>
-            <AppBar />
-          </Grid>
-        </Grid>
-        <Grid item xs={4}>
-          <Grid
-            container
-            spacing={4}
-            direction="column"
-            justify="flex-start"
-            alignItems="flex-start"
-          >
-            <Grid item xs={4}>
-              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-              nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-              erat, sed diam voluptua. At vero eos et accusam et justo duo
-              dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-              sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-              amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-              invidunt ut labore et dolore magna aliquyam erat, sed diam
-              voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-              Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-              dolor sit amet.
-            </Grid>
-            <Grid item xs={4}>
-              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-              nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-              erat, sed diam voluptua. At vero eos et accusam et justo duo
-              dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-              sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-              amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-              invidunt ut labore et dolore magna aliquyam erat, sed diam
-              voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-              Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-              dolor sit amet.
-            </Grid>
-          </Grid>
-        </Grid>
         <Grid item xs={8}>
           <Grid item xs={12}>
             <Grid
@@ -88,49 +78,38 @@ export default function Home() {
               alignItems="flex-start"
             >
               <Grid item xs={8}>
-                {/* Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                aliquyam erat, sed diam voluptua. At vero eos et accusam et
-                justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-                takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-                dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-                eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                sed diam voluptua. At vero eos et accusam et justo duo dolores
-                et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
-                est Lorem ipsum dolor sit amet. */}
               </Grid>
               <Grid item xs={8}>
-                {/* <CarouselWrapper /> */}
-                <DemoCarousel className={classes.root} />
+                {/ <CarouselWrapper /> /}
               </Grid>
               <Grid item xs={8}>
                 <Grid container spacing={3}>
-                  <Grid item xs={3}>
-                    <Box m={-1}>
-                      <MediaCard />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Box m={-1}>
-                      <MediaCard />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Box m={-1}>
-                      <MediaCard />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Box m={-1}>
-                      <MediaCard />
-                    </Box>
-                  </Grid>
+                  {games.map((game) => (
+                    <Grid item xs={3} key={game.id}>
+                      <Box m={-1}>
+                        <MediaCard
+                          imagePath={game.imagesPath.cover}
+                          title={game.title}
+                          description={game.description}
+                        />
+                      </Box>
+                    </Grid>
+                  ))}
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
+      
+      **/}
+      <div className={classes.carousel}>
+        <DemoCarousel cards={games.slice(0, 5)} />
+      </div>
+      {genres.length &&
+        genres.map((g: string) => (
+          <MediaCardsList key={g} title={g} cards={gamesGenre[g] || []} />
+        ))}
     </div>
   );
 }

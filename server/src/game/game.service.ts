@@ -100,10 +100,38 @@ export class GameService {
       releaseDate: new Date(newGame.released).toISOString(),
       imagesPath: { cover: newGame.background_image, screenshots },
       consoles: newGame.platforms.map((p) => p.platform.name),
-      ageRating: newGame.esrb_rating.name,
+      ageRating: newGame.esrb_rating ? newGame.esrb_rating.name : '',
       description: newGame.description_raw,
     };
     const response = await this.gameRepository.save(entity);
+    return response;
+  }
+
+  async getGamesForAllGenres() {
+    const res = await axios.get(
+      `${process.env.GAME_API_URL}/genres?key=${process.env.GAME_API_KEY}`,
+    );
+    const allGenreInfo = res.data.results;
+
+    const response = {};
+    for (const genre of allGenreInfo) {
+      const genreGames = [];
+      for (const game of genre.games) {
+        const oldGame = await this.gameRepository.findOne({
+          apiId: game.id,
+        });
+        if (oldGame) {
+          oldGame.dominantGenre = genre.name;
+          genreGames.push(oldGame);
+          continue;
+        }
+        const uploadedGame = await this.uploadOne(game.id);
+        uploadedGame.dominantGenre = genre.name;
+        await this.gameRepository.update(uploadedGame.id, uploadedGame);
+        genreGames.push(uploadedGame);
+      }
+      response[genre.name] = genreGames;
+    }
     return response;
   }
 

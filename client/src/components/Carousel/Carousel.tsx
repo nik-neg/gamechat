@@ -1,4 +1,12 @@
 import React from 'react';
+
+const Carousel = () => {
+  return <div>Carousel</div>;
+};
+
+export default Carousel;
+
+/* import React from 'react';
 console.clear();
 
 const slides = [
@@ -164,3 +172,4 @@ function Carousel() {
 }
 
 export default Carousel;
+ */
