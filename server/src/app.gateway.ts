@@ -11,14 +11,15 @@ import { Socket, Server } from 'socket.io';
 //3002, { transports: ['websocket'] }
 @WebSocketGateway()
 export class AppGateway
-  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
+{
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('AppGateway');
 
   @SubscribeMessage('msgToServer')
   handleMessage(client: Socket, payload: string): void {
     console.log('payload', payload);
-    this.server.emit('msgToClient', payload);
+    this.server.emit('msgToClient', 'From server!');
   }
 
   afterInit(server: Server) {
