@@ -20,6 +20,7 @@ export const login = createAsyncThunk(
   async (payload: { email: string; password: string }) => {
     console.log(`payload`, payload);
     const response = await authService.login(payload.email, payload.password);
+    localStorage.setItem('userId', response.id);
     return response;
   },
 );
@@ -37,23 +38,23 @@ const authSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(login.pending, (state, action) => {
+    builder.addCase(login.pending, (state) => {
       state.status = 'loading';
     }),
       builder.addCase(login.fulfilled, (state, action) => {
         return { ...action.payload, status: 'succeeded' };
       }),
-      builder.addCase(login.rejected, (state, action) => {
+      builder.addCase(login.rejected, (state) => {
         state.status = 'failed';
         //state.error = action.error.message;
       }),
-      builder.addCase(register.pending, (state, action) => {
+      builder.addCase(register.pending, (state) => {
         state.status = 'loading';
       }),
       builder.addCase(register.fulfilled, (state, action) => {
         return { ...action.payload, status: 'succeeded' };
       }),
-      builder.addCase(register.rejected, (state, action) => {
+      builder.addCase(register.rejected, (state) => {
         state.status = 'failed';
         //state.error = action.error.message;
       });

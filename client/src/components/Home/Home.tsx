@@ -56,53 +56,9 @@ export default function Home() {
     setGenres(genreCat);
     setGamesGenre(gamesGenre);
   };
-
+  //TODO : most talked about game
   return (
     <div className={`${style.root} ${classes.container}`}>
-      {/**
-      
-      <Grid
-        container
-        spacing={4}
-        direction="row"
-        justify="flex-start"
-        alignItems="flex-start"
-      >
-        <Grid item xs={8}>
-          <Grid item xs={12}>
-            <Grid
-              container
-              spacing={4}
-              direction="row"
-              justify="flex-start"
-              alignItems="flex-start"
-            >
-              <Grid item xs={8}>
-              </Grid>
-              <Grid item xs={8}>
-                {/ <CarouselWrapper /> /}
-              </Grid>
-              <Grid item xs={8}>
-                <Grid container spacing={3}>
-                  {games.map((game) => (
-                    <Grid item xs={3} key={game.id}>
-                      <Box m={-1}>
-                        <MediaCard
-                          imagePath={game.imagesPath.cover}
-                          title={game.title}
-                          description={game.description}
-                        />
-                      </Box>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-      
-      **/}
       <div className={classes.carousel}>
         <DemoCarousel cards={games.slice(0, 5)} />
       </div>

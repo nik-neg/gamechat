@@ -1,6 +1,8 @@
 import Message from '../interfaces/message';
 
 export const generateMessage = async (
+  userId: number,
+  roomId: string,
   text: string,
   language: string,
 ): Promise<Message | undefined> => {
@@ -19,7 +21,7 @@ export const generateMessage = async (
   };
   try {
     const res = await fetch(
-      `${process.env.REACT_APP_SERVER_BASE_URL}/message/1/gamechatroom/1/${language}`,
+      `${process.env.REACT_APP_SERVER_BASE_URL}/message/${userId}/gamechatroom/${roomId}/${language}`,
       option,
     );
     console.log(res);
@@ -31,13 +33,16 @@ export const generateMessage = async (
   }
 };
 
-export const translateAllMessages = async (): Promise<Message[] | []> => {
+export const translateAllMessages = async (
+  language: string,
+  roomId: string,
+): Promise<Message[] | []> => {
   const option = {
     method: 'PATCH',
   };
   try {
     const res = await fetch(
-      `${process.env.REACT_APP_SERVER_BASE_URL}/message/gamechatroom/1/all/FR`,
+      `${process.env.REACT_APP_SERVER_BASE_URL}/message/gamechatroom/${roomId}/all/${language}`,
       option,
     );
     const data: Message[] = await res.json();
@@ -62,10 +67,10 @@ export const fetchAllMessages = async () => {
   }
 };
 
-export const fetchAllMessagesFromChatRoom = async (id: string) => {
+export const fetchAllMessagesFromChatRoom = async (roomId: string) => {
   try {
     const res = await fetch(
-      `${process.env.REACT_APP_SERVER_BASE_URL}/messages/gamechatroom/${id}`,
+      `${process.env.REACT_APP_SERVER_BASE_URL}/messages/gamechatroom/${roomId}`,
     );
     const messages = await res.json();
     return messages;

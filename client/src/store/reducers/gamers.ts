@@ -44,7 +44,7 @@ const usersSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchGamers.pending, (state, action) => {
+    builder.addCase(fetchGamers.pending, (state) => {
       state.status = 'loading';
     }),
       builder.addCase(fetchGamers.fulfilled, (state, action) => {
@@ -54,11 +54,11 @@ const usersSlice = createSlice({
         state.ids = ids;
         state.entities = entities;
       }),
-      builder.addCase(fetchGamers.rejected, (state, action) => {
+      builder.addCase(fetchGamers.rejected, (state) => {
         state.status = 'failed';
         //state.error = action.error.message;
       }),
-      builder.addCase(fetchGamersFromChatRoom.pending, (state, action) => {
+      builder.addCase(fetchGamersFromChatRoom.pending, (state) => {
         state.status = 'loading';
       }),
       builder.addCase(fetchGamersFromChatRoom.fulfilled, (state, action) => {
@@ -68,7 +68,7 @@ const usersSlice = createSlice({
         state.ids = ids;
         state.entities = entities;
       }),
-      builder.addCase(fetchGamersFromChatRoom.rejected, (state, action) => {
+      builder.addCase(fetchGamersFromChatRoom.rejected, (state) => {
         state.status = 'failed';
         //state.error = action.error.message;
       });

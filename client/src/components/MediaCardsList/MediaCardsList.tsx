@@ -5,10 +5,28 @@ import MediaCard from '../MediaCard/MediaCard';
 
 import classes from './MediaCardsList.module.scss';
 import Game from '../../interfaces/game';
+import Spinner from '../Spinner/Spinner';
 
 const MediaCardsList = (props: any) => {
   const limitInput = (input: string) => {
     return input.length > 60 ? input.substring(0, 60) + '...' : input;
+  };
+
+  const displayCards = () => {
+    const cards = props.cards.lenght ? (
+      props.cards.map((card: Game) => (
+        <MediaCard
+          key={card.id}
+          imagePath={card.imagesPath.cover}
+          title={card.title}
+          description={limitInput(card.description)}
+          id={card.id} //TODO: change to id of game chat room
+        />
+      ))
+    ) : (
+      <Spinner />
+    );
+    return cards;
   };
 
   return (

@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     maxWidth: 345,
   },
   media: {
-    height: 140,
+    height: 240,
   },
 });
 
@@ -32,11 +32,7 @@ const MediaCard = ({ imagePath, title, description, id }: any): JSX.Element => {
   return (
     <Card className={classes.root} onClick={clickHandler}>
       <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={imagePath}
-          title="Contemplative Reptile"
-        />
+        <CardMedia className={classes.media} image={imagePath} title={title} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {title}
@@ -46,6 +42,8 @@ const MediaCard = ({ imagePath, title, description, id }: any): JSX.Element => {
           </Typography>
         </CardContent>
       </CardActionArea>
+      {/**
+       * 
       <CardActions>
         <Button size="small" color="primary">
           Share
@@ -54,6 +52,7 @@ const MediaCard = ({ imagePath, title, description, id }: any): JSX.Element => {
           Learn More
         </Button>
       </CardActions>
+       */}
     </Card>
   );
 };

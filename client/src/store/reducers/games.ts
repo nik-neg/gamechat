@@ -36,7 +36,7 @@ const gamesSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchGames.pending, (state, action) => {
+    builder.addCase(fetchGames.pending, (state) => {
       state.status = 'loading';
     }),
       builder.addCase(fetchGames.fulfilled, (state, action) => {
@@ -46,12 +46,11 @@ const gamesSlice = createSlice({
         state.ids = ids;
         state.entities = entities;
       }),
-      builder.addCase(fetchGames.rejected, (state, action) => {
+      builder.addCase(fetchGames.rejected, (state) => {
         state.status = 'failed';
         //state.error = action.error.message;
       });
   },
 });
 
-export const selectAllGamesIds = (state: any): string[] => state.games.ids;
 export default gamesSlice.reducer;

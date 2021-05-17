@@ -1,0 +1,21 @@
+@import '../../styles/utils/variables';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+}
+
+.title {
+}
+
+.items-list {
+  background-color: $colour-bcg;
+  color: $colour-font;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.items-list > div {
+  margin: 1rem !important;
+}
