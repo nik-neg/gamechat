@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import Layout from '../../hoc/Layout/Layout';
 
 import Login from '../Auth/Login/Login';
 import Game from '../Game/Game';
@@ -18,7 +19,7 @@ function App(): JSX.Element {
       <Redirect to="/" />
     </Switch>
   );
-  return <div className={classes.App}>{routes}</div>;
+  return <Layout>{routes}</Layout>;
 }
 
 export default App;

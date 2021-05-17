@@ -1,0 +1,13 @@
+@import '../../styles//utils//variables';
+
+.container {
+  display: flex !important;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.children {
+  flex-grow: 1;
+  background-color: $colour-bcg;
+  padding: 2rem 1rem;
+}
