@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import {
   Avatar,
   Button,
@@ -21,7 +21,30 @@ import {
 import classes from './Game.module.scss';
 // import Message from '../../interfaces/message';
 
+import io from 'socket.io-client';
+
+const url = process.env.REACT_APP_SERVER_BASE_URL ?? '';
+
 export function Game(): JSX.Element {
+  //   useEffect(() => {
+  //     const socket = io(url);
+  //     console.log(socket);
+
+  //     socket.on('connect', () => {
+  //       console.log('Connected!');
+  //       socket.emit('gamechat', 'client data');
+  //     });
+
+  //     socket.on('gamechat', (msg) => {
+  //       console.log(msg);
+  //     });
+
+  //     // socket.on('msgToServer', function (msgToServer: any) {
+  //     //   console.log('Connection to server established. SocketID is', msgToServer);
+  //     //   socket.emit('msgToClient', JSON.stringify('client data'));
+  //     // });
+  //   }, []);
+
   const [input, setInput] = useState('');
   const [gamer, setGamer] = useState({
     firstName: 'FirstName',
@@ -35,19 +58,42 @@ export function Game(): JSX.Element {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const gM = await generateMessage(input, 'FR'); // gamer.language doesnt work
-    let translatedInput = '';
+    const gM = await generateMessage(input, 'FR'); // for databse update and api call
+    let translatedInputUser = '';
     if (gM) {
       setGamer(gM.gamer);
       console.log('if', gM);
-      translatedInput = gM.translatedContent['FR']; //await translateAllMessages();
+      translatedInputUser = gM.translatedContent['FR'];
     }
-    console.log('game.txs file', translatedInput);
+
+    // sockets send to update the chat room
+    let translatedInputOtherUser = '';
+    const socket = io(url);
+    await socket.on('connect', () => {
+      console.log('Connected!');
+      socket.emit(`gamechat`, translatedInputUser);
+      // socket.broadcast.send('gamechat', translatedInput);
+    });
+    // sockets receive
+    await socket.on('gamechat', (msg) => {
+      console.log('new from other user', translatedInputUser);
+      translatedInputOtherUser = msg;
+      setInput('');
+      if (translatedInputUser !== translatedInputOtherUser) {
+        addMessage({
+          id: 1,
+          content: translatedInputOtherUser,
+          date: new Date().toISOString(),
+        });
+      }
+    });
+
+    console.log('game.txs file', translatedInputUser);
     setInput('');
-    if (translatedInput) {
+    if (translatedInputUser) {
       addMessage({
         id: 1,
-        content: translatedInput,
+        content: translatedInputUser,
         date: new Date().toISOString(),
       });
     }
