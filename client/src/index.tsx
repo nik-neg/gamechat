@@ -1,19 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import * as dotenv from 'dotenv';
-// import './styles/index.scss';
-import App from './components/App/App';
-import Home from './components/Home/Home';
+import './index.css';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
-
-dotenv.config({ path: __dirname + '/.env' });
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Home />
-    </BrowserRouter>
+    <App />
   </React.StrictMode>,
   document.getElementById('root'),
 );
