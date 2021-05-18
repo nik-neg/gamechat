@@ -14,13 +14,12 @@ const DemoCarousel = ({ cards }: any) => {
     <Carousel showStatus={false}>
       {cards.map((card: Game) => (
         <div key={card.id} className={classes.image__container}>
+          <h2 className={classes.legend}>{card.title}</h2>
           <img
             src={card.imagesPath.cover}
             className={classes.image}
             alt={card.title}
           />
-
-          <h2 className={classes.legend}>{card.title}</h2>
         </div>
       ))}
     </Carousel>
