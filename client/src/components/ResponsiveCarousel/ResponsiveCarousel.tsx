@@ -11,7 +11,12 @@ const DemoCarousel = ({ cards }: any) => {
   const tag = document.querySelector('.carousel-status');
   if (tag) tag.textContent = '';
   return (
-    <Carousel showStatus={false}>
+    <Carousel
+      showStatus={false}
+      autoPlay={true}
+      interval={3000}
+      infiniteLoop={true}
+    >
       {cards.map((card: Game) => (
         <div key={card.id} className={classes.image__container}>
           <h2 className={classes.legend}>{card.title}</h2>
