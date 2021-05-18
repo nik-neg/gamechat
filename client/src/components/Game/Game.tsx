@@ -274,11 +274,11 @@ export function GameChat({ match }: any): JSX.Element {
               <div className={classes.topic__main}>
                 <div className={classes.topic__item} onClick={topicHandler}>
                   <h3>Discussion</h3>
-                  <span>0</span>
+                  <span>23</span>
                 </div>
                 <div className={classes.topic__item} onClick={topicHandler}>
                   <h3>Question</h3>
-                  <span>0</span>
+                  <span>8</span>
                 </div>
               </div>
             </div>
