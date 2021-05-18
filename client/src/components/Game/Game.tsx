@@ -1,4 +1,10 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   Avatar,
@@ -13,7 +19,6 @@ import {
 } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import moment from 'moment';
-import io from 'socket.io-client';
 
 import {
   fetchAllMessagesFromChatRoom,
@@ -31,7 +36,10 @@ import { getDefaultWatermarks } from 'istanbul-lib-report';
 import Spinner from '../Spinner/Spinner';
 // import Message from '../../interfaces/message';
 
-const url = process.env.REACT_APP_SERVER_BASE_URL ?? '';
+import { socket } from '../../services/socket.service';
+import { fetchOneGamerById } from '../../store/reducers/auth';
+
+//const url = process.env.REACT_APP_SERVER_BASE_URL ?? '';
 
 export function GameChat({ match }: any): JSX.Element {
   const initialGameInfo: Game = {
@@ -49,11 +57,16 @@ export function GameChat({ match }: any): JSX.Element {
   };
   const [gameInfo, setGameInfo] = useState(initialGameInfo);
   const [input, setInput] = useState('');
+  const [translatedInputState, setTranslatedInput] = useState('');
 
   const { roomId } = match.params;
 
   const gameReducer = useAppSelector((state) => state.games);
   const gamer = useAppSelector((state) => state.auth);
+  const [messages, setMessages] = useState([
+    { id: 0, content: '', date: new Date().toISOString() },
+  ]);
+
   const info = gameReducer.entities[roomId];
 
   const dispatch = useAppDispatch();
@@ -67,28 +80,71 @@ export function GameChat({ match }: any): JSX.Element {
     setGameInfo(info);
   }, [dispatch]);
 
-  const [messages, setMessages] = useState([
-    { id: 0, content: '', date: new Date().toISOString() },
-  ]);
+  useEffect(() => {
+    const userId = localStorage.getItem('userId');
+    if (userId) dispatch(fetchOneGamerById(userId));
+  }, []);
 
   useEffect(() => {
-    console.log(url);
-    const socket = io(url);
-    console.log(socket);
+    console.log('socket', socket);
 
-    socket.on('connect', () => {
-      console.log('Connected!');
-      socket.emit('msgToServer', 'client data');
-    });
+    // socket.on('connect', () => {
+    //   console.log('Connected!');
+    //   socket.emit('gamechat', 'client data');
+    // });
 
-    socket.on('msgToClient', (msg) => {
+    socket.on('gamechat', (msg) => {
       console.log(msg);
+      addMessage({
+        id: 1,
+        content: msg,
+        date: new Date().toISOString(),
+      });
     });
 
     // socket.on('msgToServer', function (msgToServer: any) {
     //   console.log('Connection to server established. SocketID is', msgToServer);
     //   socket.emit('msgToClient', JSON.stringify('client data'));
     // });
+
+    //sockets send to update the chat room
+    //let translatedInputUser = 'hello';
+    //let translatedInputOtherUser = '';
+    //socket.on('connect', () => {
+    //  console.log('Connected!');
+    //  socket.emit(`gamechat`, translatedInputUser);
+    //  // socket.broadcast.send('gamechat', translatedInput);
+    //});
+    //// sockets receive
+    //socket.on('gamechat', (msg) => {
+    //  console.log('new from other user', translatedInputUser);
+    //  translatedInputOtherUser = msg;
+    //  setInput('');
+    //  console.log(
+    //    translatedInputUser,
+    //    translatedInputOtherUser,
+    //    translatedInputUser !== translatedInputOtherUser,
+    //  );
+    //  if (translatedInputUser !== translatedInputOtherUser) {
+    //    // check messages
+    //    console.log(
+    //      translatedInputUser,
+    //      translatedInputOtherUser,
+    //      translatedInputUser !== translatedInputOtherUser,
+    //    );
+    //    addMessage({
+    //      id: 1,
+    //      content: translatedInputOtherUser,
+    //      date: new Date().toISOString(),
+    //    });
+    //    translatedInputUser = '';
+    //    translatedInputOtherUser = '';
+    //  }
+    //});
+  }, [translatedInputState]);
+
+  const emmitMessage = useCallback(() => {
+    socket.emit('gamechat', translatedInputState);
   }, []);
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
@@ -104,7 +160,10 @@ export function GameChat({ match }: any): JSX.Element {
     console.log('game.txs file', translatedInput);
     setInput('');
     if (translatedInput) {
+      setTranslatedInput(translatedInput);
       console.log('object');
+      emmitMessage();
+      //      socket.emit(`gamechat`, translatedInput);
       addMessage({
         id: 1,
         content: translatedInput,

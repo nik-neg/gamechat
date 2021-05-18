@@ -9,12 +9,11 @@ import CarouselWrapper from '../CarouselWrapper/CarouselWrapper';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 // import { io } from 'socket.io-client';
 import classes from './Home.module.scss';
-import Wrapper from '../Vue/Wrapper';
 
 const url = process.env.REACT_APP_SERVER_BASE_URL ?? '';
 
 import DemoCarousel from '../ResponsiveCarousel/ResponsiveCarousel';
-import { fetchGames } from '../../store/reducers/games';
+import { getAllGames } from '../../store/reducers/games';
 import Game from '../../interfaces/game';
 import MediaCardsList from '../MediaCardsList/MediaCardsList';
 import { fetchGamesByGenre } from '../../services/game.service';
@@ -30,12 +29,6 @@ const useStyles = makeStyles((theme: any) => ({
   },
 }));
 
-const styles = {
-  root: {
-    paddingLeft: '150px',
-  },
-};
-
 export default function Home() {
   const style = useStyles();
 
@@ -50,8 +43,7 @@ export default function Home() {
   const games: Game[] = gameReducer.ids.map((id) => gameReducer.entities[id]);
 
   useEffect(() => {
-    dispatch(fetchGames());
-    fetchGenres();
+    fetchGenres(); // ?
   }, []);
 
   const fetchGenres = async () => {
@@ -59,8 +51,12 @@ export default function Home() {
     const genreCat: string[] = Object.keys(gamesGenre);
     setGenres(genreCat);
     setGamesGenre(gamesGenre);
+    const gamesArr: Game[] = Object.values(gamesGenre);
+    const gamesArrFlattened: Game[] = gamesArr.flat();
+
+    if (genreCat.length) dispatch(getAllGames(gamesArrFlattened)); // [Redux]
   };
-  //TODO : most talked about game
+  //TODO : most talked about game for the carousel
   return (
     <div className={`${style.root} ${classes.container}`}>
       <div className={classes.carousel}>

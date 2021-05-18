@@ -5,6 +5,7 @@ import { CreateGamechatroomDto } from './dto/create-gamechatroom.dto';
 import { UpdateGamechatroomDto } from './dto/update-gamechatroom.dto';
 import { Gamechatroom } from './entities/gamechatroom.entity';
 import { Gamer } from '../gamer/entities/gamer.entity';
+import { Game } from '../game/entities/game.entity';
 
 @Injectable()
 export class GamechatroomService {
@@ -13,6 +14,8 @@ export class GamechatroomService {
     private readonly gameChatRoomRepository: Repository<Gamechatroom>,
     @InjectRepository(Gamer)
     private readonly gamerRepository: Repository<Gamer>,
+    @InjectRepository(Game)
+    private readonly gameRepository: Repository<Game>,
   ) {}
   async create(createGamechatroomDto: CreateGamechatroomDto, gamerId) {
     let gameChatRoom = new Gamechatroom();
@@ -25,6 +28,22 @@ export class GamechatroomService {
       console.log(err);
     }
   }
+
+  async makeGameChatRoomForAllGames() {
+    const games = await this.gameRepository.find({});
+    const chatRooms = [];
+    for (const game of games) {
+      const gameChatRoom = new Gamechatroom();
+      gameChatRoom.notificationAllowed = true;
+      gameChatRoom.isPrivate = false;
+      gameChatRoom.messagesCount = 0;
+      gameChatRoom.game = game;
+      const chatRoom = await this.gameChatRoomRepository.save(gameChatRoom);
+      chatRooms.push(chatRoom);
+    }
+    return chatRooms;
+  }
+
   async joinGameChatRoom(gameChatRoomId: number, gamerId: number) {
     const gameChatRoom = await this.gameChatRoomRepository.findOne({
       id: gameChatRoomId,

@@ -15,6 +15,11 @@ import { UpdateGamechatroomDto } from './dto/update-gamechatroom.dto';
 export class GamechatroomController {
   constructor(private readonly gamechatroomService: GamechatroomService) {}
 
+  @Get('makeAll')
+  makeGameChatRoomForAllGames() {
+    return this.gamechatroomService.makeGameChatRoomForAllGames();
+  }
+
   @Post(':id')
   create(
     @Body() createGamechatroomDto: CreateGamechatroomDto,

@@ -8,17 +8,24 @@ import {
 } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
-//3002, { transports: ['websocket'] }
+
+import { MessageService } from './message/message.service';
 @WebSocketGateway()
 export class AppGateway
-  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
+{
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('AppGateway');
 
-  @SubscribeMessage('msgToServer')
+  @SubscribeMessage('gamechat')
   handleMessage(client: Socket, payload: string): void {
     console.log('payload', payload);
-    this.server.emit('msgToClient', 'From server!');
+    // import translate service
+    // const translatedContent = MessageService.createWithSockets(payload);
+    // this.server.emit('gamechat', `From server!: ${payload}`);
+    // this.server.sockets.send(payload);
+    console.log(this.server.clients);
+    this.server.sockets.emit('gamechat', `${payload}`);
   }
 
   afterInit(server: Server) {

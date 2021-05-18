@@ -7,8 +7,6 @@ import Game from '../Game/Game';
 import Home from '../Home/Home';
 import Profile from '../Profile/Profile';
 
-import classes from './App.module.scss';
-
 function App(): JSX.Element {
   const routes = (
     <Switch>

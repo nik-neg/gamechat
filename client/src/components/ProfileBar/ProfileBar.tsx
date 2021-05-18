@@ -28,7 +28,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
-import NavBar from '../NavBar/NavBar';
+import localStyle from './ProfileBar.module.scss';
 
 const drawerWidth = 240;
 
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    //padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -254,7 +254,7 @@ export default function PersistentDrawerLeft() {
       <CssBaseline />
       <AppBar
         position="fixed"
-        className={clsx(classes.appBar, {
+        className={clsx(classes.appBar, localStyle.header, {
           [classes.appBarShift]: open,
         })}
       >
@@ -324,12 +324,13 @@ export default function PersistentDrawerLeft() {
         </Toolbar>
       </AppBar>
       <Drawer
-        className={classes.drawer}
+        className={`${classes.drawer} ${localStyle.drawer}`}
         variant="persistent"
         anchor="left"
         open={open}
         classes={{
           paper: classes.drawerPaper,
+          root: localStyle.drawer,
         }}
       >
         <div className={classes.drawerHeader}>

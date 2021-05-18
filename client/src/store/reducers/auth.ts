@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Gamer from '../../interfaces/gamer';
 import * as authService from '../../services/auth.service';
+import { fetchGamerById } from '../../services/gamer.service';
 
 interface authReducerType extends Gamer {
   status: string;
@@ -33,6 +34,14 @@ export const register = createAsyncThunk(
   },
 );
 
+export const fetchOneGamerById = createAsyncThunk(
+  'gamers/fetchGamerById',
+  async (userId: string) => {
+    const response = await fetchGamerById(userId);
+    return response;
+  },
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -57,8 +66,18 @@ const authSlice = createSlice({
       builder.addCase(register.rejected, (state) => {
         state.status = 'failed';
         //state.error = action.error.message;
+      }),
+      builder.addCase(fetchOneGamerById.pending, (state) => {
+        state.status = 'loading';
+      }),
+      builder.addCase(fetchOneGamerById.fulfilled, (state, action) => {
+        // Add any fetched posts to the array
+        return { ...action.payload, status: 'succeeded' };
+      }),
+      builder.addCase(fetchOneGamerById.rejected, (state) => {
+        state.status = 'failed';
+        //state.error = action.error.message;
       });
   },
 });
-
 export default authSlice.reducer;

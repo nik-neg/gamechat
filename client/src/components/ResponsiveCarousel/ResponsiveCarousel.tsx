@@ -8,9 +8,10 @@ import Game from '../../interfaces/game';
 import classes from './ResponsiveCarousel.module.scss';
 
 const DemoCarousel = ({ cards }: any) => {
+  const tag = document.querySelector('.carousel-status');
+  if (tag) tag.textContent = '';
   return (
-    // styles={{ paddingLeft: '150px' }}
-    <Carousel>
+    <Carousel showStatus={false}>
       {cards.map((card: Game) => (
         <div key={card.id} className={classes.image__container}>
           <img

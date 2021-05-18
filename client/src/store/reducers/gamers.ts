@@ -3,6 +3,7 @@ import Gamer from '../../interfaces/gamer';
 import {
   fetchAllGamers,
   fetchAllGamersFromChatRoom,
+  fetchGamerById,
 } from '../../services/gamer.service';
 
 const initialState: {

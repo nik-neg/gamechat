@@ -18,9 +18,15 @@ const initialState: {
 };
 
 export const fetchGames = createAsyncThunk('games/fetchGames', async () => {
-  const response = await fetchAllGamesFromAPI();
+  const response = await fetchAllGamesFromDB();
   return response;
 });
+
+//fetchAllGamesFromDB
+//export const fetchGames = createAsyncThunk('games/fetchGames', async () => {
+//  const response = await fetchAllGamesFromAPI();
+//  return response;
+//});
 
 const normalizationState = (arr: Game[]) => {
   const ids: number[] = arr.map((game) => game.id);
@@ -34,7 +40,13 @@ const normalizationState = (arr: Game[]) => {
 const gamesSlice = createSlice({
   name: 'games',
   initialState,
-  reducers: {},
+  reducers: {
+    getAllGames: (state, action) => {
+      const { ids, entities } = normalizationState(action.payload);
+      state.ids = ids;
+      state.entities = entities;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchGames.pending, (state) => {
       state.status = 'loading';
@@ -53,4 +65,5 @@ const gamesSlice = createSlice({
   },
 });
 
+export const { getAllGames } = gamesSlice.actions;
 export default gamesSlice.reducer;
