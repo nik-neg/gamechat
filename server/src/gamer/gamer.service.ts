@@ -48,13 +48,6 @@ export class GamerService {
   }
 
   async findAllInChatRoom(gameChatRoomId: number) {
-    // return await getManager()
-    //   .createQueryBuilder()
-    //   .select('gamer')
-    //   .from(Gamer, 'gamer')
-    //   .where('gamer.gameChatRoom.id = :id', { id: gameChatRoomId })
-    //   .getMany();
-
     return await this.gamerRepository.find({
       relations: ['gameChatRoom'],
       where: { id: gameChatRoomId },

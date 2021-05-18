@@ -87,6 +87,7 @@ export class GameService {
     const newGame = res.data;
 
     if (!newGame) throw new NotFoundException('The newGame does not exist');
+    const createdGame = new Game();
     const entity = {
       apiId,
       title: newGame.name_original || newGame.name,
@@ -103,7 +104,8 @@ export class GameService {
       ageRating: newGame.esrb_rating ? newGame.esrb_rating.name : '',
       description: newGame.description_raw,
     };
-    const response = await this.gameRepository.save(entity);
+    Object.assign(createdGame, entity);
+    const response = await this.gameRepository.save(createdGame);
     return response;
   }
 
