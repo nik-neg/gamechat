@@ -10,6 +10,7 @@ import { UpdateGamerDto } from './dto/update-gamer.dto';
 import { Gamer } from './entities/gamer.entity';
 import * as bcrypt from 'bcrypt';
 import { getManager } from 'typeorm';
+import axios from 'axios';
 
 @Injectable()
 export class GamerService {
@@ -37,7 +38,8 @@ export class GamerService {
     gamer.language = createGamerDto.language;
     try {
       const response = await this.gamerRepository.save(gamer);
-      return response;
+      const { password, ...rest } = response;
+      return { ...rest };
     } catch (err) {
       console.log(err);
     }
@@ -72,7 +74,27 @@ export class GamerService {
     const gamer = await this.gamerRepository.findOne({ email });
     const isMatch = await bcrypt.compare(password, gamer.password);
     if (!gamer || !isMatch) throw new NotFoundException('Invalid credentials');
-    return gamer;
+    const { password: ps, ...rest } = gamer;
+    return { ...rest };
+  }
+
+  async fetchAllSupportedLanguage() {
+    const option = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    };
+    try {
+      let url = `https://api-free.deepl.com/v2/languages?auth_key=${process.env.DEEPL_API_KEY}`;
+      url = encodeURI(url);
+      const res = await axios.post(url, option);
+      const languages = res.data;
+      return languages;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
   }
 
   async update(id, updateGamerDto: UpdateGamerDto) {

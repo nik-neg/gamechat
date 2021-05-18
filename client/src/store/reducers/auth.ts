@@ -30,14 +30,15 @@ export const register = createAsyncThunk(
   'auth/register',
   async (payload: Gamer) => {
     const response = await authService.register(payload);
+    localStorage.setItem('userId', response.id);
     return response;
   },
 );
 
 export const fetchOneGamerById = createAsyncThunk(
   'gamers/fetchGamerById',
-  async (userId: string) => {
-    const response = await fetchGamerById(userId);
+  async (payload: string) => {
+    const response = await fetchGamerById(payload);
     return response;
   },
 );
@@ -67,14 +68,14 @@ const authSlice = createSlice({
         state.status = 'failed';
         //state.error = action.error.message;
       }),
-      builder.addCase(fetchOneGamerById.pending, (state) => {
+      builder.addCase(fetchOneGamerById.pending, (state, action) => {
         state.status = 'loading';
       }),
       builder.addCase(fetchOneGamerById.fulfilled, (state, action) => {
         // Add any fetched posts to the array
         return { ...action.payload, status: 'succeeded' };
       }),
-      builder.addCase(fetchOneGamerById.rejected, (state) => {
+      builder.addCase(fetchOneGamerById.rejected, (state, action) => {
         state.status = 'failed';
         //state.error = action.error.message;
       });

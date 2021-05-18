@@ -45,6 +45,11 @@ export class GamerController {
     return this.gamerService.update(+id, updateGamerDto);
   }
 
+  @Post('/languages')
+  fetchAllSupportedLanguage() {
+    return this.gamerService.fetchAllSupportedLanguage();
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.gamerService.remove(+id);

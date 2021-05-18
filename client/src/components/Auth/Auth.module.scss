@@ -1,8 +1,5 @@
-@import '../../../styles/utils/variables';
+@import '../../styles/utils/variables';
 
-.btn {
-  font-size: medium;
-}
 .container {
   padding: 1rem;
   background-color: $colour-bcg;
@@ -77,6 +74,11 @@
   }
 }
 
+.field__container {
+  margin: 1rem 0;
+  width: 100%;
+}
+
 .btn {
   margin-top: 2rem;
   width: fit-content;
@@ -86,9 +88,36 @@
   background-color: $colour-bcg;
   color: $colour-font;
   text-transform: uppercase;
+  font-size: medium;
 }
 
 .btn:hover {
   cursor: pointer;
+  background-color: $primary-colour-base;
+}
+
+.error {
+  color: red;
+  padding: 1rem;
+  font-weight: 600;
+}
+
+.links-container {
+  display: flex;
+  justify-content: center;
+  z-index: 5;
+}
+
+.link {
+  margin: 1rem;
+  background-color: $colour-font;
+  color: $colour-bcg;
+  padding: 1rem;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.link:hover {
   background-color: $primary-colour-base;
 }

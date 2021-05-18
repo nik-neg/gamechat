@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import classes from './Login.module.scss';
+import classes from '../Auth.module.scss';
 import { ReactComponent as ControllerPS1 } from '../../../images/controller-playstation-01.svg';
 import { ReactComponent as ControllerPS2 } from '../../../images/controller-playstation-02.svg';
 import { ReactComponent as ControllerPS3 } from '../../../images/controller-playstation-03.svg';
@@ -9,6 +9,7 @@ import { useAppDispatch } from '../../../hooks/redux';
 import { login } from '../../../store/reducers/auth';
 import { useHistory } from 'react-router';
 import { TextField } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const Login = (): JSX.Element => {
   const initialUser: { email: string; password: string } = {
@@ -65,6 +66,9 @@ const Login = (): JSX.Element => {
           <button className={classes.btn} type="submit">
             Login
           </button>
+          <Link className={classes.link} to="register">
+            Go to Register
+          </Link>
         </form>
       </div>
     </div>
