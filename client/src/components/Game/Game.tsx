@@ -26,24 +26,12 @@ import io from 'socket.io-client';
 const url = process.env.REACT_APP_SERVER_BASE_URL ?? '';
 
 export function Game(): JSX.Element {
-  // let socket;
-  // useEffect(() => {
-  //   socket = io(url);
-  // }, []);
-
   const [socket, setSocket] = useState(io(url));
 
-  const [translatedInput, setTranslatedInput] = useState('');
   useEffect(() => {
     // listener
     let translatedInputOtherUser = '';
     socket.on('gamechat', (msg) => {
-      console.log(
-        'new from other user',
-        translatedInputOtherUser,
-        'send message from this user',
-        translatedInput,
-      );
       translatedInputOtherUser = msg;
       setInput('');
       addMessage({
@@ -52,7 +40,10 @@ export function Game(): JSX.Element {
         date: new Date().toISOString(),
       });
     });
-  }, [translatedInput]); // param not necc?
+    // return () => {
+    //   socket.disconnect();
+    // };
+  }, []);
 
   const [input, setInput] = useState('');
   const [gamer, setGamer] = useState({
@@ -74,35 +65,7 @@ export function Game(): JSX.Element {
       console.log('if', gM);
       translatedInputUser = gM.translatedContent['FR'];
     }
-
-    // await this.socket.on('connect', () => {
-    //   console.log('Connected!');
-    //   this.socket.emit(`gamechat`, translatedInputUser);
-    //   // socket.broadcast.send('gamechat', translatedInput);
-    // });
     socket.emit(`gamechat`, translatedInputUser);
-
-    // setTranslatedInput(translatedInputUser);
-
-    // // sockets send to update the chat room
-    // let translatedInputOtherUser = '';
-
-    // await socket.on('connect', () => {
-    //   console.log('Connected!');
-    //   socket.emit(`gamechat`, translatedInputUser);
-    //   // socket.broadcast.send('gamechat', translatedInput);
-    // });
-    // sockets receive
-
-    // console.log('game.txs file', translatedInputUser);
-    // setInput('');
-    // if (translatedInputUser) {
-    //   addMessage({
-    //     id: 1,
-    //     content: translatedInputUser,
-    //     date: new Date().toISOString(),
-    //   });
-    // }
   };
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
