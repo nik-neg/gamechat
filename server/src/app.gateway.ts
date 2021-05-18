@@ -24,6 +24,7 @@ export class AppGateway
     // const translatedContent = MessageService.createWithSockets(payload);
     // this.server.emit('gamechat', `From server!: ${payload}`);
         // this.server.sockets.send(payload);
+    console.log(this.server.clients);
     this.server.sockets.emit('gamechat', `${payload}`);
   }
 
