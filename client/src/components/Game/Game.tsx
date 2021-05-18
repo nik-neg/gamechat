@@ -1,11 +1,5 @@
-import React, {
-  ChangeEvent,
-  FormEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
-import PropTypes from 'prop-types';
+import React, { ChangeEvent, FormEvent, useState, useEffect } from 'react';
+import io from 'socket.io-client';
 import {
   Avatar,
   Button,
@@ -19,6 +13,8 @@ import {
 } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import moment from 'moment';
+
+import PropTypes from 'prop-types';
 
 import {
   fetchAllMessagesFromChatRoom,
@@ -36,10 +32,28 @@ import { getDefaultWatermarks } from 'istanbul-lib-report';
 import Spinner from '../Spinner/Spinner';
 // import Message from '../../interfaces/message';
 
-import { socket } from '../../services/socket.service';
+// import { socket } from '../../services/socket.service';
 import { fetchOneGamerById } from '../../store/reducers/auth';
 
 //const url = process.env.REACT_APP_SERVER_BASE_URL ?? '';
+
+// export function GameChat({ match }: any): JSX.Element {
+//   const initialGameInfo: Game = {
+//     id: 0,
+//     apiId: 0,
+//     title: '',
+//     genreList: [{ id: '', name: '' }],
+//     dominantGenre: { id: '', name: '' },
+//     releaseDate: '',
+//     imagesPath: { cover: '', screenshots: [''] },
+//     consoles: [],
+//     ageRating: '',
+//     description: '',
+//     gameChatRoom: [0],
+//   };
+//   const [gameInfo, setGameInfo] = useState(initialGameInfo);
+
+const url = process.env.REACT_APP_SERVER_BASE_URL ?? '';
 
 export function GameChat({ match }: any): JSX.Element {
   const initialGameInfo: Game = {
@@ -56,8 +70,27 @@ export function GameChat({ match }: any): JSX.Element {
     gameChatRoom: [0],
   };
   const [gameInfo, setGameInfo] = useState(initialGameInfo);
+
+  const [socket, setSocket] = useState(io(url));
+
+  useEffect(() => {
+    // listener
+    let translatedInputOtherUser = '';
+    socket.on('gamechat', (msg) => {
+      translatedInputOtherUser = msg;
+      setInput('');
+      addMessage({
+        id: 1,
+        content: translatedInputOtherUser,
+        date: new Date().toISOString(),
+      });
+    });
+    // return () => {
+    //   socket.disconnect();
+    // };
+  }, []);
+
   const [input, setInput] = useState('');
-  const [translatedInputState, setTranslatedInput] = useState('');
 
   const { roomId } = match.params;
 
@@ -85,91 +118,31 @@ export function GameChat({ match }: any): JSX.Element {
     if (userId) dispatch(fetchOneGamerById(userId));
   }, []);
 
-  useEffect(() => {
-    console.log('socket', socket);
-
-    // socket.on('connect', () => {
-    //   console.log('Connected!');
-    //   socket.emit('gamechat', 'client data');
-    // });
-
-    socket.on('gamechat', (msg) => {
-      console.log(msg);
-      addMessage({
-        id: 1,
-        content: msg,
-        date: new Date().toISOString(),
-      });
-    });
-
-    // socket.on('msgToServer', function (msgToServer: any) {
-    //   console.log('Connection to server established. SocketID is', msgToServer);
-    //   socket.emit('msgToClient', JSON.stringify('client data'));
-    // });
-
-    //sockets send to update the chat room
-    //let translatedInputUser = 'hello';
-    //let translatedInputOtherUser = '';
-    //socket.on('connect', () => {
-    //  console.log('Connected!');
-    //  socket.emit(`gamechat`, translatedInputUser);
-    //  // socket.broadcast.send('gamechat', translatedInput);
-    //});
-    //// sockets receive
-    //socket.on('gamechat', (msg) => {
-    //  console.log('new from other user', translatedInputUser);
-    //  translatedInputOtherUser = msg;
-    //  setInput('');
-    //  console.log(
-    //    translatedInputUser,
-    //    translatedInputOtherUser,
-    //    translatedInputUser !== translatedInputOtherUser,
-    //  );
-    //  if (translatedInputUser !== translatedInputOtherUser) {
-    //    // check messages
-    //    console.log(
-    //      translatedInputUser,
-    //      translatedInputOtherUser,
-    //      translatedInputUser !== translatedInputOtherUser,
-    //    );
-    //    addMessage({
-    //      id: 1,
-    //      content: translatedInputOtherUser,
-    //      date: new Date().toISOString(),
-    //    });
-    //    translatedInputUser = '';
-    //    translatedInputOtherUser = '';
-    //  }
-    //});
-  }, [translatedInputState]);
-
-  const emmitMessage = useCallback(() => {
-    socket.emit('gamechat', translatedInputState);
-  }, []);
-
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const userId = localStorage.getItem('userId') || '0';
     console.log('gamer.language :>> ', gamer.language);
     const gM = await generateMessage(+userId, '1', input, gamer.language); // gamer.language doesnt work
-    let translatedInput = '';
+    let translatedInputUser = '';
     if (gM) {
       console.log('if', gM);
-      translatedInput = gM.translatedContent[gamer.language]; //await translateAllMessages();
+      translatedInputUser = gM.translatedContent[gamer.language]; //await translateAllMessages();
     }
-    console.log('game.txs file', translatedInput);
-    setInput('');
-    if (translatedInput) {
-      setTranslatedInput(translatedInput);
-      console.log('object');
-      emmitMessage();
-      //      socket.emit(`gamechat`, translatedInput);
-      addMessage({
-        id: 1,
-        content: translatedInput,
-        date: new Date().toISOString(),
-      });
-    }
+    // console.log('game.txs file', translatedInput);
+    // setInput('');
+    // if (translatedInput) {
+    //   setTranslatedInput(translatedInput);
+    //   console.log('object');
+    //   emmitMessage();
+    //   //      socket.emit(`gamechat`, translatedInput);
+    //   addMessage({
+    //     id: 1,
+    //     content: translatedInput,
+    //     date: new Date().toISOString(),
+    //   });
+    //   translatedInputUser = gM.translatedContent['FR'];
+    // }
+    socket.emit(`gamechat`, translatedInputUser);
   };
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
