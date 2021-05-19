@@ -43,7 +43,7 @@ const MediaCard = ({ imagePath, title, description, id }: any): JSX.Element => {
         </CardContent>
       </CardActionArea>
       {/**
-       * 
+       *
       <CardActions>
         <Button size="small" color="primary">
           Share

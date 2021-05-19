@@ -69,7 +69,11 @@ export default function Home() {
       )}
       {genres.length ? (
         genres.map((g: string) => (
-          <MediaCardsList key={g} title={g} cards={gamesGenre[g] || []} />
+          <MediaCardsList
+            key={g}
+            title={g}
+            cards={gamesGenre[g] ? gamesGenre[g].slice(0, 5) : []}
+          />
         ))
       ) : (
         <Spinner />

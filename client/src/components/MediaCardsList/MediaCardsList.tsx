@@ -12,28 +12,11 @@ const MediaCardsList = (props: any): JSX.Element => {
     return input.length > 60 ? input.substring(0, 60) + '...' : input;
   };
 
-  const displayCards = () => {
-    const cards = props.cards.lenght ? (
-      props.cards.map((card: Game) => (
-        <MediaCard
-          key={card.id}
-          imagePath={card.imagesPath.cover}
-          title={card.title}
-          description={limitInput(card.description)}
-          id={card.id} //TODO: change to id of game chat room
-        />
-      ))
-    ) : (
-      <Spinner />
-    );
-    return cards;
-  };
-
   return (
     <div className={classes.container}>
       <h2 className={classes.title}>{props.title}</h2>
       <div className={classes['items-list']}>
-        {props.cards.map((card: Game) => (
+        {props.cards.map((card: any) => (
           <MediaCard
             key={card.id}
             imagePath={card.imagesPath.cover}

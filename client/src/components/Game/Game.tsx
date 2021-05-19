@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import moment from 'moment';
-
+import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
 import {
@@ -42,7 +42,7 @@ export function GameChat({ match }: any): JSX.Element {
   const gameReducer = useAppSelector((state) => state.games);
   const gamer = useAppSelector((state) => state.auth);
   const [messages, setMessages] = useState([
-    { id: 0, content: '', date: new Date().toISOString() },
+    { id: 0, content: '', date: new Date().toISOString(), liked: false },
   ]);
 
   const { roomId } = match.params;
@@ -60,6 +60,7 @@ export function GameChat({ match }: any): JSX.Element {
         id: 1,
         content: translatedInputOtherUser,
         date: new Date().toISOString(),
+        liked: false,
       });
     });
     // return () => {
@@ -109,6 +110,7 @@ export function GameChat({ match }: any): JSX.Element {
           ...m,
           content: m.translatedContent[gamer.language],
           date: m.updatedAt,
+          liked: false,
         })),
       );
   };
@@ -147,9 +149,15 @@ export function GameChat({ match }: any): JSX.Element {
     id: number;
     content: string;
     date: string;
+    liked: boolean;
   }) => {
     setMessages((prevMessages) => {
-      let newMessages: { id: number; content: string; date: string }[] = [];
+      let newMessages: {
+        id: number;
+        content: string;
+        date: string;
+        liked: boolean;
+      }[] = [];
       newMessages = [...prevMessages, message].sort((a, b) =>
         a.date > b.date ? 0 : 1,
       );
@@ -241,12 +249,23 @@ export function GameChat({ match }: any): JSX.Element {
                     <CardActions>
                       <IconButton
                         aria-label="add to favourites"
+                        style={{ color: m.liked ? 'red' : 'gray' }}
                         classes={{
                           root: classes.message__icon__button,
-                          label: classes.message__icon__svg,
                         }}
                       >
-                        <FavoriteIcon />
+                        <FavoriteIcon
+                          onClick={() => {
+                            setMessages((prevState) => {
+                              return prevState.map((message) => {
+                                if (message === m) {
+                                  m.liked = !m.liked;
+                                }
+                                return message;
+                              });
+                            });
+                          }}
+                        />
                       </IconButton>
                     </CardActions>
                   </Card>
