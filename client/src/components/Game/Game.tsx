@@ -19,59 +19,36 @@ import PropTypes from 'prop-types';
 import {
   fetchAllMessagesFromChatRoom,
   generateMessage,
-  // translateAllMessages,
-  // translateMessage,
 } from '../../services/message.service';
 import classes from './Game.module.scss';
 import { fetchGames } from '../../store/reducers/games';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { matchPath, match } from 'react-router';
-import { fetchGamers } from '../../store/reducers/gamers';
+
 import Game from '../../interfaces/game';
-import { getDefaultWatermarks } from 'istanbul-lib-report';
+
 import Spinner from '../Spinner/Spinner';
-// import Message from '../../interfaces/message';
 
-// import { socket } from '../../services/socket.service';
-import { fetchOneGamerById } from '../../store/reducers/auth';
-
-//const url = process.env.REACT_APP_SERVER_BASE_URL ?? '';
-
-// export function GameChat({ match }: any): JSX.Element {
-//   const initialGameInfo: Game = {
-//     id: 0,
-//     apiId: 0,
-//     title: '',
-//     genreList: [{ id: '', name: '' }],
-//     dominantGenre: { id: '', name: '' },
-//     releaseDate: '',
-//     imagesPath: { cover: '', screenshots: [''] },
-//     consoles: [],
-//     ageRating: '',
-//     description: '',
-//     gameChatRoom: [0],
-//   };
-//   const [gameInfo, setGameInfo] = useState(initialGameInfo);
+import {
+  toggleChatRoomToFavouriteList,
+  fetchOneGamerById,
+} from '../../store/reducers/auth';
 
 const url = process.env.REACT_APP_SERVER_BASE_URL ?? '';
-
 export function GameChat({ match }: any): JSX.Element {
-  const initialGameInfo: Game = {
-    id: 0,
-    apiId: 0,
-    title: '',
-    genreList: [{ id: '', name: '' }],
-    dominantGenre: { id: '', name: '' },
-    releaseDate: '',
-    imagesPath: { cover: '', screenshots: [''] },
-    consoles: [],
-    ageRating: '',
-    description: '',
-    gameChatRoom: [0],
-  };
-  const [gameInfo, setGameInfo] = useState(initialGameInfo);
-
+  const [gameInfo, setGameInfo] = useState<Game | undefined>(undefined);
   const [socket, setSocket] = useState(io(url));
+  const [input, setInput] = useState('');
+  const [isFavourite, setIsFavourite] = useState(false);
+  const gameReducer = useAppSelector((state) => state.games);
+  const gamer = useAppSelector((state) => state.auth);
+  const [messages, setMessages] = useState([
+    { id: 0, content: '', date: new Date().toISOString() },
+  ]);
+
+  const { roomId } = match.params;
+  const info = gameReducer.entities[roomId];
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     // listener
@@ -90,26 +67,15 @@ export function GameChat({ match }: any): JSX.Element {
     // };
   }, []);
 
-  const [input, setInput] = useState('');
-
-  const { roomId } = match.params;
-
-  const gameReducer = useAppSelector((state) => state.games);
-  const gamer = useAppSelector((state) => state.auth);
-  const [messages, setMessages] = useState([
-    { id: 0, content: '', date: new Date().toISOString() },
-  ]);
-
-  const info = gameReducer.entities[roomId];
-
-  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const list: { id: number }[] = gamer.favouriteGameChats || [];
+    const isFav = list.findIndex((fav) => fav.id === parseInt(roomId));
+    setIsFavourite(isFav !== -1);
+  }, [roomId, gamer.favouriteGameChats]);
 
   useEffect(() => {
-    console.log('roomId :>> ', roomId);
-
     if (!gameReducer.ids.length) dispatch(fetchGames());
-    //dispatch(fetchGamers());
-    fetchAllMessagesFromChatRoom('1');
+    getAllMessages();
     setGameInfo(info);
   }, [dispatch]);
 
@@ -118,30 +84,44 @@ export function GameChat({ match }: any): JSX.Element {
     if (userId) dispatch(fetchOneGamerById(userId));
   }, []);
 
+  const toggleToFavouriteHandler = () => {
+    const list: { id: number }[] = gamer.favouriteGameChats || [];
+    let favouriteGameChats;
+    if (isFavourite) {
+      favouriteGameChats = list.filter((fav) => fav.id !== parseInt(roomId));
+    } else {
+      favouriteGameChats = [...list, { id: parseInt(roomId) }];
+    }
+    dispatch(
+      toggleChatRoomToFavouriteList({
+        userId: gamer.id,
+        favouriteGameChats,
+      }),
+    );
+    // TypeError: can't define array index property past the end of an array with non-writable length
+  };
+
+  const getAllMessages = async () => {
+    const oldMessages = await fetchAllMessagesFromChatRoom(roomId);
+    if (oldMessages.length)
+      setMessages(
+        oldMessages.map((m) => ({
+          ...m,
+          content: m.translatedContent[gamer.language],
+          date: m.updatedAt,
+        })),
+      );
+  };
+
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const userId = localStorage.getItem('userId') || '0';
-    console.log('gamer.language :>> ', gamer.language);
-    const gM = await generateMessage(+userId, '1', input, gamer.language); // gamer.language doesnt work
+    const gM = await generateMessage(+userId, roomId, input, gamer.language); // gamer.language doesnt work
     let translatedInputUser = '';
     if (gM) {
       console.log('if', gM);
       translatedInputUser = gM.translatedContent[gamer.language]; //await translateAllMessages();
     }
-    // console.log('game.txs file', translatedInput);
-    // setInput('');
-    // if (translatedInput) {
-    //   setTranslatedInput(translatedInput);
-    //   console.log('object');
-    //   emmitMessage();
-    //   //      socket.emit(`gamechat`, translatedInput);
-    //   addMessage({
-    //     id: 1,
-    //     content: translatedInput,
-    //     date: new Date().toISOString(),
-    //   });
-    //   translatedInputUser = gM.translatedContent['FR'];
-    // }
     socket.emit(`gamechat`, translatedInputUser);
   };
 
@@ -171,13 +151,13 @@ export function GameChat({ match }: any): JSX.Element {
     setMessages((prevMessages) => {
       let newMessages: { id: number; content: string; date: string }[] = [];
       newMessages = [...prevMessages, message].sort((a, b) =>
-        a.date < b.date ? 0 : 1,
+        a.date > b.date ? 0 : 1,
       );
       return newMessages;
     });
   };
+
   if (gameInfo && gameInfo.title) {
-    console.log('gameInfo.imagesPath.cover :>> ', gameInfo.imagesPath.cover);
     return (
       <div className={classes.container}>
         <header
@@ -198,8 +178,9 @@ export function GameChat({ match }: any): JSX.Element {
             classes={{
               root: classes.btn,
             }}
+            onClick={toggleToFavouriteHandler}
           >
-            Add to favourites
+            {`${isFavourite ? 'Remove from ' : 'Add to '}favourites`}
           </Button>
         </header>
         <main className={classes.main}>
@@ -240,11 +221,15 @@ export function GameChat({ match }: any): JSX.Element {
                           {gamer ? getInitial() : ''}
                         </Avatar>
                       }
-                      title={'Tesuser'} // gamer ? `${gamer.firstName} ${gamer.lastName}`: ''
+                      title={`${gamer.firstName} ${gamer.lastName}`} // gamer ? `${gamer.firstName} ${gamer.lastName}`: ''
                       subheader={formatDate(m.date)}
                       classes={{ content: classes.message__header }}
                     />
-                    <CardContent>
+                    <CardContent
+                      classes={{
+                        root: classes.car__content,
+                      }}
+                    >
                       <Typography
                         variant="h5"
                         color="textSecondary"

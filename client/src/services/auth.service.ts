@@ -161,3 +161,28 @@ export const fetchAllSupportedLanguage = async (userLanguage: string) => {
     return [];
   }
 };
+
+export const toggleChatRoomToFavourite = async (
+  userId: number,
+  favouriteGameChats: { id: number }[],
+) => {
+  const option = {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      favouriteGameChats,
+    }),
+  };
+  try {
+    const res = await fetch(
+      `${process.env.REACT_APP_SERVER_BASE_URL}/gamer/${userId}`,
+      option,
+    );
+    const gamer = await res.json();
+    console.log(`gamer`, gamer);
+    return gamer;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};

@@ -20,7 +20,8 @@ export class GamechatroomService {
   async create(createGamechatroomDto: CreateGamechatroomDto, gamerId) {
     let gameChatRoom = new Gamechatroom();
     gameChatRoom = Object.assign(gameChatRoom, { ...createGamechatroomDto });
-    gameChatRoom.gamer = gamerId;
+    const gamer = await this.gamerRepository.findOne({ id: gamerId });
+    gameChatRoom.gamer = gameChatRoom.gamer.concat(gamer);
     try {
       const response = await this.gameChatRoomRepository.save(gameChatRoom);
       return response;
@@ -30,16 +31,28 @@ export class GamechatroomService {
   }
 
   async makeGameChatRoomForAllGames() {
+    //Makes Gamechatroom for all games that don't have one.
     const games = await this.gameRepository.find({});
+    const allChatRooms = await this.gameChatRoomRepository.find({
+      relations: ['game'],
+    });
     const chatRooms = [];
     for (const game of games) {
-      const gameChatRoom = new Gamechatroom();
-      gameChatRoom.notificationAllowed = true;
-      gameChatRoom.isPrivate = false;
-      gameChatRoom.messagesCount = 0;
-      gameChatRoom.game = game;
-      const chatRoom = await this.gameChatRoomRepository.save(gameChatRoom);
-      chatRooms.push(chatRoom);
+      //Checking if game has a chatroom already
+      const oldChatRoom = allChatRooms.find((chatRoom) => {
+        if (chatRoom.game.id === game.id) return chatRoom;
+      });
+      if (oldChatRoom) {
+        chatRooms.push(oldChatRoom);
+      } else {
+        const gameChatRoom = new Gamechatroom();
+        gameChatRoom.notificationAllowed = true;
+        gameChatRoom.isPrivate = false;
+        gameChatRoom.messagesCount = 0;
+        gameChatRoom.game = game;
+        const chatRoom = await this.gameChatRoomRepository.save(gameChatRoom);
+        if (chatRoom) chatRooms.push(chatRoom);
+      }
     }
     return chatRooms;
   }

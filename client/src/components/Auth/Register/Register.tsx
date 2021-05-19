@@ -116,6 +116,7 @@ const Register = (): JSX.Element => {
             className={classes.field__container}
             id="filled-basic"
             label="Password"
+            type="password"
             name="password"
             onChange={changeHandler}
           />

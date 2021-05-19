@@ -9,6 +9,7 @@ import {
   OneToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity()
@@ -26,6 +27,7 @@ export class Gamechatroom {
   messagesCount: number;
 
   @OneToOne((type) => Game, (game) => game.gameChatRoom)
+  @JoinColumn()
   game: Game;
 
   @ManyToMany((type) => Gamer, (gamer) => gamer.gameChatRoom)

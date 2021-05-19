@@ -61,6 +61,7 @@ const Login = (): JSX.Element => {
             id="filled-basic"
             label="Password"
             name="password"
+            type="password"
             onChange={changeHandler}
           />
           <button className={classes.btn} type="submit">

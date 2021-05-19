@@ -29,6 +29,14 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
 import localStyle from './ProfileBar.module.scss';
+import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router';
+
+import GamepadIcon from '@material-ui/icons/Gamepad';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import Game from '../../interfaces/game';
+import { useState } from 'react';
+import MediaCardsList from '../MediaCardsList/MediaCardsList';
 
 const drawerWidth = 240;
 
@@ -73,7 +81,6 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    //padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -160,6 +167,7 @@ export default function PersistentDrawerLeft() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
+  const history = useHistory();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -191,7 +199,13 @@ export default function PersistentDrawerLeft() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem
+        onClick={() => {
+          history.push(`/user/${userId}`);
+        }}
+      >
+        Profile
+      </MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
@@ -249,6 +263,59 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+  const userId = localStorage.getItem('userId') || '';
+  const [searchedGames, setSearchedGames] = useState<React.ReactElement[]>([]);
+  const [searchedResult, setSearchedResult] = useState<Game[]>([]);
+
+  const dispatch = useAppDispatch();
+  const gamesReducer = useAppSelector((state) => state.games);
+
+  const handleChange = (e: any) => {
+    if (e.target.value.length > 0) {
+      const games: Game[] = gamesReducer.ids.map(
+        (id) => gamesReducer.entities[id],
+      );
+      const filteredGames = games.filter((game) =>
+        game.title.toLowerCase().includes(e.target.value),
+      );
+      const gameSet = Array.from(new Set(filteredGames)).map(
+        (filteredGame, index) => (
+          <div key={index} className="col">
+            <Link
+              key={index}
+              className={localStyle.link}
+              to={`/gamechat/${filteredGame.id}`}
+              style={{ fontSize: '1rem' }}
+            >
+              {filteredGame.title}
+            </Link>
+          </div>
+        ),
+      );
+      console.log(gameSet);
+      setSearchedGames(gameSet);
+    } else {
+      setSearchedGames([]);
+    }
+  };
+
+  const searchHandler = (e: any) => {
+    if (e.target.value.length > 0) {
+      const games: Game[] = gamesReducer.ids.map(
+        (id) => gamesReducer.entities[id],
+      );
+      const filteredGames = games.filter((game) =>
+        game.title.toLowerCase().includes(e.target.value),
+      );
+      const gameSet = Array.from(new Set(filteredGames));
+
+      console.log('setSearchedResult', gameSet);
+      setSearchedResult(gameSet);
+    } else {
+      setSearchedResult([]);
+    }
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -267,11 +334,10 @@ export default function PersistentDrawerLeft() {
             className={clsx(classes.menuButton, open && classes.hide)}
           >
             <MenuIcon />
+            {/* <Typography className={classesNavBar.title} variant="h6" noWrap> */}
+            {/* </Typography> */}
           </IconButton>
-          {/* <NavBar/> */}
-          <Typography className={classesNavBar.title} variant="h6" noWrap>
-            Material-UI
-          </Typography>
+          {/* <img src={logo} alt="Logo" width="100px" height="100px" /> */}
           <div className={classesNavBar.search}>
             <div className={classesNavBar.searchIcon}>
               <SearchIcon />
@@ -282,11 +348,18 @@ export default function PersistentDrawerLeft() {
                 root: classesNavBar.inputRoot,
                 input: classesNavBar.inputInput,
               }}
+              onChange={searchHandler}
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
+
           <div className={classesNavBar.grow} />
           <div className={classesNavBar.sectionDesktop}>
+            <IconButton aria-label="show 7 new mails" color="inherit">
+              <Badge badgeContent={7} color="secondary">
+                <GamepadIcon />
+              </Badge>
+            </IconButton>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
@@ -371,30 +444,13 @@ export default function PersistentDrawerLeft() {
         })}
       >
         <div className={classes.drawerHeader} />
-        {/* <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-          facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-          gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-          donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-          Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-          imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-          arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-          donec massa sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-          facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-          tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-          consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-          vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-          hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-          tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-          nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-          accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography> */}
       </main>
+
+      {searchedResult.length ? (
+        <div className={localStyle.searchList}>
+          <MediaCardsList cards={searchedResult} />
+        </div>
+      ) : null}
     </div>
   );
 }

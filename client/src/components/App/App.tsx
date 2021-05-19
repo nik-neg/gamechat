@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Layout from '../../hoc/Layout/Layout';
 
@@ -14,14 +14,16 @@ import Auth from '../Auth/Auth';
 
 const App = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const [userId, setUserId] = useState('');
   const authReducer = useAppSelector((state) => state.auth);
   useEffect(() => {
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem('userId') || '';
+    setUserId(userId);
     if (userId) dispatch(fetchOneGamerById(userId));
   }, []);
 
   let routes;
-  if (authReducer.email) {
+  if (userId) {
     routes = (
       <Layout>
         <Switch>
