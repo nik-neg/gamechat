@@ -13,7 +13,9 @@
   background-color: $colour-bcg;
   color: $colour-font;
   display: flex;
-  justify-content: space-evenly;
+  // justify-content: space-evenly;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
 .items-list > div {
