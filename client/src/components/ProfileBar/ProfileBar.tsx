@@ -30,6 +30,11 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 
 import localStyle from './ProfileBar.module.scss';
 
+import GamepadIcon from '@material-ui/icons/Gamepad';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import Game from '../../interfaces/game';
+import { useState } from 'react';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -249,6 +254,28 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+  const [searchedGames, setSearchedGames] = useState<string[]>(['']);
+
+  const dispatch = useAppDispatch();
+  const gamesReducer = useAppSelector((state) => state.games);
+
+  const handleChange = (e: any) => {
+    if (e.target.value.length > 0) {
+      const games: Game[] = gamesReducer.ids.map(
+        (id) => gamesReducer.entities[id],
+      );
+      const filteredGames = games.filter((game) =>
+        game.title.toLowerCase().includes(e.target.value),
+      );
+      const gameSet = Array.from(new Set(filteredGames)).map(
+        (filteredGame) => filteredGame.title + ' ',
+      );
+      setSearchedGames(gameSet);
+    } else {
+      setSearchedGames(['']);
+    }
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -267,11 +294,10 @@ export default function PersistentDrawerLeft() {
             className={clsx(classes.menuButton, open && classes.hide)}
           >
             <MenuIcon />
+            <Typography className={classesNavBar.title} variant="h6" noWrap>
+              Logo
+            </Typography>
           </IconButton>
-          {/* <NavBar/> */}
-          <Typography className={classesNavBar.title} variant="h6" noWrap>
-            Material-UI
-          </Typography>
           <div className={classesNavBar.search}>
             <div className={classesNavBar.searchIcon}>
               <SearchIcon />
@@ -282,11 +308,20 @@ export default function PersistentDrawerLeft() {
                 root: classesNavBar.inputRoot,
                 input: classesNavBar.inputInput,
               }}
+              onChange={handleChange}
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
+          <Typography className={classesNavBar.title} variant="h6" noWrap>
+            {searchedGames}
+          </Typography>
           <div className={classesNavBar.grow} />
           <div className={classesNavBar.sectionDesktop}>
+            <IconButton aria-label="show 7 new mails" color="inherit">
+              <Badge badgeContent={7} color="secondary">
+                <GamepadIcon />
+              </Badge>
+            </IconButton>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
@@ -371,29 +406,6 @@ export default function PersistentDrawerLeft() {
         })}
       >
         <div className={classes.drawerHeader} />
-        {/* <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-          facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-          gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-          donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-          Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-          imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-          arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-          donec massa sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-          facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-          tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-          consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-          vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-          hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-          tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-          nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-          accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography> */}
       </main>
     </div>
   );
