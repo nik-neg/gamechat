@@ -7,11 +7,7 @@ import classes from './MediaCardsList.module.scss';
 import Game from '../../interfaces/game';
 import Spinner from '../Spinner/Spinner';
 
-interface Props extends JSX.Element {
-  className?: string;
-}
-
-const MediaCardsList = (props: any): Props => {
+const MediaCardsList = (props: any): JSX.Element => {
   const limitInput = (input: string) => {
     return input.length > 60 ? input.substring(0, 60) + '...' : input;
   };
