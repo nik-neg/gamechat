@@ -5,9 +5,51 @@ avatar-colorDefault {
 }
 
 .container {
-  margin-top: 5vh;
+  margin-top: 10vh;
+  margin-left: 5vh;
   background-color: $colour-bcg;
   color: $colour-font;
+}
+
+#ctr-ps-3 {
+  position: absolute;
+  top: 20vh;
+  right: 5vw;
+  transform: rotateZ(-5deg);
+  fill: black;
+}
+
+.title__container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.circle__container {
+  display: inline-block;
+  height: 30rem;
+  width: 30rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: $colour-primary;
+  font-size: x-large;
+  margin-top: 3vh;
+  margin-left: 1vw;
+}
+
+.information {
+}
+
+.details {
+  padding-bottom: 0.5rem;
+}
+
+.avatar {
+  margin-left: 1vw;
+  margin-right: 1vw;
 }
 
 .name {
