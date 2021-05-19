@@ -28,7 +28,7 @@ const Profile = (): JSX.Element => {
   }
 
   function getFavouriteGameChats() {
-    if (!gamer.favouriteGameChats) return null;
+    if (!gamer.favouriteGameChats) return [];
     console.log(gamer.favouriteGameChats);
     const favGameIds = gamer.favouriteGameChats.map((fgc) => {
       return Object.keys(games).find((gameId) => {
@@ -36,7 +36,9 @@ const Profile = (): JSX.Element => {
       });
     });
     const favGames = favGameIds.map((id) => (id ? games[id] : null));
-    return favGames.filter((game) => !!game);
+    //return favGames.filter((game) => !!game);
+    console.log('favGames', favGames);
+    return favGames;
   }
 
   if (gamer) {
@@ -69,13 +71,13 @@ const Profile = (): JSX.Element => {
           <div className={classes.cards__container}>
             <MediaCardsList
               title="Favourite Game Chats:"
-              cards={cards?.slice(0, 3)}
+              cards={cards.slice(0, 3)}
             />
           </div>
         </div>
         {/* Refactor Very Much Needed  */}
         <div className={classes.cards__container__extra}>
-          <MediaCardsList cards={cards?.slice(3)} />
+          <MediaCardsList cards={cards.slice(3)} />
         </div>
       </div>
     );

@@ -26,7 +26,7 @@ const MediaCard = ({ imagePath, title, description, id }: any): JSX.Element => {
   const history = useHistory();
 
   const clickHandler = () => {
-    history.push(`gamechat/${id}`);
+    history.push(`/gamechat/${id}`);
   };
 
   return (

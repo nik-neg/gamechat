@@ -37,6 +37,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import Game from '../../interfaces/game';
 import { useState } from 'react';
 import MediaCardsList from '../MediaCardsList/MediaCardsList';
+import { ReactComponent as Logo } from '../../images/logo.svg';
+import logo from '../../images/logo.png';
 
 const drawerWidth = 240;
 
@@ -337,7 +339,14 @@ export default function PersistentDrawerLeft() {
             {/* <Typography className={classesNavBar.title} variant="h6" noWrap> */}
             {/* </Typography> */}
           </IconButton>
-          {/* <img src={logo} alt="Logo" width="100px" height="100px" /> */}
+          {/* <img src={logo} alt="Logo" width="100px" height="100px" /> 
+            <Logo className={localStyle.logo} />
+          */}
+          <Link to="/">
+            <div className={localStyle.logo__container}>
+              <img src={logo} className={localStyle.logo} alt="Logo" />
+            </div>
+          </Link>
           <div className={classesNavBar.search}>
             <div className={classesNavBar.searchIcon}>
               <SearchIcon />
