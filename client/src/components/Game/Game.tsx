@@ -71,7 +71,7 @@ export function GameChat({ match }: any): JSX.Element {
     const list: { id: number }[] = gamer.favouriteGameChats || [];
     const isFav = list.findIndex((fav) => fav.id === parseInt(roomId));
     setIsFavourite(isFav !== -1);
-  }, [roomId, isFavourite]);
+  }, [roomId, gamer.favouriteGameChats]);
 
   useEffect(() => {
     if (!gameReducer.ids.length) dispatch(fetchGames());
