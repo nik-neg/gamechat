@@ -126,3 +126,9 @@
     cursor: pointer;
   }
 }
+
+.card {
+  &__content {
+    text-align: center;
+  }
+}

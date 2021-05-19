@@ -39,7 +39,7 @@ const MediaCardsList = (props: any) => {
             imagePath={card.imagesPath.cover}
             title={card.title}
             description={limitInput(card.description)}
-            id={card.id} //TODO: change to id of game chat room
+            id={card.gameChatRoom.id} //TODO: change to id of game chat room
           />
         ))}
       </div>

@@ -1,3 +1,4 @@
+import Gamechatroom from './gameChatRoom';
 import Genre from './genre';
 import ImagesPath from './ImagesPath';
 
@@ -12,5 +13,5 @@ export default interface Game {
   consoles: string[];
   ageRating: string;
   description: string;
-  gameChatRoom: number[];
+  gameChatRoom: Gamechatroom;
 }

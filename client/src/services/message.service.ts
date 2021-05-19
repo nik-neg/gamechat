@@ -70,7 +70,7 @@ export const fetchAllMessages = async () => {
 export const fetchAllMessagesFromChatRoom = async (roomId: string) => {
   try {
     const res = await fetch(
-      `${process.env.REACT_APP_SERVER_BASE_URL}/messages/gamechatroom/${roomId}`,
+      `${process.env.REACT_APP_SERVER_BASE_URL}/message/gamechatroom/${roomId}`,
     );
     const messages = await res.json();
     return messages;
