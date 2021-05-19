@@ -36,9 +36,21 @@ export const register = createAsyncThunk(
 );
 
 export const fetchOneGamerById = createAsyncThunk(
-  'gamers/fetchGamerById',
+  'gamer/fetchGamerById',
   async (payload: string) => {
     const response = await fetchGamerById(payload);
+    return response;
+  },
+);
+
+export const toggleChatRoomToFavouriteList = createAsyncThunk(
+  'gamer/toggleChatRoomToFavourite',
+  async (payload: { userId: number; favouriteGameChats: { id: number }[] }) => {
+    const { userId, favouriteGameChats } = payload;
+    const response = await authService.toggleChatRoomToFavourite(
+      userId,
+      favouriteGameChats,
+    );
     return response;
   },
 );
@@ -78,7 +90,27 @@ const authSlice = createSlice({
       builder.addCase(fetchOneGamerById.rejected, (state, action) => {
         state.status = 'failed';
         //state.error = action.error.message;
-      });
+      }),
+      builder.addCase(
+        toggleChatRoomToFavouriteList.pending,
+        (state, action) => {
+          state.status = 'loading';
+        },
+      ),
+      builder.addCase(
+        toggleChatRoomToFavouriteList.fulfilled,
+        (state, action) => {
+          // Add any fetched posts to the array
+          return { ...action.payload, status: 'succeeded' };
+        },
+      ),
+      builder.addCase(
+        toggleChatRoomToFavouriteList.rejected,
+        (state, action) => {
+          state.status = 'failed';
+          //state.error = action.error.message;
+        },
+      );
   },
 });
 export default authSlice.reducer;

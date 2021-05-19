@@ -28,38 +28,17 @@ import Game from '../../interfaces/game';
 
 import Spinner from '../Spinner/Spinner';
 
-import { fetchOneGamerById } from '../../store/reducers/auth';
-import { userInfo } from 'os';
+import {
+  toggleChatRoomToFavouriteList,
+  fetchOneGamerById,
+} from '../../store/reducers/auth';
 
 const url = process.env.REACT_APP_SERVER_BASE_URL ?? '';
-//const [users, setUsers] = useState<IUser[]>([]);
-//const [submitResult, setSubmitResult] = useState<ISubmitResult | undefined>(undefined);
 export function GameChat({ match }: any): JSX.Element {
-  const initialGameInfo: Game = {
-    id: 0,
-    apiId: 0,
-    title: '',
-    genreList: [{ id: '', name: '' }],
-    dominantGenre: { id: '', name: '' },
-    releaseDate: '',
-    imagesPath: { cover: '', screenshots: [''] },
-    consoles: [],
-    ageRating: '',
-    description: '',
-    gameChatRoom: {
-      id: 0,
-      notificationAllowed: true,
-      isPrivate: false,
-      messagesCount: 0,
-      game: [0],
-      gamer: [0],
-      messages: [0],
-    },
-  };
-
   const [gameInfo, setGameInfo] = useState<Game | undefined>(undefined);
   const [socket, setSocket] = useState(io(url));
   const [input, setInput] = useState('');
+  const [isFavourite, setIsFavourite] = useState(false);
   const gameReducer = useAppSelector((state) => state.games);
   const gamer = useAppSelector((state) => state.auth);
   const [messages, setMessages] = useState([
@@ -89,6 +68,12 @@ export function GameChat({ match }: any): JSX.Element {
   }, []);
 
   useEffect(() => {
+    const list: { id: number }[] = gamer.favouriteGameChats || [];
+    const isFav = list.findIndex((fav) => fav.id === parseInt(roomId));
+    setIsFavourite(isFav !== -1);
+  }, [roomId, isFavourite]);
+
+  useEffect(() => {
     if (!gameReducer.ids.length) dispatch(fetchGames());
     getAllMessages();
     setGameInfo(info);
@@ -99,6 +84,23 @@ export function GameChat({ match }: any): JSX.Element {
     if (userId) dispatch(fetchOneGamerById(userId));
   }, []);
 
+  const toggleToFavouriteHandler = () => {
+    const list: { id: number }[] = gamer.favouriteGameChats || [];
+    let favouriteGameChats;
+    if (isFavourite) {
+      favouriteGameChats = list.filter((fav) => fav.id !== parseInt(roomId));
+    } else {
+      favouriteGameChats = [...list, { id: parseInt(roomId) }];
+    }
+    dispatch(
+      toggleChatRoomToFavouriteList({
+        userId: gamer.id,
+        favouriteGameChats,
+      }),
+    );
+    // TypeError: can't define array index property past the end of an array with non-writable length
+  };
+
   const getAllMessages = async () => {
     const oldMessages = await fetchAllMessagesFromChatRoom(roomId);
     if (oldMessages.length)
@@ -106,7 +108,7 @@ export function GameChat({ match }: any): JSX.Element {
         oldMessages.map((m) => ({
           ...m,
           content: m.translatedContent[gamer.language],
-          date: m.createdAt,
+          date: m.updatedAt,
         })),
       );
   };
@@ -154,6 +156,7 @@ export function GameChat({ match }: any): JSX.Element {
       return newMessages;
     });
   };
+
   if (gameInfo && gameInfo.title) {
     return (
       <div className={classes.container}>
@@ -175,8 +178,9 @@ export function GameChat({ match }: any): JSX.Element {
             classes={{
               root: classes.btn,
             }}
+            onClick={toggleToFavouriteHandler}
           >
-            Add to favourites
+            {`${isFavourite ? 'Remove from ' : 'Add to '}favourites`}
           </Button>
         </header>
         <main className={classes.main}>

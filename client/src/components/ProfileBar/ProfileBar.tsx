@@ -29,6 +29,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
 import localStyle from './ProfileBar.module.scss';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -73,7 +74,6 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    //padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -249,6 +249,8 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+  const userId = localStorage.getItem('userId') || '';
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -258,6 +260,13 @@ export default function PersistentDrawerLeft() {
           [classes.appBarShift]: open,
         })}
       >
+        <Link
+          to={`/user/${userId}`}
+          style={{ color: '#fff', fontSize: '3rem' }}
+        >
+          {' '}
+          Profile
+        </Link>
         <Toolbar>
           <IconButton
             color="inherit"

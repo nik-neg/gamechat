@@ -1,0 +1,15 @@
+@import '../../styles/utils/variables';
+
+avatar-colorDefault {
+  background-color: red;
+}
+
+.container {
+  margin-top: 5vh;
+  background-color: $colour-bcg;
+  color: $colour-font;
+}
+
+.name {
+  display: flex;
+}
