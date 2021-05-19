@@ -11,7 +11,7 @@ import Game from '../../interfaces/game';
 const Profile = (): JSX.Element => {
   const gamer = useAppSelector((state) => state.auth);
   const games = useAppSelector((state) => state.games.entities);
-  const [cards, setCards] = useState(getFavouriteGameChats());
+  const cards: any = getFavouriteGameChats();
 
   const getInitial = () => {
     return `${gamer.firstName} ${gamer.lastName}`.split(' ').map((n) => n[0]);
@@ -28,15 +28,16 @@ const Profile = (): JSX.Element => {
   }
 
   function getFavouriteGameChats() {
-    if (!gamer.favouriteGameChats) return null;
+    if (!gamer.favouriteGameChats) return [];
     console.log(gamer.favouriteGameChats);
     const favGameIds = gamer.favouriteGameChats.map((fgc) => {
       return Object.keys(games).find((gameId) => {
         if (games[gameId].gameChatRoom.id === fgc.id) return gameId;
       });
     });
-    const favGames = favGameIds.map((id) => (id ? games[id] : null));
-    return favGames.filter((game) => !!game);
+    console.log(favGameIds);
+    const favGames = favGameIds.map((id) => (id ? games[id] : {}));
+    return favGames.filter((game) => Object.keys(game).length);
   }
 
   if (gamer) {
@@ -75,7 +76,7 @@ const Profile = (): JSX.Element => {
         </div>
         {/* Refactor Very Much Needed  */}
         <div className={classes.cards__container__extra}>
-          <MediaCardsList cards={cards?.slice(3)} />
+          <MediaCardsList cards={cards ? cards.slice(3) : []} />
         </div>
       </div>
     );
