@@ -35,6 +35,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import Game from '../../interfaces/game';
 import { useState } from 'react';
 
+import { Link } from 'react-router-dom';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -254,7 +256,7 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
-  const [searchedGames, setSearchedGames] = useState<string[]>(['']);
+  const [searchedGames, setSearchedGames] = useState<React.ReactElement[]>([]);
 
   const dispatch = useAppDispatch();
   const gamesReducer = useAppSelector((state) => state.games);
@@ -268,11 +270,16 @@ export default function PersistentDrawerLeft() {
         game.title.toLowerCase().includes(e.target.value),
       );
       const gameSet = Array.from(new Set(filteredGames)).map(
-        (filteredGame) => filteredGame.title + ' ',
+        (filteredGame, index) => (
+          <Link key={index} to={`/gamechat/${filteredGame.id}`}>
+            {filteredGame.title}
+          </Link>
+        ),
       );
+      console.log(gameSet);
       setSearchedGames(gameSet);
     } else {
-      setSearchedGames(['']);
+      setSearchedGames([]);
     }
   };
 
