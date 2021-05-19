@@ -271,7 +271,11 @@ export default function PersistentDrawerLeft() {
       );
       const gameSet = Array.from(new Set(filteredGames)).map(
         (filteredGame, index) => (
-          <Link key={index} to={`/gamechat/${filteredGame.id}`}>
+          <Link
+            key={index}
+            className={localStyle.link}
+            to={`/gamechat/${filteredGame.id}`}
+          >
             {filteredGame.title}
           </Link>
         ),
