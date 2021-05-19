@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MediaCard from '../MediaCard/MediaCard';
+import MediaCard from './MediaCard/MediaCard';
 
 import classes from './MediaCardsList.module.scss';
 import Game from '../../interfaces/game';
 import Spinner from '../Spinner/Spinner';
 
-const MediaCardsList = (props: any) => {
+interface Props extends JSX.Element {
+  className?: string;
+}
+
+const MediaCardsList = (props: any): Props => {
   const limitInput = (input: string) => {
     return input.length > 60 ? input.substring(0, 60) + '...' : input;
   };
@@ -48,7 +52,7 @@ const MediaCardsList = (props: any) => {
 };
 
 MediaCardsList.propTypes = {
-  cards: PropTypes.array,
+  cards: PropTypes.array.isRequired,
   title: PropTypes.string,
 };
 

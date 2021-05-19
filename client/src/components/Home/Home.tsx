@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import AppBar from '../AppBar/AppBar';
-import MediaCard from '../MediaCard/MediaCard';
+import MediaCard from '../MediaCardsList/MediaCard/MediaCard';
 import { Box } from '@material-ui/core';
 import CarouselWrapper from '../CarouselWrapper/CarouselWrapper';
 
@@ -17,6 +17,7 @@ import { getAllGames } from '../../store/reducers/games';
 import Game from '../../interfaces/game';
 import MediaCardsList from '../MediaCardsList/MediaCardsList';
 import { fetchGamesByGenre } from '../../services/game.service';
+import Spinner from '../Spinner/Spinner';
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -59,13 +60,20 @@ export default function Home() {
   //TODO : most talked about game for the carousel
   return (
     <div className={`${style.root} ${classes.container}`}>
-      <div className={classes.carousel}>
-        <DemoCarousel cards={games.slice(0, 5)} />
-      </div>
-      {genres.length &&
+      {gamesGenre.Family ? (
+        <div className={classes.carousel}>
+          <DemoCarousel cards={gamesGenre.Family} />
+        </div>
+      ) : (
+        <Spinner />
+      )}
+      {genres.length ? (
         genres.map((g: string) => (
           <MediaCardsList key={g} title={g} cards={gamesGenre[g] || []} />
-        ))}
+        ))
+      ) : (
+        <Spinner />
+      )}
     </div>
   );
 }
