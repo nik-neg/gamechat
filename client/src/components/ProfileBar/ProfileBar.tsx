@@ -37,6 +37,8 @@ import { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
+import logo from './logo.png';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -271,13 +273,16 @@ export default function PersistentDrawerLeft() {
       );
       const gameSet = Array.from(new Set(filteredGames)).map(
         (filteredGame, index) => (
-          <Link
-            key={index}
-            className={localStyle.link}
-            to={`/gamechat/${filteredGame.id}`}
-          >
-            {filteredGame.title}
-          </Link>
+          <div key={index} className="col">
+            <Link
+              key={index}
+              className={localStyle.link}
+              to={`/gamechat/${filteredGame.id}`}
+              style={{ fontSize: '1rem' }}
+            >
+              {filteredGame.title}
+            </Link>
+          </div>
         ),
       );
       console.log(gameSet);
@@ -305,10 +310,10 @@ export default function PersistentDrawerLeft() {
             className={clsx(classes.menuButton, open && classes.hide)}
           >
             <MenuIcon />
-            <Typography className={classesNavBar.title} variant="h6" noWrap>
-              Logo
-            </Typography>
+            {/* <Typography className={classesNavBar.title} variant="h6" noWrap> */}
+            {/* </Typography> */}
           </IconButton>
+          {/* <img src={logo} alt="Logo" width="100px" height="100px" /> */}
           <div className={classesNavBar.search}>
             <div className={classesNavBar.searchIcon}>
               <SearchIcon />
@@ -324,7 +329,7 @@ export default function PersistentDrawerLeft() {
             />
           </div>
           <Typography className={classesNavBar.title} variant="h6" noWrap>
-            {searchedGames}
+            <div className="row">{searchedGames}</div>
           </Typography>
           <div className={classesNavBar.grow} />
           <div className={classesNavBar.sectionDesktop}>

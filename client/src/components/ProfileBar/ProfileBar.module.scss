@@ -26,3 +26,14 @@
   background-position: 0 100%;
   //  color: #00F
 }
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  &col{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
