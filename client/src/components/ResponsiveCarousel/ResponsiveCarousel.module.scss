@@ -1,3 +1,5 @@
+@import '../../styles/utils/variables';
+
 .image {
   height: 100%;
   width: auto;
@@ -12,4 +14,9 @@
   &__container:hover {
     box-shadow: 2px 2px 5px solid black;
   }
+}
+
+.legend {
+  font-family: $font-title-carousel;
+  font-size: 2rem;
 }

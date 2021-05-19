@@ -1,4 +1,4 @@
-@import '../../styles/utils/variables';
+@import '../../../styles/utils/variables';
 
 .container {
   display: flex;
@@ -7,6 +7,11 @@
 }
 
 .title {
+  font-family: $font-title-card !important;
+}
+
+.description {
+  font-family: $font-description-card !important;
 }
 
 .items-list {

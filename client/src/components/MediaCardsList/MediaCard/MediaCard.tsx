@@ -11,6 +11,8 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 
+import localStyle from './MediaCard.module.scss';
+
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
@@ -34,10 +36,20 @@ const MediaCard = ({ imagePath, title, description, id }: any): JSX.Element => {
       <CardActionArea>
         <CardMedia className={classes.media} image={imagePath} title={title} />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="h2"
+            classes={{ root: localStyle.title }}
+          >
             {title}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            component="p"
+            classes={{ root: localStyle.description }}
+          >
             {description}
           </Typography>
         </CardContent>
