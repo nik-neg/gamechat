@@ -120,7 +120,8 @@ export class GameService {
       const genreGames = [];
       for (const game of genre.games) {
         const oldGame = await this.gameRepository.findOne({
-          apiId: game.id,
+          relations: ['gameChatRoom'],
+          where: { apiId: game.id },
         });
         if (oldGame) {
           oldGame.dominantGenre = genre.name;
