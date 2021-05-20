@@ -50,6 +50,12 @@ export default function Home() {
   const fetchGenres = async () => {
     const gamesGenre = await fetchGamesByGenre();
     const genreCat: string[] = Object.keys(gamesGenre);
+    console.log(genreCat);
+
+    const familyIndex = genreCat.indexOf('Family');
+    const temp = genreCat[0];
+    genreCat[0] = genreCat[familyIndex];
+    genreCat[familyIndex] = temp;
     setGenres(genreCat);
     setGamesGenre(gamesGenre);
     const gamesArr: Game[] = Object.values(gamesGenre);
@@ -62,7 +68,7 @@ export default function Home() {
     <div className={`${style.root} ${classes.container}`}>
       {gamesGenre.Family ? (
         <div className={classes.carousel}>
-          <DemoCarousel cards={gamesGenre.Family} />
+          <DemoCarousel cards={gamesGenre.Action} />
         </div>
       ) : (
         <Spinner />
