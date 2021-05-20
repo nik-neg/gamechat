@@ -1,9 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Game from '../../interfaces/game';
-import {
-  fetchAllGamesFromAPI,
-  fetchAllGamesFromDB,
-} from '../../services/game.service';
+import { fetchAllGamesFromDB } from '../../services/game.service';
 
 const initialState: {
   status: string;

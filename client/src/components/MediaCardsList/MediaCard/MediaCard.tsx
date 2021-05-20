@@ -22,7 +22,19 @@ const useStyles = makeStyles({
   },
 });
 
-const MediaCard = ({ imagePath, title, description, id }: any): JSX.Element => {
+interface Props {
+  title: string;
+  description: string;
+  imagePath: string;
+  id: number;
+}
+
+const MediaCard = ({
+  imagePath,
+  title,
+  description,
+  id,
+}: Props): JSX.Element => {
   const classes = useStyles();
 
   const history = useHistory();

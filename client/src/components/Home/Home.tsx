@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import AppBar from '../AppBar/AppBar';
-import MediaCard from '../MediaCardsList/MediaCard/MediaCard';
-import { Box } from '@material-ui/core';
-import CarouselWrapper from '../CarouselWrapper/CarouselWrapper';
 
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppDispatch } from '../../hooks/redux';
 // import { io } from 'socket.io-client';
 import classes from './Home.module.scss';
-
-const url = process.env.REACT_APP_SERVER_BASE_URL ?? '';
 
 import DemoCarousel from '../ResponsiveCarousel/ResponsiveCarousel';
 import { getAllGames } from '../../store/reducers/games';
@@ -30,7 +23,7 @@ const useStyles = makeStyles((theme: any) => ({
   },
 }));
 
-export default function Home() {
+export default function Home(): JSX.Element {
   const style = useStyles();
 
   const initialGenres: string[] = [];
@@ -39,9 +32,6 @@ export default function Home() {
   const [genres, setGenres] = useState(initialGenres);
   const [gamesGenre, setGamesGenre] = useState(initialGamesGenre);
   const dispatch = useAppDispatch();
-  const gameReducer = useAppSelector((state) => state.games);
-
-  const games: Game[] = gameReducer.ids.map((id) => gameReducer.entities[id]);
 
   useEffect(() => {
     fetchGenres(); // ?
