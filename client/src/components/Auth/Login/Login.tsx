@@ -1,11 +1,11 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import classes from '../Auth.module.scss';
 import { ReactComponent as ControllerPS1 } from '../../../images/controller-playstation-01.svg';
 import { ReactComponent as ControllerPS2 } from '../../../images/controller-playstation-02.svg';
 import { ReactComponent as ControllerPS3 } from '../../../images/controller-playstation-03.svg';
 import { ReactComponent as ControllerXbox } from '../../../images/controller-xbox.svg';
 
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch } from '../../../hooks/redux';
 import { login } from '../../../store/reducers/auth';
 import { useHistory } from 'react-router';
 import { TextField } from '@material-ui/core';

@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { ChangeEvent, useEffect } from 'react';
+
+import { useLocation } from 'react-router-dom';
+
 import clsx from 'clsx';
 import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -163,7 +166,7 @@ const useStylesNavBar = makeStyles((theme) => ({
   },
 }));
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft(props: any) {
   ////////////////////////////////////////////
 
   const classesNavBar = useStylesNavBar();
@@ -270,56 +273,36 @@ export default function PersistentDrawerLeft() {
   };
 
   const userId = localStorage.getItem('userId') || '';
-  const [searchedGames, setSearchedGames] = useState<React.ReactElement[]>([]);
+  const [searchQuery, setsearchQuery] = useState('');
   const [searchedResult, setSearchedResult] = useState<Game[]>([]);
+
+  const location = useLocation();
 
   const dispatch = useAppDispatch();
   const gamesReducer = useAppSelector((state) => state.games);
 
-  const handleChange = (e: any) => {
-    if (e.target.value.length > 0) {
-      const games: Game[] = gamesReducer.ids.map(
-        (id) => gamesReducer.entities[id],
-      );
-      const filteredGames = games.filter((game) =>
-        game.title.toLowerCase().includes(e.target.value),
-      );
-      const gameSet = Array.from(new Set(filteredGames)).map(
-        (filteredGame, index) => (
-          <div key={index} className="col">
-            <Link
-              key={index}
-              className={localStyle.link}
-              to={`/gamechat/${filteredGame.id}`}
-              style={{ fontSize: '1rem' }}
-            >
-              {filteredGame.title}
-            </Link>
-          </div>
-        ),
-      );
-      console.log(gameSet);
-      setSearchedGames(gameSet);
-    } else {
-      setSearchedGames([]);
-    }
-  };
+  useEffect(() => {
+    setsearchQuery('');
+  }, [location.pathname]);
 
-  const searchHandler = (e: any) => {
-    if (e.target.value.length > 0) {
+  useEffect(() => {
+    if (searchQuery.length > 0) {
       const games: Game[] = gamesReducer.ids.map(
         (id) => gamesReducer.entities[id],
       );
       const filteredGames = games.filter((game) =>
-        game.title.toLowerCase().includes(e.target.value),
+        game.title.toLowerCase().includes(searchQuery),
       );
       const gameSet = Array.from(new Set(filteredGames));
-
-      console.log('setSearchedResult', gameSet);
       setSearchedResult(gameSet);
     } else {
       setSearchedResult([]);
     }
+  }, [searchQuery]);
+
+  const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const search = e.target.value;
+    setsearchQuery(search);
   };
 
   return (
@@ -364,6 +347,7 @@ export default function PersistentDrawerLeft() {
               }}
               onChange={searchHandler}
               inputProps={{ 'aria-label': 'search' }}
+              value={searchQuery}
             />
           </div>
 
