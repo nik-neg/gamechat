@@ -30,7 +30,6 @@ export const register = createAsyncThunk(
   'auth/register',
   async (payload: Gamer) => {
     const response = await authService.register(payload);
-    //localStorage.setItem('userId', response.id);
     return response;
   },
 );
@@ -58,7 +57,13 @@ export const toggleChatRoomToFavouriteList = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      console.log('logout');
+      localStorage.setItem('userId', '');
+      return initialState;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state) => {
       state.status = 'loading';
@@ -113,4 +118,6 @@ const authSlice = createSlice({
       );
   },
 });
+
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;

@@ -39,6 +39,8 @@ import { useState } from 'react';
 import MediaCardsList from '../MediaCardsList/MediaCardsList';
 import { ReactComponent as Logo } from '../../images/logo.svg';
 
+import { logout } from '../../store/reducers/auth';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -176,6 +178,9 @@ export default function PersistentDrawerLeft() {
     setAnchorEl(event.currentTarget);
   };
 
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
@@ -207,7 +212,7 @@ export default function PersistentDrawerLeft() {
       >
         Profile
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={logoutHandler}>Logout</MenuItem>
     </Menu>
   );
 
