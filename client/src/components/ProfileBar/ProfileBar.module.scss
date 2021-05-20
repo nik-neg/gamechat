@@ -40,9 +40,10 @@
 }
 
 .logo {
-  height:100%;
-  & path{
-  fill: $colour-font;
+  height: 4rem;
+  width: auto;
+  & path {
+    fill: $colour-font;
   }
   &__container {
     color: $colour-font;
@@ -53,7 +54,7 @@
 .searchList {
   z-index: 5;
   position: fixed;
-  top: 6rem;
+  top: 4rem;
   width: 100vw;
   height: 90vh;
   border-left: 30px solid $primary-colour-dark;
@@ -62,6 +63,7 @@
   transition: all 1s ease;
   box-shadow: 0 10px 12px 3px #111c;
   padding-bottom: 5rem;
+  overflow-y: scroll;
 }
 
 .searchList > div {

@@ -30,7 +30,7 @@ export const register = createAsyncThunk(
   'auth/register',
   async (payload: Gamer) => {
     const response = await authService.register(payload);
-    localStorage.setItem('userId', response.id);
+    //localStorage.setItem('userId', response.id);
     return response;
   },
 );

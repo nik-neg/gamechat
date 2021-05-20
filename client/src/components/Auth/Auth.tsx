@@ -6,7 +6,7 @@ import { ReactComponent as ControllerPS3 } from '../../images/controller-playsta
 import { ReactComponent as ControllerXbox } from '../../images/controller-xbox.svg';
 import { Link } from 'react-router-dom';
 
-import logo from './gamechat_round.png';
+import logo from '../../images/gamechat_round.png';
 
 const Auth = (): JSX.Element => {
   return (
@@ -15,13 +15,9 @@ const Auth = (): JSX.Element => {
       <ControllerPS2 className={classes.image} id={classes['ctr-ps-2']} />
       <ControllerPS3 className={classes.image} id={classes['ctr-ps-3']} />
       <ControllerXbox className={classes.image} id={classes['ctr-xbox']} />
-      <img
-        src={logo}
-        alt="no pic"
-        width="350px"
-        height="350px"
-        style={{ marginLeft: '37.5%' }}
-      />
+      <div className={classes.avatar__container}>
+        <img className={classes.avatar__logo} src={logo} alt="avatar" />
+      </div>
       <div className={classes['links-container']}>
         <Link className={classes.link} to="auth/login">
           Login

@@ -23,7 +23,7 @@ const App = (): JSX.Element => {
   }, []);
 
   let routes;
-  if (userId) {
+  if (authReducer.email) {
     routes = (
       <Layout>
         <Switch>

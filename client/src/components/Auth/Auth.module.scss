@@ -9,11 +9,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   overflow: hidden;
-}
-
-#container {
-  background-color: red;
 }
 
 .image {
@@ -60,6 +57,16 @@
   margin-bottom: 2rem;
 }
 
+.avatar {
+  &__container {
+    width: 350px;
+    height: 350px;
+  }
+  &__logo {
+    height: 100%;
+  }
+}
+
 .form {
   background-color: $colour-font;
   padding: 2rem;
@@ -71,6 +78,7 @@
     z-index: 5;
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 }
 
