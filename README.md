@@ -1,6 +1,6 @@
 # GameChat
 
-2 week (07.05.21-20.05.21) Group Project @Codeworks
+2 weeks (07.05.21-20.05.21) Group Project @Codeworks
 
 Demo: https://www.youtube.com/watch?v=v8LlddrXfg8
 
