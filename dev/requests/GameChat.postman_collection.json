@@ -1,0 +1,141 @@
+{
+	"info": {
+		"_postman_id": "6afc4b94-244c-488c-9460-f3889b695e8b",
+		"name": "GameChat",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Make Gamer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Francois\",\r\n    \"lastName\": \"Adam\",\r\n    \"email\": \"email@email.com\",\r\n    \"password\": \"Password123\",\r\n    \"avatar\": \"avatar string\",\r\n    \"notifications\": [{\"id\": 1, \"content\": \"Another Message 1!\"}, {\"id\": 2, \"content\": \"Another Message 2!\"}],\r\n    \"favouriteGameChats\": [{\"id\":1},{\"id\":2},{\"id\":3}],\r\n    \"isAdmin\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/gamer",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"gamer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make Message",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"content\": \"Another Message 3!\",\r\n    \"createdAt\": \"2020-12-17T02:24:00.000Z\",\r\n    \"updatedAt\": \"2020-12-17T02:24:00.000Z\",\r\n    \"isQuestion\": false,\r\n    \"likes\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/message/1/gamechatroom/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"message",
+						"1",
+						"gamechatroom",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make GameChatRoom",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"notificationAllowed\": false,\r\n    \"isPrivate\": false,\r\n    \"messagesCount\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/gamechatroom/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"gamechatroom",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make Game",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"New Game!\",\r\n    \"genreList\": [\"RPG\", \"Exploration\"],\r\n    \"dominantGenre\": \"RPG\",\r\n    \"releaseDate\": \"December 17, 2020 03:24:00\",\r\n    \"coverImagePath\": \"Image URL\",\r\n    \"consoles\": [\"Playstation\", \"Xbox\", \"PC\"],\r\n    \"ageRating\": 18,\r\n    \"description\": \"An epic new game\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/game/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"game",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upvote Message",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/message/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"message",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

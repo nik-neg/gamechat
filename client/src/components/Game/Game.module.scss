@@ -1,0 +1,130 @@
+@import '../../styles/utils/variables';
+@import '../../styles/utils/mixins';
+@import '../../styles/components/button';
+
+.container {
+  background: $colour-bcg;
+}
+
+.btn {
+  @extend .btn-base;
+}
+
+.header {
+  &__container {
+    height: 100vh;
+    width: auto;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 2px 5px black;
+  }
+
+  &__title {
+    font-size: 3rem;
+    &__container {
+      padding: 1rem;
+      background-color: adjust-alpha(#fff, 0.4);
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+.main {
+  display: flex;
+  width: 100%;
+}
+
+.chat-section {
+  flex-grow: 1;
+}
+
+.form {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 2rem;
+  padding: 1rem;
+
+  &__input__container {
+    width: 80%;
+    background-color: #fff;
+    border-radius: 5px;
+  }
+}
+
+.message {
+  &__container {
+    margin: 2rem;
+    background-color: #effff7;
+  }
+
+  &__container:hover {
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__avatar-colorDefault {
+    background-color: red;
+  }
+
+  &__icon {
+    &__button:hover {
+      background-color: adjust-alpha(red, 0.2) !important;
+    }
+  }
+}
+
+.topic-section {
+  padding: 2rem;
+  margin-top: 3rem;
+  max-width: 30rem;
+  min-width: 15rem;
+  position: relative;
+}
+
+.topic {
+  &__container {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-top: 4rem;
+    position: sticky;
+    background-color: #fff;
+    top: 5rem;
+    width: 100%;
+  }
+
+  &__container:hover {
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  &__title {
+    text-align: center;
+    text-transform: capitalize;
+    margin-bottom: 0.5rem;
+  }
+
+  &__item {
+    display: flex;
+    margin: 1rem;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__item:hover {
+    cursor: pointer;
+  }
+}
+
+.card {
+  &__content {
+    text-align: center;
+  }
+}

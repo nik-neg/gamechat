@@ -1,0 +1,71 @@
+@import '../../styles/utils/variables';
+//@import '../../styles/utils/colours';
+
+.header {
+  background-color: $primary-colour-dark !important;
+}
+
+.drawer {
+  background-color: $primary-colour-dark !important;
+}
+
+.link {
+  position: relative;
+  display: inline-block;
+  font-size: 2em;
+  font-weight: 800;
+  overflow: hidden;
+  background: linear-gradient(to right, #000000, #808080 50%, #ffffff 50%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 100%;
+  background-position: 100%;
+  transition: background-position 275ms ease;
+}
+.link:hover {
+  background-position: 0 100%;
+  //  color: #00F
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  &col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.logo {
+  height: 4rem;
+  width: auto;
+  & path {
+    fill: $colour-font;
+  }
+  &__container {
+    color: $colour-font;
+    height: 4rem;
+  }
+}
+
+.searchList {
+  z-index: 5;
+  position: fixed;
+  top: 4rem;
+  width: 100vw;
+  height: 90vh;
+  border-left: 30px solid $primary-colour-dark;
+  border-right: 30px solid $primary-colour-dark;
+  background-color: $primary-colour-dark;
+  transition: all 1s ease;
+  box-shadow: 0 10px 12px 3px #111c;
+  padding-bottom: 5rem;
+  overflow-y: scroll;
+}
+
+.searchList > div {
+  height: 100%;
+}

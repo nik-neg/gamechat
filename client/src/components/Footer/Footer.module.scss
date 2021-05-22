@@ -1,0 +1,12 @@
+@import '../../styles/utils/variables';
+
+.container {
+  background-color: $colour-bcg;
+  color: $colour-font;
+  text-align: center;
+}
+
+.wrapper {
+  background-color: rgba(0, 0, 0, 0.205);
+  padding: 1rem;
+}

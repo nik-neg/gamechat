@@ -1,0 +1,15 @@
+@import './colours';
+@import './typography';
+
+$colour-bcg: $primary-colour-darker;
+$colour-font: $primary-colour-lighter;
+$colour-primary: $primary-colour-dark;
+$colour-secondary: $secondary-colour-dark;
+
+$btn-primary: $primary-colour-base;
+$btn-secondary: $secondary-colour-base;
+
+$font-title-carousel: 'Fredericka the Great', cursive;
+$font-title-card: 'Permanent Marker', cursive;
+$font-title-list: 'Reggae One', cursive;
+$font-description-card: 'Coiny', cursive;
