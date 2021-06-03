@@ -2,6 +2,21 @@
 
 2 weeks (07.05.21-20.05.21) Group Project @Codeworks
 
+# Login / Register page
+![alt text](https://github.com/nik-neg/GameChat/blob/main/images/1_login_register.png)
+
+# Register page
+![alt text](https://github.com/nik-neg/GameChat/blob/main/images/2_register.png)
+
+# Home page
+![alt text](https://github.com/nik-neg/GameChat/blob/main/images/3_home_page.png)
+
+# Profile page
+![alt text](https://github.com/nik-neg/GameChat/blob/main/images/4_profile_page.png)
+
+# Chat page
+![alt text](https://github.com/nik-neg/GameChat/blob/main/images/5_chat.png)
+
 ### Demo: 
 https://www.youtube.com/watch?v=v8LlddrXfg8
 
