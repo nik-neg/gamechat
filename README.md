@@ -22,8 +22,6 @@ GameChat is a messaging service targeted at gamers. Users can type in their nati
 ### Demo: 
 https://www.youtube.com/watch?v=v8LlddrXfg8
 
-Further description will be provided around the end of May 2021.
-
 ## Getting started 
 ### Front end
 1. Open the client folder and run `npm i` in the terminal.
