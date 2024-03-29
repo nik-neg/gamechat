@@ -1,6 +1,8 @@
 # GameChat
 
-GameChat is a messaging service targeted at gamers. Users can type in their native language and their text is automatically translated such that gamers of other languages can understand and contribute to any conversation. The DeepL deep learning API was used for an accurate translation of user messages.
+GameChat is a messaging service targeted at gamers. Users can type in their native language and their text is automatically translated such that gamers of other languages can understand and contribute to any conversation. The DeepL deep learning API was used for an accurate translation of user messages. 
+
+`Hint`: The project is not maintained ✌️
 
 # Login / Register page
 ![alt text](https://github.com/nik-neg/GameChat/blob/main/images/1_login_register.png)
